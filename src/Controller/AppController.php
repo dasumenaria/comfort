@@ -45,11 +45,30 @@ class AppController extends Controller
             'enableBeforeRedirect' => false,
         ]);
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth', [
+            'authenticate' => [
+                'Form' => [
+                    'fields' => [
+                        'username' => 'username',
+                        'password' => 'password'
+                    ],
+                    'userModel' => 'Logins'
+                ]
+            ],
+            'loginAction' => [
+                'controller' => 'Logins',
+                'action' => 'login' 
+            ],
+            'logoutRedirect'=>[
+                'controller'=>'Logins',
+                'action'=>'login'
+            ],
+            'unauthorizedRedirect' => $this->referer() // If unauthorized, return them to page they were just on
+        ]);
 
-        /*
-         * Enable the following component for recommended CakePHP security settings.
-         * see https://book.cakephp.org/3.0/en/controllers/components/security.html
-         */
-        //$this->loadComponent('Security');
+        // Allow the display action so our pages controller
+        // continues to work.
+        $this->Auth->allow(['display']);
+         
     }
 }
