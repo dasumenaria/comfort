@@ -24,11 +24,22 @@ class LoginsController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
             if ($user) {
-                $this->Auth->setUser($user); 
-                return $this->redirect(['controller'=>'Logins','action' => 'index']);
+                $counterId = $this->request->getData('counter_id');
+                $loginCounterId = $user['counter_id'];
+                if($loginCounterId == $counterId){
+                    $this->Auth->setUser($user); 
+                    return $this->redirect(['controller'=>'Logins','action' => 'index']);
+                }
+                else{
+                    $this->Flash->error('Your counter is incorrect.');
+                }
             }
-            $this->Flash->error('Your username or password is incorrect.');
+            else{
+                $this->Flash->error('Your username or password is incorrect.');
+            }
         }
+        $counterList = $this->Logins->Counters->find('list', ['limit' => 200]);
+        $this->set(compact('counterList'));
     }
     public function logout()
     {

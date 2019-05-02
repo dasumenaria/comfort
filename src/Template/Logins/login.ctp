@@ -124,12 +124,12 @@
 	                </span>
                     <?= $this->Form->control('password',['id'=>'password','class'=>'form-control inputstyle','placeholder'=>'Password','required'=>true,'label'=>false]); ?>
                 </div>
-                <!-- <div class="form-group">
+                <div class="form-group">
 	                <span class="input-group-addon form-control">
 	                    <i class="fa fa-list" style="color: #C9CACB !important;"></i>
 	                </span>
                     <?= $this->Form->control('counter_id',['class'=>'form-control inputstyle','placeholder'=>'Password','required'=>true,'label'=>false,'options'=>$counterList,'empty'=>'Select Counter']); ?>
-                </div> -->
+                </div>
             </div>
             
             <div class="footer" align="center"> 

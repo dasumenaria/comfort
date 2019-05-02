@@ -101,4 +101,11 @@ class LoginsTable extends Table
 
         return $rules;
     }
+    /*public function findAuth(\Cake\ORM\Query $query, array $options)
+    {
+        pr($query->toArray());exit;
+        $query->where(['AdminUsers.counter_id' => 'N']);
+
+        return $query;
+    }*/
 }
