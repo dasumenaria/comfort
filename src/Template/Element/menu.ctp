@@ -17,6 +17,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="<?php echo $this->Url->build(["controller" => "Counters",'action'=>'index']); ?>"><i class="fa fa-book"></i> Counter</a></li>            
+            <li><a href="<?php echo $this->Url->build(["controller" => "CarTypes",'action'=>'index']); ?>"><i class="fa fa-book"></i> Car Type</a></li>            
           </ul>
         </li>  
         <li class="treeview">
