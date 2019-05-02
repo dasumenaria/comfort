@@ -20,7 +20,7 @@
 							<label class="control-label">Counter Name <span class="required" aria-required="true"> * </span></label>
 						</div>
 						<div class="col-md-8">
-							<?= $this->Form->input('name',['class'=>'form-control','placeholder'=>'Counter Name','type'=>'text','label'=>false]) ?>
+							<?= $this->Form->control('name',['class'=>'form-control','placeholder'=>'Counter Name','type'=>'text','label'=>false]) ?>
  						</div>
 					</div>
 					<span class="help-block"></span>  
@@ -52,6 +52,10 @@
 			</div> 
 			 
 			<div class="box-body">
+				<?php
+
+                $page_no = $page_no*10;
+                ?>
  				<table class="table table-bordered table-condensed" id="main_tble">
 					<thead>
 						<tr style="table-layout: fixed;">
@@ -65,7 +69,7 @@
 							@$k++;
 						?>
 						<tr>
-							<td><?= h($k) ?></td> 
+							<td><?= h(++$page_no) ?></td> 
 							<td><?= h($city->name) ?></td>
 							<td class="actions">
 								<?php echo $this->Html->link('<i class="fa fa-pencil-square-o"></i>',['action' => 'index', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info')); ?>

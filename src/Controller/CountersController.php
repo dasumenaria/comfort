@@ -34,10 +34,19 @@ class CountersController extends AppController
                 $this->Flash->error(__('The city could not be saved. Please, try again.'));
             }
         }
+         $this->paginate = [
+            'limit' => 10
+        ];
+       
             
         $countersList = $this->paginate($this->Counters->find());
         
-        $this->set(compact('counters','countersList'));     
+        $page_no = $this->request->getQuery('page');
+        if (empty($page_no)) $page_no = 1;
+
+        $page_no = $page_no-1;
+        
+        $this->set(compact('counters','countersList','page_no'));     
 
     }
 
