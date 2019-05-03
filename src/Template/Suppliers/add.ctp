@@ -71,8 +71,12 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                <label class="control-label">Closing Balance:</label>
-                                <?php echo $this->Form->control('closing_bal',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Closing Balance','autocomplete'=>'off']); ?> 
+                                <label class="control-label">Credit/Debit:</label>
+                                <?php
+                                $value['credit'] = 'Credit';
+                                $value['debit']= 'Debit';
+                                ?>
+                                <?php echo $this->Form->control('credit_debit',['label' => false,'class' => 'form-control   firstupercase','empty'=>'Select...','options'=>$value,'autocomplete'=>'off']); ?> 
                             </div>
                              
                             
@@ -100,18 +104,28 @@
                             <div class="form-group col-md-4">
                                 <label class="control-label">Service Tax Applicability</label>
                                 <?php 
-                                $option[]='Yes';
-                                $option[]='No';
-                                echo $this->Form->control('servicetax_status' , ['label' => false,'class' => 'select2  firstupercase','empty'=>'Select Service Tax Status..','options'=>$option,'autocomplete'=>'off']); ?> 
+                                $option['Yes']='Yes';
+                                $option['No']='No';
+                                echo $this->Form->control('servicetax_status' , ['label' => false,'class' => 'form-control firstupercase','empty'=>'Select...','options'=>$option,'autocomplete'=>'off']); ?> 
                             </div>
 
                             <div class="form-group col-md-4">
                                 <label class="control-label">Copy Tariff Rate From</label>
                                 <?php 
-                                echo $this->Form->control('servicetax_status' , ['label' => false,'class' => 'select2  firstupercase','empty'=>'Select Supplier Tariff..','options'=>'','autocomplete'=>'off']); ?> 
+                                echo $this->Form->control('taf' , ['label' => false,'class' => 'select2  firstupercase','empty'=>'Select...','options'=>'','autocomplete'=>'off']); ?> 
                             </div>
                         </div> 
-                          
+                        <div class="col-md-12">
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Bill to Bill:</label>
+                                <?php
+                                $values['No'] = 'No';
+                                $values['Yes']= 'Yes';
+                                ?>
+                                <?php echo $this->Form->control('bill_to_bill',['label' => false,'class' => 'form-control   firstupercase','options'=>$values,'autocomplete'=>'off']); ?> 
+                            </div>
+                            
+                        </div>
                     </div>
                 </div> 
             </div>

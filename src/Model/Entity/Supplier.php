@@ -41,25 +41,6 @@ class Supplier extends Entity
      * @var array
      */
     protected $_accessible = [
-        'supplier_type_id' => true,
-        'supplier_type_sub_id' => true,
-        'name' => true,
-        'address' => true,
-        'contact_name' => true,
-        'office_no' => true,
-        'residence_no' => true,
-        'mobile_no' => true,
-        'email_id' => true,
-        'fax_no' => true,
-        'opening_bal' => true,
-        'closing_bal' => true,
-        'due_days' => true,
-        'servicetax_no' => true,
-        'pan_no' => true,
-        'account_no' => true,
-        'servicetax_status' => true,
-        'supplier_type' => true,
-        'supplier_type_sub' => true,
-        'email' => true
+        '*' => true
     ];
 }
