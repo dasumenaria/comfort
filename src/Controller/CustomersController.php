@@ -42,14 +42,66 @@ class CustomersController extends AppController
     {
         $customer = $this->Customers->newEntity();
         if ($this->request->is('post')) {
-            pr($this->request->getData());exit;
+            $accountGroup = $this->Customers->AccountingGroups->find()->select(['id'])->where(['customer'=>'1'])->first();
+            $accounting_group_id = $accountGroup->id;
+            //pr($this->request->getData());exit;
             $customer = $this->Customers->patchEntity($customer, $this->request->getData());
             if ($this->Customers->save($customer)) {
+                //-- Copy Tariff
                 $cop_custtariff=$this->request->getData('cop_custtariff');
                 if(!empty($cop_custtariff))
                 {
-                    
+
                 }
+
+                //-- Entry In ledgers
+                $company_id=1;
+                $ledgers = $this->Customers->Ledgers->newEntity();
+                $this->request->data['accounting_group_id'] = $accounting_group_id;
+                $this->request->data['company_id'] = $company_id;
+                $this->request->data['customer_id'] = $customer->id;
+                $ledgers = $this->Customers->Ledgers->patchEntity($ledgers, $this->request->getData());
+                $this->Customers->Ledgers->save($ledgers);
+
+                $opening_bal=$this->request->data('opening_bal');
+                if($opening_bal > 0)
+                {
+                    $credit_debit=$this->request->getData('credit_debit');
+                    if(!empty($credit_debit)){
+                        $accountingEntries = $this->Customers->AccountingEntries->newEntity();
+                        $this->request->data['ledger_id'] = $ledgers->id;
+                        if($credit_debit == 'credit'){
+                            $this->request->data['credit'] = $opening_bal;
+                        }
+                        if($credit_debit == 'debit'){
+                            $this->request->data['debit'] = $opening_bal;
+                        }
+                        $this->request->data['transaction_date'] = date('Y').'-04-01';
+                        $this->request->data['company_id'] = $company_id;
+                        $this->request->data['is_opening_balance'] = 'yes'; 
+                        $accountingEntries = $this->Customers->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
+                        $this->Customers->AccountingEntries->save($accountingEntries);
+                    }
+
+                    $bill_to_bill=$this->request->getData('bill_to_bill');
+                    if($bill_to_bill == 'yes'){
+                        $referenceDetails = $this->Customers->ReferenceDetails->newEntity();
+                        $this->request->data['ledger_id'] = $ledgers->id;
+                        if($credit_debit == 'credit'){
+                            $this->request->data['credit'] = $opening_bal;
+                        }
+                        if($credit_debit == 'debit'){
+                            $this->request->data['debit'] = $opening_bal;
+                        }
+                        $this->request->data['transaction_date'] = date('Y').'-04-01';
+                        $this->request->data['company_id'] = $company_id;
+                        $this->request->data['opening_balance'] = 'yes'; 
+                        $this->request->data['ledger_id'] =$ledgers->id; 
+                        $referenceDetails = $this->Customers->ReferenceDetails->patchEntity($referenceDetails, $this->request->getData());
+                        $this->Customers->ReferenceDetails->save($referenceDetails);
+                    }                    
+                }
+
                 $this->Flash->success(__('The customer has been saved.'));
                 return $this->redirect(['action' => 'index']);
             }

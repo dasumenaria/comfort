@@ -40,24 +40,6 @@ class Customer extends Entity
      * @var array
      */
     protected $_accessible = [
-        'name' => true,
-        'address' => true,
-        'contact_person' => true,
-        'office_no' => true,
-        'residence_no' => true,
-        'mobile_no' => true,
-        'email_id' => true,
-        'fax_no' => true,
-        'opening_bal' => true,
-        'closing_bal' => true,
-        'srvctaxregno' => true,
-        'panno' => true,
-        'creditlimit' => true,
-        'block_status' => true,
-        'servicetax_status' => true,
-        'gst_number' => true,
-        'state' => true,
-        'city' => true,
-        'email' => true
+        '*' => true 
     ];
 }

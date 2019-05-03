@@ -48,8 +48,11 @@
                                 <?php echo $this->Form->control('opening_bal',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Customer Opening Balance','autocomplete'=>'off']); ?> 
                             </div>
                             <div class="form-group col-md-4">
-                                <label class="control-label">Customer Closing Balance</label>
-                                <?php echo $this->Form->control('closing_bal',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Customer Closing Balance','autocomplete'=>'off']); ?> 
+                                <label class="control-label">Credit Debit</label>
+                                <?php 
+                                $options['credit']='Credit';
+                                $options['debit']='Debit';
+                                echo $this->Form->control('credit_debit',['label' => false,'type'=>'select','class' => 'form-control','empty'=>'select...','options'=>$options]); ?>
                             </div>
                         </div> 
                         <div class="col-md-12">
@@ -76,7 +79,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label">Customer Address</label>
-                                <?php echo $this->Form->control('address',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Service Tax Applicability']); ?> 
+                                <?php echo $this->Form->control('address',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Address']); ?> 
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label">Copy Tariff Rate From</label>
@@ -101,6 +104,15 @@
                                 <?php echo $this->Form->control('city',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'City']); ?> 
                             </div>
                         </div> 
+                        <div class="col-md-12">
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Bill to Bill</label>  
+                                <?php 
+                                 $statusArray['no']='No';
+                                 $statusArray['yes']='Yes';
+                                echo $this->Form->control('bill_to_bill',['label' => false,'type'=>'select','class' => 'form-control','options'=>$statusArray,'value'=>'no']); ?> 
+                            </div>                             
+                        </div>
                     </div>
                 </div> 
             </div>

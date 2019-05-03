@@ -140,7 +140,7 @@ class AccountingEntriesTable extends Table
             ->integer('id')
             ->allowEmptyString('id', 'create');
 
-        $validator
+        /*$validator
             ->decimal('debit')
             ->allowEmptyString('debit');
 
@@ -161,7 +161,7 @@ class AccountingEntriesTable extends Table
         $validator
             ->date('reconciliation_date')
             ->requirePresence('reconciliation_date', 'create')
-            ->allowEmptyDate('reconciliation_date', false);
+            ->allowEmptyDate('reconciliation_date', false);*/
 
         return $validator;
     }
@@ -175,7 +175,7 @@ class AccountingEntriesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['ledger_id'], 'Ledgers'));
+        /*$rules->add($rules->existsIn(['ledger_id'], 'Ledgers'));
         $rules->add($rules->existsIn(['company_id'], 'Companies'));
         $rules->add($rules->existsIn(['purchase_voucher_id'], 'PurchaseVouchers'));
         $rules->add($rules->existsIn(['purchase_voucher_row_id'], 'PurchaseVoucherRows'));
@@ -196,7 +196,7 @@ class AccountingEntriesTable extends Table
         $rules->add($rules->existsIn(['journal_voucher_id'], 'JournalVouchers'));
         $rules->add($rules->existsIn(['journal_voucher_row_id'], 'JournalVoucherRows'));
         $rules->add($rules->existsIn(['contra_voucher_id'], 'ContraVouchers'));
-        $rules->add($rules->existsIn(['contra_voucher_row_id'], 'ContraVoucherRows'));
+        $rules->add($rules->existsIn(['contra_voucher_row_id'], 'ContraVoucherRows'));*/
 
         return $rules;
     }
