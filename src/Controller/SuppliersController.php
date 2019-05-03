@@ -53,6 +53,7 @@ class SuppliersController extends AppController
         $supplier = $this->Suppliers->newEntity();
         if ($this->request->is('post')) {
             $supplier = $this->Suppliers->patchEntity($supplier, $this->request->getData());
+            $supplier = $this->Suppliers->find('list');
             if ($this->Suppliers->save($supplier)) {
                 $this->Flash->success(__('The supplier has been saved.'));
 
@@ -61,9 +62,11 @@ class SuppliersController extends AppController
             $this->Flash->error(__('The supplier could not be saved. Please, try again.'));
         }
         $supplierTypes = $this->Suppliers->SupplierTypes->find('list', ['limit' => 200]);
+
+        $copysupplier = $this->Suppliers->find('list');
         $supplierTypeSubs = $this->Suppliers->SupplierTypeSubs->find('list', ['limit' => 200]);
         
-        $this->set(compact('supplier', 'supplierTypes', 'supplierTypeSubs'));
+        $this->set(compact('supplier', 'supplierTypes', 'supplierTypeSubs','copysupplier'));
     }
 
     /**

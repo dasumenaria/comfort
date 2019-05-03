@@ -4,16 +4,6 @@
  * @var \App\Model\Entity\Supplier[]|\Cake\Collection\CollectionInterface $suppliers
  */
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Supplier'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Supplier Types'), ['controller' => 'SupplierTypes', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Supplier Type'), ['controller' => 'SupplierTypes', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Supplier Type Subs'), ['controller' => 'SupplierTypeSubs', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Supplier Type Sub'), ['controller' => 'SupplierTypeSubs', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
 <div class="suppliers index large-9 medium-8 columns content">
     <h3><?= __('Suppliers') ?></h3>
     <table cellpadding="0" cellspacing="0">

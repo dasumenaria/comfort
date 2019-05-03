@@ -16,7 +16,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label">Supplier Category: <span class="required" aria-required="true">*</span></label>
-                                <?php echo $this->Form->control('supplier_type_sub_id' , ['label' => false,'class' => 'select2  firstupercase','empty'=>'Select...','autocomplete'=>'off']); ?>
+                                <?php echo $this->Form->control('supplier_type_sub_id' , ['label' => false,'class' => 'select2  firstupercase','empty'=>'Select...','options'=>'','autocomplete'=>'off']); ?>
                             </div>
 
                             <div class="form-group col-md-4">
@@ -104,23 +104,23 @@
                             <div class="form-group col-md-4">
                                 <label class="control-label">Service Tax Applicability</label>
                                 <?php 
-                                $option['Yes']='Yes';
-                                $option['No']='No';
+                                $option['yes']='Yes';
+                                $option['no']='No';
                                 echo $this->Form->control('servicetax_status' , ['label' => false,'class' => 'form-control firstupercase','empty'=>'Select...','options'=>$option,'autocomplete'=>'off']); ?> 
                             </div>
 
                             <div class="form-group col-md-4">
                                 <label class="control-label">Copy Tariff Rate From</label>
                                 <?php 
-                                echo $this->Form->control('taf' , ['label' => false,'class' => 'select2  firstupercase','empty'=>'Select...','options'=>'','autocomplete'=>'off']); ?> 
+                                echo $this->Form->control('taf' , ['label' => false,'class' => 'select2  firstupercase','empty'=>'Select...','options'=>$copysupplier,'autocomplete'=>'off']); ?> 
                             </div>
                         </div> 
                         <div class="col-md-12">
                             <div class="form-group col-md-4">
                                 <label class="control-label">Bill to Bill:</label>
                                 <?php
-                                $values['No'] = 'No';
-                                $values['Yes']= 'Yes';
+                                $values['no'] = 'No';
+                                $values['yes']= 'Yes';
                                 ?>
                                 <?php echo $this->Form->control('bill_to_bill',['label' => false,'class' => 'form-control   firstupercase','options'=>$values,'autocomplete'=>'off']); ?> 
                             </div>
@@ -157,34 +157,11 @@ $(document).ready(function() {
             name: {
                 required: true, 
             }, 
-            phonenumber: {
+            mobile_no: {
                 required: true,
                 digits: true,
             }, 
-            password: {
-                required: true,                 
-            },
-            email: {
-                required: true, 
-            },
-            rating: {
-                required: true, 
-            },
-            logo: {
-                required: true, 
-            },
-            store_image: {
-                required: true, 
-            },
-            address: {
-                required: true, 
-            }, 
-            latitude: {
-                required: true, 
-            }, 
-            longitude: {
-                required: true, 
-            }, 
+             
         },
         
         submitHandler: function () {
