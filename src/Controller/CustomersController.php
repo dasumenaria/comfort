@@ -42,16 +42,22 @@ class CustomersController extends AppController
     {
         $customer = $this->Customers->newEntity();
         if ($this->request->is('post')) {
+            pr($this->request->getData());exit;
             $customer = $this->Customers->patchEntity($customer, $this->request->getData());
             if ($this->Customers->save($customer)) {
+                $cop_custtariff=$this->request->getData('cop_custtariff');
+                if(!empty($cop_custtariff))
+                {
+                    
+                }
                 $this->Flash->success(__('The customer has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The customer could not be saved. Please, try again.'));
         }
-        $emails = '';//$this->Customers->Emails->find('list', ['limit' => 200]);
-        $this->set(compact('customer', 'emails'));
+        $customersList = $this->Customers->find('list', ['limit' => 200]);
+        $statesList = $this->Customers->States->find('list', ['limit' => 200]);
+        $this->set(compact('customer', 'customersList','statesList'));
     }
 
     /**

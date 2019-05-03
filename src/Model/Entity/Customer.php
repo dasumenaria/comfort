@@ -42,9 +42,9 @@ class Customer extends Entity
     protected $_accessible = [
         'name' => true,
         'address' => true,
-        'Contact_person' => true,
+        'contact_person' => true,
         'office_no' => true,
-        'Residence_no' => true,
+        'residence_no' => true,
         'mobile_no' => true,
         'email_id' => true,
         'fax_no' => true,

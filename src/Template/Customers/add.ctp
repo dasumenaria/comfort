@@ -10,95 +10,93 @@
                 <div class="row">
                     <div class="">
                         <div class="col-md-12">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label class="control-label">Customer Name <span class="required" aria-required="true">*</span></label>
                                 <?php echo $this->Form->control('name' , ['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Customer Name','autocomplete'=>'off']); ?>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label class="control-label">Contact Person Name <span class="required" aria-required="true">*</span></label>
-                                <?php echo $this->Form->control('email' , ['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Contact Person Name','autocomplete'=>'off']); ?>
+                                <?php echo $this->Form->control('contact_person' , ['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Contact Person Name','autocomplete'=>'off']); ?>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label class="control-label">Office No.</label>
-                                <?php echo $this->Form->control('phonenumber',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Enter Office No.','autocomplete'=>'off','maxlength'=>10,'minlength'=>10]); ?> 
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Residence No.</label>
-                                <?php echo $this->Form->control('password',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Residence No.','autocomplete'=>'off']); ?> 
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Mobile No.</label>
-                                <?php echo $this->Form->control('latitude',['label' => false,'type'=>'number','class' => 'form-control  firstupercase','placeholder'=>'Mobile No.','autocomplete'=>'off']); ?> 
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label"> Customer Email Id</label>
-                                <?php echo $this->Form->control('longitude',['label' => false,'type'=>'number','class' => 'form-control  firstupercase','placeholder'=>' Customer Email Id','autocomplete'=>'off']); ?> 
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Customer Fax No.</label>
-                                <?php echo $this->Form->control('rating',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Customer Fax No.','autocomplete'=>'off']); ?> 
-                            </div>
-                             
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Customer Opening Balance</label>
-                                <?php echo $this->Form->control('rating',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Customer Opening Balance','autocomplete'=>'off']); ?> 
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Customer Closing Balance</label>
-                                <?php echo $this->Form->control('rating',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Customer Closing Balance','autocomplete'=>'off']); ?> 
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Service Tax Reg Number</label>
-                                <?php echo $this->Form->control('address',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Service Tax Reg Number']); ?> 
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Credit Limit</label>
-                                <?php echo $this->Form->control('rating',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Credit Limit','autocomplete'=>'off']); ?> 
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Service Tax Applicability</label>
-                                <?php 
-                                $option[]='Yes';
-                                $option[]='No';
-                                echo $this->Form->control('address',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','empty'=>'select...','options'=>$option]); ?> 
+                                <?php echo $this->Form->control('office_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Enter Office No.','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"]); ?> 
                             </div>
                         </div> 
                         <div class="col-md-12">
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Pan Number</label>
-                                <?php echo $this->Form->control('rating',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Pan Number','autocomplete'=>'off']); ?> 
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Residence No.</label>
+                                <?php echo $this->Form->control('residence_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Residence No.','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"]); ?> 
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Mobile No.</label>
+                                <?php echo $this->Form->control('mobile_no',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Mobile No.','autocomplete'=>'off','maxlength'=>10,'minlength'=>10,'oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"]); ?> 
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label"> Customer Email Id</label>
+                                <?php echo $this->Form->control('email_id',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>' Customer Email Id','autocomplete'=>'off']); ?> 
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Customer Fax No.</label>
+                                <?php echo $this->Form->control('fax_no',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Customer Fax No.','autocomplete'=>'off']); ?> 
+                            </div>
+                             
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Customer Opening Balance</label>
+                                <?php echo $this->Form->control('opening_bal',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Customer Opening Balance','autocomplete'=>'off']); ?> 
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Customer Closing Balance</label>
+                                <?php echo $this->Form->control('closing_bal',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Customer Closing Balance','autocomplete'=>'off']); ?> 
+                            </div>
+                        </div> 
+                        <div class="col-md-12">
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Service Tax Reg Number</label>
+                                <?php echo $this->Form->control('srvctaxregno',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Service Tax Reg Number']); ?> 
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Credit Limit</label>
+                                <?php echo $this->Form->control('creditlimit',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Credit Limit','autocomplete'=>'off']); ?> 
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Service Tax Applicability</label>
+                                <?php 
+                                $option['yes']='Yes';
+                                $option['no']='No';
+                                echo $this->Form->control('servicetax_status',['label' => false,'type'=>'select','class' => 'form-control  firstupercase','empty'=>'select...','options'=>$option]); ?> 
+                            </div>
+                        </div> 
+                        <div class="col-md-12">
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Pan Number</label>
+                                <?php echo $this->Form->control('panno',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Pan Number','autocomplete'=>'off']); ?> 
+                            </div>
+                            <div class="form-group col-md-4">
                                 <label class="control-label">Customer Address</label>
                                 <?php echo $this->Form->control('address',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Service Tax Applicability']); ?> 
                             </div>
-                        </div> 
-                        <div class="col-md-12">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label class="control-label">Copy Tariff Rate From</label>
-                                <?php echo $this->Form->control('rating',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Copy Tariff Rate From','autocomplete'=>'off']); ?> 
+                                <?php echo $this->Form->control('cop_custtariff',['label' => false,'type'=>'select','class' => 'form-control  select2','empty'=>'Select...','options'=>$customersList]); ?> 
                             </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">GST Number</label>
-                                <?php echo $this->Form->control('address',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'GST Number']); ?> 
-                            </div>
-                        </div>
+                        </div>  
                         <div class="col-md-12">
-                            <div class="form-group col-md-6">
-                                <label class="control-label">State</label>
-                                <?php echo $this->Form->control('rating',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Copy Tariff Rate From','autocomplete'=>'off']); ?> 
+                            <div class="form-group col-md-4">
+                                <label class="control-label">GST Number</label>
+                                <?php echo $this->Form->control('gst_number',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'GST Number']); ?> 
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
+                                <label class="control-label">State</label>  
+                                <?php 
+                                foreach ($statesList as $key => $value) {  
+                                    $stateArray[$value]=$value;
+                                }
+                                echo $this->Form->control('state',['label' => false,'type'=>'select','class' => 'form-control  select2','empty'=>'Select...','options'=>$stateArray]); ?> 
+                            </div>
+                            <div class="form-group col-md-4">
                                 <label class="control-label">City</label>
                                 <?php echo $this->Form->control('city',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'City']); ?> 
                             </div>
@@ -107,8 +105,16 @@
                 </div> 
             </div>
         </fieldset>
-        <div align="center">
-            <button type="submit" class="btn btn-primary">Submit
+        <div class="box-footer">
+            <div class="row">
+                <center>
+                    <div class="col-md-12">
+                        <div class="col-md-offset-3 col-md-6">  
+                            <?php echo $this->Form->button('Submit',['class'=>'btn btn-primary','id'=>'submit_member']); ?>
+                        </div>
+                    </div>
+                </center>       
+            </div>
         </div>
         <?= $this->Form->end() ?>
     </div> 
@@ -134,34 +140,12 @@ $(document).ready(function() {
             name: {
                 required: true, 
             }, 
-            phonenumber: {
-                required: true,
-                digits: true,
+            contact_person: {
+                required: true, 
             }, 
-            password: {
+            mobile_no: {
                 required: true,                 
-            },
-            email: {
-                required: true, 
-            },
-            rating: {
-                required: true, 
-            },
-            logo: {
-                required: true, 
-            },
-            store_image: {
-                required: true, 
-            },
-            address: {
-                required: true, 
-            }, 
-            latitude: {
-                required: true, 
-            }, 
-            longitude: {
-                required: true, 
-            }, 
+            }
         },
         
         submitHandler: function () {
