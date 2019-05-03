@@ -33,6 +33,11 @@ class SupplierTypesTable extends Table
         $this->setTable('supplier_types');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
+
+        
+        $this->hasMany('SupplierTypeSubs', [
+            'foreignKey' => 'supplier_type_id'
+        ]);
     }
 
     /**

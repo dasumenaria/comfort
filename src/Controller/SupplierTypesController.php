@@ -51,6 +51,44 @@ class SupplierTypesController extends AppController
     }
     
 
+    public function Supplier($id=null)
+    {
+        if($id){ 
+            $supplierType = $this->SupplierTypes->SupplierTypeSubs->get($id);
+        }else{
+
+            $supplierType = $this->SupplierTypes->SupplierTypeSubs->newEntity();
+
+        }
+
+        
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $supplierType = $this->SupplierTypes->SupplierTypeSubs->patchEntity($supplierType, $this->request->getData());
+            
+            if ($this->SupplierTypes->SupplierTypeSubs->save($supplierType)) {
+                $this->Flash->success(__('The Supplier has been saved.'));
+
+                return $this->redirect(['action' => 'Supplier']);
+            } else {
+                $this->Flash->error(__('The Supplier Type could not be saved. Please, try again.'));
+            }
+        }
+         $this->paginate = [
+            'limit' => 10
+        ];
+       
+            $options = $this->SupplierTypes->find('list');
+        $supplierTypeList = $this->paginate($this->SupplierTypes->SupplierTypeSubs->find());
+        
+        $page_no = $this->request->getQuery('page');
+        if (empty($page_no)) $page_no = 1;
+
+        $page_no = $page_no-1;
+        
+        $this->set(compact('supplierType','supplierTypeList','page_no','options'));     
+
+    }
+
     /**
      * View method
      *
