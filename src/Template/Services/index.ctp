@@ -4,30 +4,44 @@
         <div class="box box-primary">
             <div class="box-header with-border">
                 <?php 
-                $updt_id=$CarTypes->id;
+                $updt_id=$services->id;
                 if(!empty($updt_id)){ ?>
-                    <i class="fa fa-pencil-square-o"></i> Edit Car
+                    <i class="fa fa-pencil-square-o"></i> Edit Service
                     <div class="pull-right">
                        <?php echo $this->Html->link('<i class="fa fa-plus"></i>',['action' => 'index'],array('escape'=>false,'class'=>'btn btn-xs btn-info')); ?>  
                     </div>
                 <?php }else{ ?>
-                    <i class="fa fa-plus"></i> Add Car
+                    <i class="fa fa-plus"></i> Add Service
                 <?php } ?>
+
             </div>
             <div class="box-body">
                 <div class=" "> 
-                <?= $this->Form->create($CarTypes,['id'=>'CityForm']) ?> 
+                <?= $this->Form->create($services,['id'=>'CityForm']) ?> 
                     <span class="help-block"></span>
                     <div class="row">
                         <div class="col-md-4">
-                            <label class="control-label">Car Name <span class="required" aria-required="true"> * </span></label>
+                            <label class="control-label"> Name <span class="required" aria-required="true"> * </span></label>
                         </div>
                         <div class="col-md-8">
-                            <?= $this->Form->control('name',['class'=>'form-control','placeholder'=>'Car Name','type'=>'text','label'=>false]) ?>
+                            <?= $this->Form->control('name',['class'=>'form-control','placeholder'=>'Name','type'=>'text','label'=>false]) ?>
                         </div>
                     </div>
-                    <span class="help-block"></span>  
-                     
+                    <span class="help-block"></span>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="control-label"> Service Type <span class="required" aria-required="true"> * </span></label>
+                        </div>
+                        <div class="col-md-8">
+                            <?php 
+                            $option['intercity']='Intercity';
+                            $option['incity']='Incity';
+                            ?>
+                            <?= $this->Form->control('type',['class'=>'form-control serviceType','label'=>false,'empty'=>'Select...','options'=>$option]) ?>
+                        </div>
+                    </div>
+                    <span class="help-block"></span> 
+                    <?= $this->Form->hidden('sac_code',['id'=>'sac_code','type'=>'text','label'=>false]) ?>
                     <div class="box-footer">
                         <div class="row">
                             <center>
@@ -57,34 +71,36 @@
             <div class="box-body">
                 <?php
 
-                $page_no = $page_no*10;
+                $page_no = $page_no*20;
                 ?>
                 <table class="table table-bordered table-condensed" id="main_tble">
                     <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sr.no') ?></th> 
                             <th><?=  ('Name') ?></th>
+                            <th><?=  ('Type') ?></th>
                             <th class="actions"><?= __('Actions') ?></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php  foreach ($carTypesList as $city):
+                        <?php  foreach ($servicesList as $city):
                             @$k++;
                         ?>
                         <tr>
                             <td><?= h(++$page_no) ?></td> 
                             <td><?= h($city->name) ?></td>
+                            <td><?= h($city->type) ?></td>
                             <td class="actions">
                                 <?php echo $this->Html->link('<i class="fa fa-pencil-square-o"></i>',['action' => 'index', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info')); ?>
                                 <!-- <a class=" btn btn-danger btn-xs" data-target="#deletemodal<?php echo $city->id; ?>" data-toggle=modal><i class="fa fa-trash"></i></a>
                                 <div id="deletemodal<?php echo $city->id; ?>" class="modal fade" role="dialog">
                                     <div class="modal-dialog modal-md" >
-                                        <form method="post" action="<?php echo $this->Url->build(array('controller'=>'carTypes','action'=>'delete',$city->id)) ?>">
+                                        <form method="post" action="<?php echo $this->Url->build(array('controller'=>'Counters','action'=>'delete',$city->id)) ?>">
                                             <div class="modal-content">
                                               <div class="modal-header">
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     <h4 class="modal-title">
-                                                    Are you sure you want to remove this Car?
+                                                    Are you sure you want to remove this Counter?
                                                     </h4>
                                                 </div>
                                                 <div class="modal-footer">
@@ -137,11 +153,13 @@ jQuery(".loadingshow").submit(function(){
     jQuery("#loader-1").show();
 }); 
 $(document).ready(function() {
-    // validate signup form on keyup and submit
-    $(document).on('change','.selectState',function(){
-        //var selected=$(this,'option:selected').attr('country_id');
-        var selected = $('option:selected', this).attr('country_id');
-        $('#country_id').val(selected);
+    $(document).on('change','.serviceType',function(){
+        var selected = $('option:selected', this).val();
+        var newVal = '996412';
+        if(selected == 'intercity'){
+            newVal = '996423';
+        } 
+        $('#sac_code').val(newVal); 
     });
     $.validator.addMethod("specialChars", function( value, element ) {
         var regex = new RegExp("^[a-zA-Z ]+$");
@@ -152,13 +170,13 @@ $(document).ready(function() {
         }
         return true;
     }, "please use only alphabetic characters");
-     $("#CityForm").validate({ 
+    $("#CityForm").validate({ 
         rules: {
             name: {
                 required: true,
                 specialChars: true
             },
-            state_id: {
+            type: {
                 required: true
             } 
         },

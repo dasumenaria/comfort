@@ -27,11 +27,11 @@ class CarTypesController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $CarTypes = $this->CarTypes->patchEntity($CarTypes, $this->request->getData());
             if ($this->CarTypes->save($CarTypes)) {
-                $this->Flash->success(__('The city has been saved.'));
+                $this->Flash->success(__('The car type has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The city could not be saved. Please, try again.'));
+                $this->Flash->error(__('The car type could not be saved. Please, try again.'));
             }
         }
 

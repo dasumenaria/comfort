@@ -4,12 +4,15 @@
 		<div class="box box-primary">
 			<div class="box-header with-border">
 				<?php 
-						$updt_id=$counters->id;
-						if(!empty($updt_id)){ ?>
-							<i class="fa fa-pencil-square-o"></i> Edit Counter
-						<?php }else{ ?>
-							<i class="fa fa-plus"></i> Add Counter
-						<?php } ?>
+				$updt_id=$counters->id;
+				if(!empty($updt_id)){ ?>
+					<i class="fa fa-pencil-square-o"></i> Edit Counter
+					<div class="pull-right">
+	                   <?php echo $this->Html->link('<i class="fa fa-plus"></i>',['action' => 'index'],array('escape'=>false,'class'=>'btn btn-xs btn-info')); ?>  
+	                </div>
+				<?php }else{ ?>
+					<i class="fa fa-plus"></i> Add Counter
+				<?php } ?>
 			</div>
 			<div class="box-body">
 				<div class=" ">	
