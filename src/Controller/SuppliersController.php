@@ -18,14 +18,40 @@ class SuppliersController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function index()
-    {
+    public function index($type = null)
+    {   
+        $RecordShow = 0;
+        $where=array();
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $where['Suppliers.is_deleted']=0;
+            foreach ($this->request->getData() as $key => $value) {
+                if(!empty($value))
+                { 
+                    if (strpos($key, 'supplier_type_id') !== false)
+                    {
+                        $where['Suppliers.'.$key] = $value;
+                    }
+                    else{
+                        $where['Suppliers.'.$key.' LIKE '] = '%'.$value.'%';
+                    }
+                }
+            }
+            $SuppliersList = $this->Suppliers->find()->contain(['SupplierTypes'])->where($where); 
+            //pr($SuppliersList->toArray());exit();
+            $RecordShow=1;
+        }
+        if($type == 'edt'){ $displayName = 'Edit';}
+        if($type == 'del'){ $displayName = 'Delete';}
+        if($type == 'ser'){ $displayName = 'Search';}
+        
         $this->paginate = [
             'contain' => ['SupplierTypes', 'SupplierTypeSubs']
         ];
         $suppliers = $this->paginate($this->Suppliers);
         $supplierTypes = $this->Suppliers->SupplierTypes->find('list', ['limit' => 200]);
-        $this->set(compact('suppliers','supplierTypes'));
+
+       // pr($SuppliersList);exit;
+        $this->set(compact('suppliers','supplierTypes','SuppliersList','type','displayName','RecordShow'));
     }
 
     /**
@@ -170,14 +196,17 @@ class SuppliersController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $supplier = $this->Suppliers->get($id);
-        if ($this->Suppliers->delete($supplier)) {
+        $supplier = $this->Suppliers->get($id, [
+            'contain' => []
+        ]); 
+        $supplier = $this->Suppliers->patchEntity($supplier, $this->request->getData());
+        $supplier->is_deleted = 1;
+        if ($this->Suppliers->save($supplier)) {
             $this->Flash->success(__('The supplier has been deleted.'));
         } else {
             $this->Flash->error(__('The supplier could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['action' => 'index','del']);
     }
 }
