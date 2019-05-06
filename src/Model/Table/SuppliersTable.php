@@ -46,6 +46,12 @@ class SuppliersTable extends Table
             'foreignKey' => 'supplier_type_sub_id',
             'joinType' => 'INNER'
         ]);
+
+        
+        $this->BelongsTo('Ledgers');
+        $this->BelongsTo('AccountingGroups');
+        $this->BelongsTo('AccountingEntries');
+        $this->BelongsTo('ReferenceDetails');
        
     }
 

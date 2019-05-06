@@ -23,8 +23,6 @@ class Service extends Entity
      * @var array
      */
     protected $_accessible = [
-        'name' => true,
-        'type' => true,
-        'sac_code' => true
+        '*' => true, 
     ];
 }

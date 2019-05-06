@@ -74,12 +74,12 @@ class SupplierTypesController extends AppController
             }
         }
          $this->paginate = [
-            'limit' => 10
+            'limit' => 10,
+            'contain'=> ['SupplierTypes']
         ];
        
-            $options = $this->SupplierTypes->find('list');
-        $supplierTypeList = $this->paginate($this->SupplierTypes->SupplierTypeSubs->find());
-        
+        $options = $this->SupplierTypes->find('list');
+        $supplierTypeList = $this->paginate($this->SupplierTypes->SupplierTypeSubs->find()); 
         $page_no = $this->request->getQuery('page');
         if (empty($page_no)) $page_no = 1;
 

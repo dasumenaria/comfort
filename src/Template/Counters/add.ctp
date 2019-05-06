@@ -4,44 +4,30 @@
         <div class="box box-primary">
             <div class="box-header with-border">
                 <?php 
-                $updt_id=$service->id;
+                $updt_id=$counters->id;
                 if(!empty($updt_id)){ ?>
-                    <i class="fa fa-pencil-square-o"></i> Edit Service
+                    <i class="fa fa-pencil-square-o"></i> Edit Counter
                     <div class="pull-right">
                        <?php echo $this->Html->link('<i class="fa fa-plus"></i>',['action' => 'index'],array('escape'=>false,'class'=>'btn btn-xs btn-info')); ?>  
                     </div>
                 <?php }else{ ?>
-                    <i class="fa fa-plus"></i> Add Service
+                    <i class="fa fa-plus"></i> Add Counter
                 <?php } ?>
-
             </div>
             <div class="box-body">
                 <div class=" "> 
-                <?= $this->Form->create($service,['id'=>'CityForm']) ?> 
+                <?= $this->Form->create($counters,['id'=>'CityForm']) ?> 
                     <span class="help-block"></span>
                     <div class="row">
                         <div class="col-md-2">
-                            <label class="control-label"> Name <span class="required" aria-required="true"> * </span></label>
+                            <label class="control-label">Counter Name <span class="required" aria-required="true"> * </span></label>
                         </div>
                         <div class="col-md-4">
-                            <?= $this->Form->control('name',['class'=>'form-control','placeholder'=>'Name','type'=>'text','label'=>false]) ?>
+                            <?= $this->Form->control('name',['class'=>'form-control','placeholder'=>'Counter Name','type'=>'text','label'=>false]) ?>
                         </div>
                     </div>
-                    <span class="help-block"></span>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <label class="control-label"> Service Type <span class="required" aria-required="true"> * </span></label>
-                        </div>
-                        <div class="col-md-4">
-                            <?php 
-                            $option['intercity']='Intercity';
-                            $option['incity']='Incity';
-                            ?>
-                            <?= $this->Form->control('type',['class'=>'form-control serviceType','label'=>false,'empty'=>'Select...','options'=>$option]) ?>
-                        </div>
-                    </div>
-                    <span class="help-block"></span> 
-                    <?= $this->Form->hidden('sac_code',['id'=>'sac_code','type'=>'text','label'=>false]) ?>
+                    <span class="help-block"></span>  
+                     
                     <div class="box-footer">
                         <div class="row">
                             <center>
@@ -57,7 +43,7 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 </div>
 </section>
 <?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?> 
@@ -84,13 +70,11 @@ jQuery(".loadingshow").submit(function(){
     jQuery("#loader-1").show();
 }); 
 $(document).ready(function() {
-    $(document).on('change','.serviceType',function(){
-        var selected = $('option:selected', this).val();
-        var newVal = '996412';
-        if(selected == 'intercity'){
-            newVal = '996423';
-        } 
-        $('#sac_code').val(newVal); 
+    // validate signup form on keyup and submit
+    $(document).on('change','.selectState',function(){
+        //var selected=$(this,'option:selected').attr('country_id');
+        var selected = $('option:selected', this).attr('country_id');
+        $('#country_id').val(selected);
     });
     $.validator.addMethod("specialChars", function( value, element ) {
         var regex = new RegExp("^[a-zA-Z ]+$");
@@ -101,13 +85,13 @@ $(document).ready(function() {
         }
         return true;
     }, "please use only alphabetic characters");
-    $("#CityForm").validate({ 
+     $("#CityForm").validate({ 
         rules: {
             name: {
                 required: true,
                 specialChars: true
             },
-            type: {
+            state_id: {
                 required: true
             } 
         },

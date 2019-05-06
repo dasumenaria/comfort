@@ -13,36 +13,15 @@ use App\Controller\AppController;
 class ServicesController extends AppController
 {
     public function index($id = null)
-    { 
-        if($id){ 
-            $services = $this->Services->get($id);
-        }else{
-            $services = $this->Services->newEntity();
-        }
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $services = $this->Services->patchEntity($services, $this->request->data);
-            if ($this->Services->save($services)) {
-                $this->Flash->success(__('The service has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The service could not be saved. Please, try again.'));
-            }
-        }
+    {  
         $this->paginate = [
             'limit' => 20
         ];
-       
-            
-        $servicesList = $this->paginate($this->Services);
-        
+        $servicesList = $this->paginate($this->Services->find()->Where(['is_deleted'=>0]));
         $page_no = $this->request->getQuery('page');
         if (empty($page_no)) $page_no = 1;
-
         $page_no = $page_no-1;
-        
-        $this->set(compact('services','servicesList','page_no'));     
-
+        $this->set(compact('servicesList','page_no'));     
     }
 
     /**
@@ -74,7 +53,7 @@ class ServicesController extends AppController
             if ($this->Services->save($service)) {
                 $this->Flash->success(__('The service has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'add']);
             }
             $this->Flash->error(__('The service could not be saved. Please, try again.'));
         }
@@ -114,9 +93,12 @@ class ServicesController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $service = $this->Services->get($id);
-        if ($this->Services->delete($service)) {
+        $service = $this->Services->get($id, [
+            'contain' => []
+        ]); 
+        $service = $this->Services->patchEntity($service, $this->request->getData());
+        $service->is_deleted = 1;
+        if ($this->Services->save($service)) {
             $this->Flash->success(__('The service has been deleted.'));
         } else {
             $this->Flash->error(__('The service could not be deleted. Please, try again.'));

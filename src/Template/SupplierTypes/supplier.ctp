@@ -6,9 +6,9 @@
                 <?php 
                         $updt_id=$supplierType->id;
                         if(!empty($updt_id)){ ?>
-                            <i class="fa fa-pencil-square-o"></i> Edit Supplier Type
+                            <i class="fa fa-pencil-square-o"></i> Edit Sub Supplier Type
                         <?php }else{ ?>
-                            <i class="fa fa-plus"></i> Add Supplier Type
+                            <i class="fa fa-plus"></i> Add Sub Supplier Type
                         <?php } ?>
             </div>
             <div class="box-body">
@@ -72,6 +72,7 @@
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sr.no') ?></th> 
                             <th><?=  ('Name') ?></th>
+                            <th><?=  ('Supplier Type') ?></th>
                             <th class="actions"><?= __('Actions') ?></th>
                         </tr>
                     </thead>
@@ -82,6 +83,7 @@
                         <tr>
                             <td><?= h(++$page_no) ?></td> 
                             <td><?= h($city->name) ?></td>
+                            <td><?= h($city->supplier_type->name) ?></td>
                             <td class="actions">
                                 <?php echo $this->Html->link('<i class="fa fa-pencil-square-o"></i>',['action' => 'supplier', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info')); ?>
                                 <!-- <a class=" btn btn-danger btn-xs" data-target="#deletemodal<?php echo $city->id; ?>" data-toggle=modal><i class="fa fa-trash"></i></a>

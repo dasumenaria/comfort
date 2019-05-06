@@ -21,23 +21,9 @@ class CustomersController extends AppController
     {
         
         $customers = $this->paginate($this->Customers);
-
         $this->set(compact('customers'));
-    }
+    } 
 
-    /**
-     * View method
-     *
-     * @param string|null $id Customer id.
-     * @return \Cake\Http\Response|void
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-   
-    /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
-     */
     public function add()
     {
         $customer = $this->Customers->newEntity();
@@ -53,7 +39,6 @@ class CustomersController extends AppController
                 {
 
                 }
-
                 //-- Entry In ledgers
                 $company_id=1;
                 $ledgers = $this->Customers->Ledgers->newEntity();
@@ -82,7 +67,6 @@ class CustomersController extends AppController
                         $accountingEntries = $this->Customers->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
                         $this->Customers->AccountingEntries->save($accountingEntries);
                     }
-
                     $bill_to_bill=$this->request->getData('bill_to_bill');
                     if($bill_to_bill == 'yes'){
                         $referenceDetails = $this->Customers->ReferenceDetails->newEntity();
@@ -103,7 +87,7 @@ class CustomersController extends AppController
                 }
 
                 $this->Flash->success(__('The customer has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'add']);
             }
             $this->Flash->error(__('The customer could not be saved. Please, try again.'));
         }

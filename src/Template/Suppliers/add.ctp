@@ -3,7 +3,7 @@
     <div class="col-md-12">
         <div class="box box-primary"> 
             <div class="box-header with-border">
-                <i class="fa fa-plus"></i> Add Suppliers
+                <i class="fa fa-plus"></i> Add Supplier
             </div>
             <?= $this->Form->create($supplier,['type'=>'file','id'=>'CityForm']) ?>
             <div class="box-body" >
@@ -12,11 +12,13 @@
                         <div class="col-md-12">
                             <div class="form-group col-md-4">
                                 <label class="control-label">Supplier Type: <span class="required" aria-required="true">*</span></label>
-                                <?php echo $this->Form->control('supplier_type_id' , ['label' => false,'class' => 'select2  firstupercase','empty'=>'Select...','options'=>$supplierTypes,'autocomplete'=>'off']); ?>
+                                <?php echo $this->Form->control('supplier_type_id' , ['label' => false,'class' => 'select2  supplierType','empty'=>'Select...','options'=>$supplierTypes,'autocomplete'=>'off']); ?>
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="control-label">Supplier Category: <span class="required" aria-required="true">*</span></label>
+                                <div class="NewSubData">
                                 <?php echo $this->Form->control('supplier_type_sub_id' , ['label' => false,'class' => 'select2  firstupercase','empty'=>'Select...','options'=>'','autocomplete'=>'off']); ?>
+                                </div>
                             </div>
 
                             <div class="form-group col-md-4">
@@ -38,7 +40,7 @@
 
                             <div class="form-group col-md-4">
                                 <label class="control-label">Office Number:</label>
-                                <?php echo $this->Form->control('office_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Office Number.','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'minlength'=>10]); ?> 
+                                <?php echo $this->Form->control('office_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Office Number.','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"]); ?> 
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -112,7 +114,7 @@
                             <div class="form-group col-md-4">
                                 <label class="control-label">Copy Tariff Rate From</label>
                                 <?php 
-                                echo $this->Form->control('taf' , ['label' => false,'class' => 'select2  firstupercase','empty'=>'Select...','options'=>$copysupplier,'autocomplete'=>'off']); ?> 
+                                echo $this->Form->control('cop_custtariff' , ['label' => false,'class' => 'select2  firstupercase','empty'=>'Select...','options'=>$copysupplier,'autocomplete'=>'off']); ?> 
                             </div>
                         </div> 
                         <div class="col-md-12">
@@ -130,8 +132,16 @@
                 </div> 
             </div>
         </fieldset>
-        <div align="center">
-            <button type="submit" class="btn btn-primary">Submit
+        <div class="box-footer">
+            <div class="row">
+                <center>
+                    <div class="col-md-12">
+                        <div class="col-md-offset-3 col-md-6">  
+                            <?php echo $this->Form->button('Submit',['class'=>'btn btn-primary','id'=>'submit_member']); ?>
+                        </div>
+                    </div>
+                </center>       
+            </div>
         </div>
         <?= $this->Form->end() ?>
     </div> 
@@ -143,6 +153,19 @@ jQuery(".loadingshow").submit(function(){
 }); 
 $(document).ready(function() {
     
+    $(document).on('change','.supplierType',function(){
+        var selected = $('option:selected', this).val();
+
+        var url='<?php echo $this->Url->build(['controller'=>'Suppliers','action'=>'autoFetchSubType']) ?>';
+            url=url+'?supplier_type_id='+selected;
+        $.ajax({
+            url: url,
+        }).done(function(response) {
+            $('.NewSubData').html(response);
+            $('.select2').select2();
+        });
+         
+    });
     $.validator.addMethod("specialChars", function( value, element ) {
         var regex = new RegExp("^[a-zA-Z ]+$");
         var key = value;

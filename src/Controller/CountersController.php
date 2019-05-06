@@ -50,6 +50,46 @@ class CountersController extends AppController
 
     }
 
+    public function add()
+    {
+        $counters = $this->Counters->newEntity();
+        if ($this->request->is('post')) {
+            $counters = $this->Counters->patchEntity($counters, $this->request->getData());
+            if ($this->Counters->save($counters)) {
+                $this->Flash->success(__('The counters has been saved.'));
+
+                return $this->redirect(['action' => 'add']);
+            }
+            $this->Flash->error(__('The counters could not be saved. Please, try again.'));
+        }
+        $this->set(compact('counters'));
+    }
+    public function edit($id = null)
+    {
+        $status='';
+        if(empty($id)){
+            $status='search';
+        }
+        if(empty($status)){
+           $counters = $this->Counters->get($id, [
+                'contain' => []
+            ]);
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $counters = $this->Counters->patchEntity($counters, $this->request->getData());
+                if ($this->Counters->save($counters)) {
+                    $this->Flash->success(__('The counters has been saved.'));
+
+                    return $this->redirect(['action' => 'edit']);
+                }
+                $this->Flash->error(__('The counters could not be saved. Please, try again.'));
+            } 
+        }
+        else{
+           $counters=''; 
+        }
+        
+        $this->set(compact('counters','status'));
+    }
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
