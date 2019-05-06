@@ -3,7 +3,7 @@
     <div class="col-md-12">
         <div class="box box-primary"> 
             <div class="box-header with-border">
-                <i class="fa fa-plus"></i> Supplier Tariff <?= $displayName;?>
+                <i class="fa fa-plus"></i> Supplier <?= $displayName;?>
             </div>
             <?php
             if($RecordShow != 1)
@@ -16,7 +16,7 @@
                             <div class="col-md-12">
                             <div class="form-group col-md-4">
                                 <label class="control-label">Supplier Name:</label>
-                                <?php echo $this->Form->control('opening_bal',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Supplier Name:','autocomplete'=>'off']); ?> 
+                                <?php echo $this->Form->control('name',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Supplier Name:','autocomplete'=>'off']); ?> 
                             </div>
 
                             <div class="form-group col-md-4">
@@ -55,6 +55,7 @@
                             <th><?=  ('Name') ?></th>
                             <th><?=  ('Address') ?></th>
                             <th><?=  ('Moible No') ?></th>
+                            <th><?=  ('Supplier Type') ?></th>
                             <th><?=  ('Email') ?></th>
                             <th><?=  ('Oppening Bal.') ?></th>
                             <th class="actions text-center"><?= __('Action') ?></th>
@@ -69,6 +70,7 @@
                             <td><?= h($city->name) ?></td>
                             <td><?= h($city->address) ?></td>
                             <td><?= h($city->mobile_no) ?></td>
+                            <td><?= h($city->supplier_type->name) ?></td>
                             <td><?= h($city->email_id) ?></td>
                             <td><?= h($city->opening_bal) ?></td>
                             <td  class="actions text-center">
@@ -96,7 +98,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <?= $this->Form->postLink('Yes', array(
-                                                        'controller' => 'SupplierType',
+                                                        'controller' => 'Suppliers',
                                                         'action' => 'delete',$city->id
                                                     ), array(
                                                        'class' => 'btn btn-sm btn-info'

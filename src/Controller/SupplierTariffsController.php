@@ -33,7 +33,10 @@ class SupplierTariffsController extends AppController
                     $where['SupplierTariffs.'.$key.' LIKE '] = '%'.$value.'%';
                 }
             }
-            $supplierTariffList = $this->SupplierTariffs->find()->where($where); 
+            $supplierTariffList = $this->SupplierTariffs->find()->contain(['Suppliers','Services','CarTypes'])->where($where); 
+
+            //pr($supplierTariffList->toArray());
+            //die();
             $RecordShow=1;
         }
         if($type == 'edt'){ $displayName = 'Edit';}

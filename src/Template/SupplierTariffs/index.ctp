@@ -47,11 +47,14 @@
                     <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sl.') ?></th> 
-                            <th><?=  ('Name') ?></th>
-                            <th><?=  ('Address') ?></th>
-                            <th><?=  ('Moible No') ?></th>
-                            <th><?=  ('Email') ?></th>
-                            <th><?=  ('Oppening Bal.') ?></th>
+                            <th><?=  ('Supplier Name') ?></th>
+                            <th><?=  ('Service Name') ?></th>
+                            <th><?=  ('Car') ?></th>
+                            <th><?=  ('Rate') ?></th>
+                            <th><?=  ('Kilometers') ?></th>
+                            <th><?=  ('Extra KM Rate ') ?></th>
+                            <th><?=  ('Min.Charge Hourly') ?></th>
+                            <th><?=  ('Extra.Hour Rate') ?></th>
                             <th class="actions text-center"><?= __('Action') ?></th>
                         </tr>
                     </thead>
@@ -61,11 +64,15 @@
                         ?>
                         <tr>
                             <td><?= h(++$page_no) ?></td> 
-                            <td><?= h($city->name) ?></td>
-                            <td><?= h($city->address) ?></td>
-                            <td><?= h($city->mobile_no) ?></td>
-                            <td><?= h($city->email_id) ?></td>
-                            <td><?= h($city->opening_bal) ?></td>
+                            <td><?= h($city->supplier->name) ?></td>
+                            <td><?= h($city->service->name) ?></td>
+                            <td><?= h($city->car_type->name) ?></td>
+                            <td><?= h($city->rate) ?></td>
+                            <td><?= h($city->minimum_chg_km) ?></td>
+                            <td><?= h($city->extra_km_rate) ?></td>
+                            <td><?= h($city->minimum_chg_hourly) ?></td>
+                            <td><?= h($city->extra_hour_rate) ?></td>
+                            
                             <td  class="actions text-center">
                                 <?php if($type == 'edt') { ?>
                                 <?php echo $this->Html->link('<i class="fa fa-pencil-square-o"></i>',['action' => 'edit', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info')); ?>
