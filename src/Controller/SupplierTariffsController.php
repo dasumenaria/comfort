@@ -29,9 +29,21 @@ class SupplierTariffsController extends AppController
             $where['SupplierTariffs.is_deleted']=0;
             foreach ($this->request->getData() as $key => $value) {
                 if(!empty($value))
-                { 
-                    $where['SupplierTariffs.'.$key.' LIKE '] = '%'.$value.'%';
+                {  
+                    if (strpos($key, 'supplier_type_id') !== false)
+                    {
+                        $where['Suppliers.'.$key] = $value;
+
+                    }
+                    elseif (strpos($key, 'car_type_id') !== false) {
+                        $where['CarTypes.'.$key] = $value;
+                    }
+                    else{ 
+
+                        $where['supplierTariffs.'.$key.' LIKE '] = '%'.$value.'%';
+                    }
                 }
+
             }
             $supplierTariffList = $this->SupplierTariffs->find()->contain(['Suppliers','Services','CarTypes'])->where($where); 
 
@@ -78,7 +90,7 @@ class SupplierTariffsController extends AppController
             if ($this->SupplierTariffs->save($supplierTariff)) {
                 $this->Flash->success(__('The supplier tariff has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'add']);
             }
             $this->Flash->error(__('The supplier tariff could not be saved. Please, try again.'));
         }
@@ -105,7 +117,7 @@ class SupplierTariffsController extends AppController
             if ($this->SupplierTariffs->save($supplierTariff)) {
                 $this->Flash->success(__('The supplier tariff has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'index','edt']);
             }
             $this->Flash->error(__('The supplier tariff could not be saved. Please, try again.'));
         }
