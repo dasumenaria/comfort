@@ -46,6 +46,7 @@
             <?php 
             }
             else{ ?>
+            <div class="box-body" >
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr style="table-layout: fixed;">
@@ -70,12 +71,14 @@
                             <td><?= h($city->email_id) ?></td>
                             <td><?= h($city->opening_bal) ?></td>
                             <td  class="actions text-center">
-                                <?php if($type == 'edt') { ?>
+                            <?php if($type == 'edt') { ?>
                                 <?php echo $this->Html->link('<i class="fa fa-pencil-square-o"></i>',['action' => 'edit', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info')); ?>
                             <?php } if($type == 'del') {?>
                                 <a class=" btn btn-danger btn-xs" data-target="#deletemodal<?php echo $city->id; ?>" data-toggle=modal><i class="fa fa-trash"></i></a>
                                 
-                            <?php } if($type == 'ser') {}?>
+                            <?php } if($type == 'ser') {
+                                echo $this->Html->link('<i class="fa fa-search"></i>',['action' => 'view', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info','target'=>'_blank'));
+                            }?>
 
                             </td>
                             <div id="deletemodal<?php echo $city->id; ?>" class="modal fade" role="dialog">
@@ -109,6 +112,7 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+            </div>
             <?php
             }
             ?>

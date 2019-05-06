@@ -38,6 +38,12 @@ class CustomersController extends AppController
         $this->set(compact('customers','displayName','type','RecordShow','customerList')); 
     } 
 
+    public function view($id = null)
+    {
+        $customer = $this->Customers->get($id);
+
+        $this->set('customer', $customer);
+    }
     public function add()
     {
         $customer = $this->Customers->newEntity();
@@ -123,6 +129,7 @@ class CustomersController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
+            pr($this->request->getData());exit;
             $customer = $this->Customers->patchEntity($customer, $this->request->getData());
             if ($this->Customers->save($customer)) {
                 $this->Flash->success(__('The customer has been saved.'));
@@ -131,8 +138,8 @@ class CustomersController extends AppController
             }
             $this->Flash->error(__('The customer could not be saved. Please, try again.'));
         }
-        $emails = $this->Customers->Emails->find('list', ['limit' => 200]);
-        $this->set(compact('customer', 'emails'));
+        $statesList = $this->Customers->States->find('list', ['limit' => 200]);
+        $this->set(compact('customer', 'emails','statesList'));
     }
 
     /**
