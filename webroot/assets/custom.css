@@ -305,3 +305,7 @@ background-color: #fff;}
 .column_column ul li, .column_helper ul li, .column_visual ul li, .icon_box ul li, .mfn-acc ul li, .ui-tabs-panel ul li, .post-excerpt ul li, .the_content_wrapper ul li{margin-bottom:0px !important}
 #search-box{border: #e2e2e2 1px solid;border-radius:4px;}
 #Content{ width:90% !important; margin-left: 5%;}
+
+.space {
+    margin-top:10px;
+}

@@ -66,10 +66,6 @@ class CustomersTable extends Table
             ->maxLength('contact_person', 20)
             ->requirePresence('contact_person', 'create')
             ->allowEmptyString('contact_person', false); 
-
-        $validator
-            ->requirePresence('mobile_no', 'create')
-            ->allowEmptyString('mobile_no', false); 
             
         return $validator;
     }
