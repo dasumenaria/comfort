@@ -1,73 +1,89 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Supplier[]|\Cake\Collection\CollectionInterface $suppliers
- */
-?>
-<div class="suppliers index large-9 medium-8 columns content">
-    <h3><?= __('Suppliers') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('supplier_type_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('supplier_type_sub_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('address') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('contact_name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('office_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('residence_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('mobile_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('email_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('fax_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('opening_bal') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('closing_bal') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('due_days') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('servicetax_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('pan_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('account_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('servicetax_status') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($suppliers as $supplier): ?>
-            <tr>
-                <td><?= $this->Number->format($supplier->id) ?></td>
-                <td><?= $supplier->has('supplier_type') ? $this->Html->link($supplier->supplier_type->name, ['controller' => 'SupplierTypes', 'action' => 'view', $supplier->supplier_type->id]) : '' ?></td>
-                <td><?= $supplier->has('supplier_type_sub') ? $this->Html->link($supplier->supplier_type_sub->name, ['controller' => 'SupplierTypeSubs', 'action' => 'view', $supplier->supplier_type_sub->id]) : '' ?></td>
-                <td><?= h($supplier->name) ?></td>
-                <td><?= h($supplier->address) ?></td>
-                <td><?= h($supplier->contact_name) ?></td>
-                <td><?= h($supplier->office_no) ?></td>
-                <td><?= h($supplier->residence_no) ?></td>
-                <td><?= h($supplier->mobile_no) ?></td>
-                <td><?= h($supplier->email_id) ?></td>
-                <td><?= h($supplier->fax_no) ?></td>
-                <td><?= h($supplier->opening_bal) ?></td>
-                <td><?= h($supplier->closing_bal) ?></td>
-                <td><?= h($supplier->due_days) ?></td>
-                <td><?= h($supplier->servicetax_no) ?></td>
-                <td><?= h($supplier->pan_no) ?></td>
-                <td><?= h($supplier->account_no) ?></td>
-                <td><?= h($supplier->servicetax_status) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $supplier->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $supplier->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $supplier->id], ['confirm' => __('Are you sure you want to delete # {0}?', $supplier->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-    </div>
-</div>
+<section class="content">
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary"> 
+            <div class="box-header with-border">
+                <i class="fa fa-plus"></i> Supplier Edit
+            </div>
+            <?= $this->Form->create('dj', [
+    'url' => [
+        'controller' => 'Suppliers',
+        'action' => 'edit',
+        
+    ]
+]); ?>
+            <div class="box-body" >
+                <div class="row">
+                    <div class="">
+                        <div class="col-md-12">
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Supplier Name:</label>
+                                <?php echo $this->Form->control('opening_bal',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Supplier Name:','autocomplete'=>'off']); ?> 
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Mobile No.</label>
+                                <?php echo $this->Form->control('mobile_no',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Mobile No.','autocomplete'=>'off','maxlength'=>10,'minlength'=>10,'oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"]); ?> 
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Supplier Type: <span class="required" aria-required="true">*</span></label>
+                                <?php echo $this->Form->control('supplier_type_id' , ['label' => false,'class' => 'select2  supplierType','empty'=>'Select...','options'=>$supplierTypes,'autocomplete'=>'off']); ?>
+                        </div> 
+                    </div>
+                </div> 
+            </div>
+        </fieldset>
+        <div class="box-footer">
+            <div class="row">
+                <center>
+                    <div class="col-md-12">
+                        <div class="col-md-offset-3 col-md-6">  
+                            <?php echo $this->Form->button('Proceed ',['class'=>'btn btn-success ','id'=>'submit_member']); ?>
+                        </div>
+                    </div>
+                </center>       
+            </div>
+        </div>
+        <?= $this->Form->end() ?>
+    </div> 
+</div>  
+<?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?> 
+<script>
+jQuery(".loadingshow").submit(function(){
+    jQuery("#loader-1").show();
+}); 
+$(document).ready(function() {
+    
+    $.validator.addMethod("specialChars", function( value, element ) {
+        var regex = new RegExp("^[a-zA-Z ]+$");
+        var key = value;
+
+        if (!regex.test(key)) {
+           return false;
+        }
+        return true;
+    }, "please use only alphabetic characters");
+     $("#CityForm").validate({ 
+        rules: {
+            name: {
+                required: true, 
+            }, 
+            contact_person: {
+                required: true, 
+            }, 
+            mobile_no: {
+                required: true,                 
+            }
+        },
+        
+        submitHandler: function () {
+            $("#submit_member").attr('disabled','disabled');
+            $("#loader-1").show();
+            form.submit();
+        }
+    }); 
+
+});
+</script>
+    

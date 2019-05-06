@@ -24,8 +24,8 @@ class SuppliersController extends AppController
             'contain' => ['SupplierTypes', 'SupplierTypeSubs']
         ];
         $suppliers = $this->paginate($this->Suppliers);
-
-        $this->set(compact('suppliers'));
+        $supplierTypes = $this->Suppliers->SupplierTypes->find('list', ['limit' => 200]);
+        $this->set(compact('suppliers','supplierTypes'));
     }
 
     /**
@@ -40,7 +40,8 @@ class SuppliersController extends AppController
         $supplier = $this->Suppliers->get($id, [
             'contain' => ['SupplierTypes', 'SupplierTypeSubs']
         ]);
-
+        $supplierTypes = $this->Suppliers->SupplierTypes->find('list', ['limit' => 200]);
+ 
         $this->set('supplier', $supplier);
     }
 
