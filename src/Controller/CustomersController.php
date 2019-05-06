@@ -179,6 +179,6 @@ class CustomersController extends AppController
                 <?php } ?>
             </ul>
         <?php
-         exit;  
+        exit;  
     }
 }
