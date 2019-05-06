@@ -33,8 +33,7 @@
     <?php  echo $this->Html->css('/assets/custom.css'); ?> 
      
     <link rel="stylesheet" href="">
-     
-        <?php
+     <?php
         echo $this->Html->meta(
         'favicon.ico',
         '/images/shortcut_icon/favicon.ico',
@@ -128,6 +127,11 @@
         'rm_format':false,
         'insert_img':false,
     }); 
+    var csrf = <?=json_encode($this->request->getParam('_csrfToken'))?>;
+    $.ajaxSetup({
+        headers: { 'X-CSRF-Token': csrf },
+        error: function(){ }   
+    });
 </script> 
 </body>
 </html>

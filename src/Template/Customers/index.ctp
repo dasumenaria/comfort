@@ -16,7 +16,8 @@
                             <div class="col-md-12">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Customer Name </label>
-                                    <?php echo $this->Form->control('name' , ['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Search by Customer Name','autocomplete'=>'off']); ?>
+                                    <?php echo $this->Form->control('name' , ['label' => false,'class' => 'form-control  autocompleted selectedAutoCompleted','placeholder'=>'Search by Customer Name','autocomplete'=>'off']); ?>
+                                    <div class="suggesstion-box" style="margin-top:-10px;"></div>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Customer Email-ID </label>
@@ -60,8 +61,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $page_no=0; foreach ($customerList as $city):
-                            @$k++;
+                        <?php $page_no=0; foreach ($customerList as $city): 
                         ?>
                         <tr>
                             <td><?= h(++$page_no) ?></td> 
@@ -119,3 +119,50 @@
         </div> 
     </div>   
 </section>
+<?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?> 
+<script>
+jQuery(".loadingshow").submit(function(){
+    jQuery("#loader-1").show();
+}); 
+$(document).ready(function() {
+    $(document).on('blur',".autocompleted",function(){ 
+        $('.suggesstion-box').delay(1000).fadeOut(500);
+    }); 
+
+    $(document).on('keyup',".autocompleted",function(){
+        var input=$(this).val();
+        if(input.length>0){ 
+            var master=$(this);
+            var m_data = new FormData();
+            m_data.append('input',input); 
+            $.ajax({
+                url: "<?php echo $this->Url->build(["controller" => "Customers", "action" => "ajaxAutocompleted"]); ?>",
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(data)
+                { 
+                    $('.suggesstion-box').show();
+                    $('.suggesstion-box').html(data);
+                    master.css("background","#FFF");
+                }
+            });
+        }
+    });
+    var csrf = <?=json_encode($this->request->getParam('_csrfToken'))?>;
+    $.ajaxSetup({
+        headers: { 'X-CSRF-Token': csrf },
+        error: function(){}
+    });
+    
+});
+    
+</script>
+<script>
+function selectAutoCompleted(value) {  
+    $('.selectedAutoCompleted').val(value);
+    $(".suggesstion-box").hide();     
+}
+</script>
