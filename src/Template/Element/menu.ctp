@@ -44,7 +44,11 @@
               <ul class="treeview-menu">
                 <li><a href="<?php echo $this->Url->build(["controller" => "Customers",'action'=>'add']); ?>"><i class="fa fa-circle-o"></i> Add</a></li> 
 
-                <li><a href="<?php echo $this->Url->build(["controller" => "Customers",'action'=>'index']); ?>"><i class="fa fa-circle-o"></i> Edit </a></li>
+                <li><a href="<?php echo $this->Url->build(["controller" => "Customers",'action'=>'index','edt']); ?>"><i class="fa fa-circle-o"></i> Edit </a></li>
+
+                <li><a href="<?php echo $this->Url->build(["controller" => "Customers",'action'=>'index','del']); ?>"><i class="fa fa-circle-o"></i> Delete </a></li>
+
+                <li><a href="<?php echo $this->Url->build(["controller" => "Customers",'action'=>'index','ser']); ?>"><i class="fa fa-circle-o"></i> Search </a></li>
               </ul>
             </li>
 
@@ -62,10 +66,13 @@
                 
                 <li><a href="<?php echo $this->Url->build(["controller" => "Suppliers",'action'=>'add']); ?>"><i class="fa fa-circle-o"></i> Add</a></li> 
 
-                <li><a href="<?php echo $this->Url->build(["controller" => "Suppliers",'action'=>'index']); ?>"><i class="fa fa-circle-o"></i> Edit </a></li>
+                <li><a href="<?php echo $this->Url->build(["controller" => "Suppliers",'action'=>'index','edt']); ?>"><i class="fa fa-circle-o"></i> Edit </a></li>
+
+                <li><a href="<?php echo $this->Url->build(["controller" => "Suppliers",'action'=>'index','del']); ?>"><i class="fa fa-circle-o"></i> Delete </a></li>
+
+                <li><a href="<?php echo $this->Url->build(["controller" => "Suppliers",'action'=>'index','ser']); ?>"><i class="fa fa-circle-o"></i> Search </a></li>
               </ul>
-            </li>
-             
+            </li> 
         </ul>
         <li class="treeview">
           <a href="#">

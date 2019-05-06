@@ -1,81 +1,117 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Customer[]|\Cake\Collection\CollectionInterface $customers
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Customer'), ['action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="customers index large-9 medium-8 columns content">
-    <h3><?= __('Customers') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('address') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('Contact_person') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('office_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('Residence_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('mobile_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('email_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('fax_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('opening_bal') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('closing_bal') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('srvctaxregno') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('panno') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('creditlimit') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('block_status') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('servicetax_status') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('gst_number') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('state') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('city') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($customers as $customer): ?>
-            <tr>
-                <td><?= $this->Number->format($customer->id) ?></td>
-                <td><?= h($customer->name) ?></td>
-                <td><?= h($customer->address) ?></td>
-                <td><?= h($customer->Contact_person) ?></td>
-                <td><?= h($customer->office_no) ?></td>
-                <td><?= h($customer->Residence_no) ?></td>
-                <td><?= $this->Number->format($customer->mobile_no) ?></td>
-                <td><?= h($customer->email_id) ?></td>
-                <td><?= h($customer->fax_no) ?></td>
-                <td><?= $this->Number->format($customer->opening_bal) ?></td>
-                <td><?= $this->Number->format($customer->closing_bal) ?></td>
-                <td><?= h($customer->srvctaxregno) ?></td>
-                <td><?= h($customer->panno) ?></td>
-                <td><?= h($customer->creditlimit) ?></td>
-                <td><?= h($customer->block_status) ?></td>
-                <td><?= h($customer->servicetax_status) ?></td>
-                <td><?= h($customer->gst_number) ?></td>
-                <td><?= h($customer->state) ?></td>
-                <td><?= h($customer->city) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $customer->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $customer->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $customer->id], ['confirm' => __('Are you sure you want to delete # {0}?', $customer->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-    </div>
-</div>
+<section class="content">
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary"> 
+            <div class="box-header with-border">
+                <i class="fa fa-plus"></i> Customer <?= $displayName;?>
+            </div>
+            <?php
+            if($RecordShow != 1)
+            {
+                ?>
+                <?= $this->Form->create('',['type'=>'file','id'=>'CityForm']) ?>
+                <div class="box-body" >
+                    <div class="row">
+                        <div class="">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Customer Name </label>
+                                    <?php echo $this->Form->control('name' , ['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Search by Customer Name','autocomplete'=>'off']); ?>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Customer Email-ID </label>
+                                    <?php echo $this->Form->control('email_id' , ['label' => false,'class' => 'form-control','placeholder'=>'Search by Email-ID','autocomplete'=>'off','type'=>'text']); ?>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Mobile No.</label>
+                                    <?php echo $this->Form->control('mobile_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Search by Mobile No.','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'minlength'=>10]); ?> 
+                                </div>
+                            </div>  
+                        </div>
+                    </div> 
+                </div>
+            
+                <div class="box-footer">
+                    <div class="row">
+                        <center>
+                            <div class="col-md-12">
+                                <div class="col-md-offset-3 col-md-6">  
+                                    <?php echo $this->Form->button('Submit',['class'=>'btn btn-primary','id'=>'submit_member']); ?>
+                                </div>
+                            </div>
+                        </center>       
+                    </div>
+                </div>
+                <?= $this->Form->end() ?>
+            <?php 
+            }
+            else{ ?>
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr style="table-layout: fixed;">
+                            <th><?=  ('Sl.') ?></th> 
+                            <th><?=  ('Name') ?></th>
+                            <th><?=  ('Address') ?></th>
+                            <th><?=  ('Moible No') ?></th>
+                            <th><?=  ('Email') ?></th>
+                            <th><?=  ('Oppening Bal.') ?></th>
+                            <th class="actions text-center"><?= __('Action') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $page_no=0; foreach ($customerList as $city):
+                            @$k++;
+                        ?>
+                        <tr>
+                            <td><?= h(++$page_no) ?></td> 
+                            <td><?= h($city->name) ?></td>
+                            <td><?= h($city->address) ?></td>
+                            <td><?= h($city->mobile_no) ?></td>
+                            <td><?= h($city->email_id) ?></td>
+                            <td><?= h($city->opening_bal) ?></td>
+                            <td  class="actions text-center">
+                                <?php if($type == 'edt') { ?>
+                                <?php echo $this->Html->link('<i class="fa fa-pencil-square-o"></i>',['action' => 'edit', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info')); ?>
+                            <?php } if($type == 'del') {?>
+                                <a class=" btn btn-danger btn-xs" data-target="#deletemodal<?php echo $city->id; ?>" data-toggle=modal><i class="fa fa-trash"></i></a>
+                                
+                            <?php } if($type == 'ser') {}?>
+
+                            </td>
+                            <div id="deletemodal<?php echo $city->id; ?>" class="modal fade" role="dialog">
+                                    <div class="modal-dialog modal-md" > 
+                                        <div class="modal-content">
+                                          <div class="modal-header" style=" background-color: #5ea3af;color:#fff;">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title" >
+                                                    &nbsp; Stay Attention
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h4>
+                                                &nbsp; Are you sure you want to remove this Record ?
+                                                </h4>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <?= $this->Form->postLink('Yes', array(
+                                                        'controller' => 'Customers',
+                                                        'action' => 'delete',$city->id
+                                                    ), array(
+                                                       'class' => 'btn btn-sm btn-info'
+                                                    ));
+                                                ?>
+                                                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                </div>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php
+            }
+            ?>
+        </div> 
+    </div>   
+</section>

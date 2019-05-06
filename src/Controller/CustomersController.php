@@ -17,11 +17,25 @@ class CustomersController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function index()
+    public function index($type = null)
     {
-        
-        $customers = $this->paginate($this->Customers);
-        $this->set(compact('customers'));
+        $RecordShow = 0;
+        $where=array();
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $where['Customers.is_deleted']=0;
+            foreach ($this->request->getData() as $key => $value) {
+                if(!empty($value))
+                { 
+                    $where['Customers.'.$key.' LIKE '] = '%'.$value.'%';
+                }
+            }
+            $customerList = $this->Customers->find()->where($where); 
+            $RecordShow=1;
+        }
+        if($type == 'edt'){ $displayName = 'Edit';}
+        if($type == 'del'){ $displayName = 'Delete';}
+        if($type == 'ser'){ $displayName = 'Search';}
+        $this->set(compact('customers','displayName','type','RecordShow','customerList')); 
     } 
 
     public function add()
@@ -113,7 +127,7 @@ class CustomersController extends AppController
             if ($this->Customers->save($customer)) {
                 $this->Flash->success(__('The customer has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'index','edt']);
             }
             $this->Flash->error(__('The customer could not be saved. Please, try again.'));
         }
@@ -130,14 +144,17 @@ class CustomersController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $customer = $this->Customers->get($id);
-        if ($this->Customers->delete($customer)) {
+        $customer = $this->Customers->get($id, [
+            'contain' => []
+        ]); 
+        $customer = $this->Customers->patchEntity($customer, $this->request->getData());
+        $customer->is_deleted = 1;
+        if ($this->Customers->save($customer)) {
             $this->Flash->success(__('The customer has been deleted.'));
         } else {
             $this->Flash->error(__('The customer could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['action' => 'index','del']);
     }
 }
