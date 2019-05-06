@@ -18,14 +18,31 @@ class SuppliersController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function index()
-    {
+    public function index($type = null)
+    {   
+        $RecordShow = 0;
+        $where=array();
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $where['Suppliers.is_deleted']=0;
+            foreach ($this->request->getData() as $key => $value) {
+                if(!empty($value))
+                { 
+                    $where['Suppliers.'.$key.' LIKE '] = '%'.$value.'%';
+                }
+            }
+            $SuppliersList = $this->Suppliers->find()->where($where); 
+            $RecordShow=1;
+        }
+        if($type == 'edt'){ $displayName = 'Edit';}
+        if($type == 'del'){ $displayName = 'Delete';}
+        if($type == 'ser'){ $displayName = 'Search';}
+        
         $this->paginate = [
             'contain' => ['SupplierTypes', 'SupplierTypeSubs']
         ];
         $suppliers = $this->paginate($this->Suppliers);
         $supplierTypes = $this->Suppliers->SupplierTypes->find('list', ['limit' => 200]);
-        $this->set(compact('suppliers','supplierTypes'));
+        $this->set(compact('suppliers','supplierTypes','SuppliersList','type','displayName','RecordShow'));
     }
 
     /**

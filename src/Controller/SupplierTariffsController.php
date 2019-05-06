@@ -17,14 +17,33 @@ class SupplierTariffsController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function index()
+    public function index($type = null)
     {
         $this->paginate = [
             'contain' => ['Suppliers', 'CarTypes', 'Services']
         ];
-        $supplierTariffs = $this->paginate($this->SupplierTariffs);
 
-        $this->set(compact('supplierTariffs'));
+        $RecordShow = 0;
+        $where=array();
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $where['SupplierTariffs.is_deleted']=0;
+            foreach ($this->request->getData() as $key => $value) {
+                if(!empty($value))
+                { 
+                    $where['SupplierTariffs.'.$key.' LIKE '] = '%'.$value.'%';
+                }
+            }
+            $supplierTariffList = $this->SupplierTariffs->find()->where($where); 
+            $RecordShow=1;
+        }
+        if($type == 'edt'){ $displayName = 'Edit';}
+        if($type == 'del'){ $displayName = 'Delete';}
+        if($type == 'ser'){ $displayName = 'Search';}
+        
+        $supplierTariffs = $this->paginate($this->SupplierTariffs);
+        $carTypes = $this->SupplierTariffs->CarTypes->find('list', ['limit' => 200]);
+        $suppliers = $this->SupplierTariffs->Suppliers->find('list', ['limit' => 200]);
+        $this->set(compact('supplierTariffs','carTypes','suppliers','supplierTariffList','displayName','RecordShow','type'));
     }
 
     /**

@@ -73,6 +73,24 @@
                 <li><a href="<?php echo $this->Url->build(["controller" => "Suppliers",'action'=>'index','ser']); ?>"><i class="fa fa-circle-o"></i> Search </a></li>
               </ul>
             </li> 
+
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-share"></i> <span>Supplier Tariff</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="<?php echo $this->Url->build(["controller" => "SupplierTariffs",'action'=>'add']); ?>"><i class="fa fa-circle-o"></i> Add</a></li> 
+
+                <li><a href="<?php echo $this->Url->build(["controller" => "SupplierTariffs",'action'=>'index','edt']); ?>"><i class="fa fa-circle-o"></i> Edit </a></li>
+
+                <li><a href="<?php echo $this->Url->build(["controller" => "SupplierTariffs",'action'=>'index','del']); ?>"><i class="fa fa-circle-o"></i> Delete </a></li>
+
+                <li><a href="<?php echo $this->Url->build(["controller" => "SupplierTariffs",'action'=>'index','ser']); ?>"><i class="fa fa-circle-o"></i> Search </a></li>
+              </ul>
+            </li>
         </ul>
         <li class="treeview">
           <a href="#">

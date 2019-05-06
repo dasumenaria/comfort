@@ -3,19 +3,17 @@
     <div class="col-md-12">
         <div class="box box-primary"> 
             <div class="box-header with-border">
-                <i class="fa fa-plus"></i> Supplier Edit
+                <i class="fa fa-plus"></i> Supplier Tariff <?= $displayName;?>
             </div>
-            <?= $this->Form->create('dj', [
-    'url' => [
-        'controller' => 'Suppliers',
-        'action' => 'edit',
-        
-    ]
-]); ?>
-            <div class="box-body" >
-                <div class="row">
-                    <div class="">
-                        <div class="col-md-12">
+            <?php
+            if($RecordShow != 1)
+            {
+                ?>
+                <?= $this->Form->create('',['type'=>'file','id'=>'CityForm']) ?>
+                <div class="box-body" >
+                    <div class="row">
+                        <div class="">
+                            <div class="col-md-12">
                             <div class="form-group col-md-4">
                                 <label class="control-label">Supplier Name:</label>
                                 <?php echo $this->Form->control('opening_bal',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Supplier Name:','autocomplete'=>'off']); ?> 
@@ -31,59 +29,91 @@
                                 <?php echo $this->Form->control('supplier_type_id' , ['label' => false,'class' => 'select2  supplierType','empty'=>'Select...','options'=>$supplierTypes,'autocomplete'=>'off']); ?>
                         </div> 
                     </div>
-                </div> 
-            </div>
-        </fieldset>
-        <div class="box-footer">
-            <div class="row">
-                <center>
-                    <div class="col-md-12">
-                        <div class="col-md-offset-3 col-md-6">  
-                            <?php echo $this->Form->button('Proceed ',['class'=>'btn btn-success ','id'=>'submit_member']); ?>
                         </div>
+                    </div> 
+                </div>
+            
+                <div class="box-footer">
+                    <div class="row">
+                        <center>
+                            <div class="col-md-12">
+                                <div class="col-md-offset-3 col-md-6">  
+                                    <?php echo $this->Form->button('Submit',['class'=>'btn btn-primary','id'=>'submit_member']); ?>
+                                </div>
+                            </div>
+                        </center>       
                     </div>
-                </center>       
-            </div>
-        </div>
-        <?= $this->Form->end() ?>
-    </div> 
-</div>  
-<?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?> 
-<script>
-jQuery(".loadingshow").submit(function(){
-    jQuery("#loader-1").show();
-}); 
-$(document).ready(function() {
-    
-    $.validator.addMethod("specialChars", function( value, element ) {
-        var regex = new RegExp("^[a-zA-Z ]+$");
-        var key = value;
-
-        if (!regex.test(key)) {
-           return false;
-        }
-        return true;
-    }, "please use only alphabetic characters");
-     $("#CityForm").validate({ 
-        rules: {
-            name: {
-                required: true, 
-            }, 
-            contact_person: {
-                required: true, 
-            }, 
-            mobile_no: {
-                required: true,                 
+                </div>
+                <?= $this->Form->end() ?>
+            <?php 
             }
-        },
-        
-        submitHandler: function () {
-            $("#submit_member").attr('disabled','disabled');
-            $("#loader-1").show();
-            form.submit();
-        }
-    }); 
+            else{ ?>
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr style="table-layout: fixed;">
+                            <th><?=  ('Sl.') ?></th> 
+                            <th><?=  ('Name') ?></th>
+                            <th><?=  ('Address') ?></th>
+                            <th><?=  ('Moible No') ?></th>
+                            <th><?=  ('Email') ?></th>
+                            <th><?=  ('Oppening Bal.') ?></th>
+                            <th class="actions text-center"><?= __('Action') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $page_no=0; foreach ($SuppliersList as $city):
+                            @$k++;
+                        ?>
+                        <tr>
+                            <td><?= h(++$page_no) ?></td> 
+                            <td><?= h($city->name) ?></td>
+                            <td><?= h($city->address) ?></td>
+                            <td><?= h($city->mobile_no) ?></td>
+                            <td><?= h($city->email_id) ?></td>
+                            <td><?= h($city->opening_bal) ?></td>
+                            <td  class="actions text-center">
+                                <?php if($type == 'edt') { ?>
+                                <?php echo $this->Html->link('<i class="fa fa-pencil-square-o"></i>',['action' => 'edit', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info')); ?>
+                            <?php } if($type == 'del') {?>
+                                <a class=" btn btn-danger btn-xs" data-target="#deletemodal<?php echo $city->id; ?>" data-toggle=modal><i class="fa fa-trash"></i></a>
+                                
+                            <?php } if($type == 'ser') {}?>
 
-});
-</script>
-    
+                            </td>
+                            <div id="deletemodal<?php echo $city->id; ?>" class="modal fade" role="dialog">
+                                    <div class="modal-dialog modal-md" > 
+                                        <div class="modal-content">
+                                          <div class="modal-header" style=" background-color: #5ea3af;color:#fff;">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title" >
+                                                    &nbsp; Stay Attention
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h4>
+                                                &nbsp; Are you sure you want to remove this Record ?
+                                                </h4>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <?= $this->Form->postLink('Yes', array(
+                                                        'controller' => 'SupplierType',
+                                                        'action' => 'delete',$city->id
+                                                    ), array(
+                                                       'class' => 'btn btn-sm btn-info'
+                                                    ));
+                                                ?>
+                                                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                </div>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php
+            }
+            ?>
+        </div> 
+    </div>   
+</section>
