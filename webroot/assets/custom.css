@@ -46,6 +46,7 @@ p {
 label{
     margin-bottom: 0px!important;
     font-weight:100 !important;
+    /*line-height: 35px;*/
 }
 fieldset
 {
@@ -61,7 +62,8 @@ input[type=checkbox],input[type=radio] {
     color:ins
 }
 body {
-    font-family: 'Raleway', sans-serif !important;
+    /*font-family: 'Raleway', sans-serif !important;*/
+    font-family: 'Open Sans' !important; 
 }
 #grad1 {
     height: 50px;
@@ -73,14 +75,12 @@ body {
 }
 .slimScrollDiv{
     overflow: inherit !important;
-}
-.box.box-primary {
-    border-top-color: #66cad5 !important;
-}
+} 
 sidebar-menu>li:hover>a, .skin-blue .sidebar-menu>li.active>a {
     color: #fff;
-    background: #FB6542;
+    background: #5cb85c;
     border-left-color: #DA3E2E;
+    font-weight: 500 ; 
 }
 .required {
     color:#ea3733;
@@ -309,3 +309,28 @@ background-color: #fff;}
 .space {
     margin-top:10px;
 }
+.box-success{
+    background: #4b8df8 !important; 
+    font-size: 18px;
+    color: #fff;
+}
+.box-header{
+    background: #4b8df8 !important; 
+    font-size: 18px;
+    color: #fff;
+}
+.box-warning{
+    background: #ffb848 !important; 
+    font-size: 18px;
+    color: #fff;
+}
+.box-danger{
+    background: #FB5557  !important; 
+    font-size: 18px;
+    color: #fff;
+}
+
+.box.box-primary{
+    border: 1px solid #b4cef8 !important;
+} 
+

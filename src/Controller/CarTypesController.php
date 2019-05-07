@@ -36,7 +36,7 @@ class CarTypesController extends AppController
         }
 
         $this->paginate = [
-            'limit' => 10
+            'limit' => 100
         ];
             
         $carTypesList = $this->paginate($this->CarTypes->find());

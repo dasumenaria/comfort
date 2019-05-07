@@ -15,7 +15,7 @@ class ServicesController extends AppController
     public function index($id = null)
     {  
         $this->paginate = [
-            'limit' => 20
+            'limit' => 100
         ];
         $servicesList = $this->paginate($this->Services->find()->Where(['is_deleted'=>0]));
         $page_no = $this->request->getQuery('page');

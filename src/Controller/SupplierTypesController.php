@@ -35,7 +35,7 @@ class SupplierTypesController extends AppController
             }
         }
          $this->paginate = [
-            'limit' => 10
+            'limit' => 100
         ];
        
             
@@ -74,7 +74,7 @@ class SupplierTypesController extends AppController
             }
         }
          $this->paginate = [
-            'limit' => 10,
+            'limit' => 100,
             'contain'=> ['SupplierTypes']
         ];
        

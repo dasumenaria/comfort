@@ -45,10 +45,7 @@
     <div class="col-md-6">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <b>View List</b> 
-                <div class="box-tools pull-right">
-                    <input type="text" class="form-control pull-right" placeholder="Search..." id="search3"  style="width: 200px;">
-                </div> 
+                View List
             </div> 
              
             <div class="box-body">
