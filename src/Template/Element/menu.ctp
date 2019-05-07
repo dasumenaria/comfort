@@ -130,6 +130,25 @@
         <li class="treeview">
           <a href="#">
             <i class="fa fa-database"></i>
+            <span>Duty Slip</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu"> 
+            <li><a href="<?php echo $this->Url->build(["controller" => "DutySlips",'action'=>'add']); ?>"><i class="fa fa-circle-o"></i> Add</a></li> 
+
+            <li><a href="<?php echo $this->Url->build(["controller" => "DutySlips",'action'=>'index','edt']); ?>"><i class="fa fa-circle-o"></i> Edit </a></li>
+
+            <li><a href="<?php echo $this->Url->build(["controller" => "DutySlips",'action'=>'index','del']); ?>"><i class="fa fa-circle-o"></i> Delete </a></li>
+
+            <li><a href="<?php echo $this->Url->build(["controller" => "DutySlips",'action'=>'index','ser']); ?>"><i class="fa fa-circle-o"></i> Search </a></li>
+          </ul>
+        </li>
+        
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-database"></i>
             <span>Reports</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -138,6 +157,7 @@
           <ul class="treeview-menu"> 
             <li><?php echo $this->Html->link($this->Html->tag('i', '', ['class' => 'fa fa-book']).' Check-In', '/CheckInDetails/checkinreport',['escape' => false]); ?></li>
           </ul>
+        </li>
     </ul>
     </section>
     </aside>
