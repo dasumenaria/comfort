@@ -13,6 +13,7 @@
     <?php  echo $this->Html->css('/assets/bootstrap/css/bootstrap.min.css'); ?>
     <?php echo $this->Html->css('/assets/plugins/bootstrap-datepicker/css/datepicker3.css'); ?> 
     <?php echo $this->Html->css('/assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css'); ?> 
+    <?php echo $this->Html->css('/assets/plugins/datatables/dataTables.bootstrap.css'); ?> 
     <?php echo $this->Html->css('/assets/plugins/timepicker/bootstrap-timepicker.min.css'); ?> 
     <?php echo $this->Html->css('/assets/plugins/jquery-validation/demo/css/screen.css'); ?> 
     <?php echo $this->Html->css('/assets/plugins/iCheck/all.css'); ?> 
@@ -89,6 +90,9 @@
 </footer>
 <?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?>
 <?php echo $this->Html->script('/assets/bootstrap/js/bootstrap.min.js'); ?>
+<?php echo $this->Html->script('/assets/plugins/datatables/jquery.dataTables.min.js'); ?>
+<?php echo $this->Html->script('/assets/plugins/datatables/dataTables.bootstrap.min.js'); ?>
+
 <?php echo $this->Html->script('/assets/plugins/jquery-validation/lib/jquery.js'); ?>
 <?php echo $this->Html->script('/assets/plugins/jquery-validation/dist/jquery.validate.js'); ?>
 <?php echo $this->Html->script('/assets/plugins/slimScroll/jquery.slimscroll.min.js'); ?>
@@ -103,6 +107,7 @@
 <?php echo $this->Html->script('/assets/dist/js/demo.js'); ?> 
 <?php echo $this->Html->script('/assets/plugins/WYSIWYG/editor.js'); ?>
 <?php echo $this->Html->script('/assets/scroll/js/fixed_table_rc.js'); ?>
+ 
 <script>
     $('.select2').select2();
     var date = new Date();
@@ -127,11 +132,7 @@
         'rm_format':false,
         'insert_img':false,
     }); 
-    var csrf = <?=json_encode($this->request->getParam('_csrfToken'))?>;
-    $.ajaxSetup({
-        headers: { 'X-CSRF-Token': csrf },
-        error: function(){ }   
-    });
-</script> 
+    $("#example1").DataTable();
+</script>   
 </body>
 </html>
