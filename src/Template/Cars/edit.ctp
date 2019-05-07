@@ -3,7 +3,7 @@
     <div class="col-md-12">
         <div class="box box-primary"> 
             <div class="box-header with-border">
-                <i class="fa fa-plus"></i> Add Car
+                <i class="fa fa-plus"></i> Edit Car
             </div>
             <?= $this->Form->create($car,['type'=>'file','id'=>'CityForm']) ?>
             <div class="box-body" >
@@ -119,8 +119,12 @@
             </div>
         </div>
         <?= $this->Form->end() ?>
-    </div> 
-</div>  
+            
+            </div> 
+        </div>  
+    </div>
+</div>
+</section>
 <?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?> 
 <script>
 jQuery(".loadingshow").submit(function(){
