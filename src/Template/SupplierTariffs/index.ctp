@@ -16,12 +16,12 @@
                             <div class="col-md-12">
                                 <div class="form-group col-md-6">
                                     <label class="control-label">Supplier: <span class="required" aria-required="true">*</span></label>
-                                <?php echo $this->Form->control('supplier_type_id' , ['label' => false,'class' => 'select2  supplierType','empty'=>'Select...','options'=>$suppliers,'autocomplete'=>'off']); ?>
+                                <?php echo $this->Form->control('supplier_id' , ['label' => false,'class' => 'select2  supplierType','empty'=>'Select...','options'=>$suppliers,'autocomplete'=>'off']); ?>
                                 </div>
                             
                             <div class="form-group col-md-6">
                                 <label class="control-label">Car: <span class="required" aria-required="true">*</span></label>
-                                <?php echo $this->Form->control('supplier_type_id' , ['label' => false,'class' => 'select2  supplierType','empty'=>'Select...','options'=>$carTypes,'autocomplete'=>'off']); ?>
+                                <?php echo $this->Form->control('car_type_id' , ['label' => false,'class' => 'select2  supplierType','empty'=>'Select...','options'=>$carTypes,'autocomplete'=>'off']); ?>
                         </div> 
                     </div> 
                         </div>
@@ -98,7 +98,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <?= $this->Form->postLink('Yes', array(
-                                                        'controller' => 'SupplierType',
+                                                        'controller' => 'SupplierTariffs',
                                                         'action' => 'delete',$city->id
                                                     ), array(
                                                        'class' => 'btn btn-sm btn-info'
@@ -119,3 +119,4 @@
         </div> 
     </div>   
 </section>
+
