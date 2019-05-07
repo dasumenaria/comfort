@@ -17,14 +17,27 @@ class CustomerTariffsController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function index()
+    public function index($type = null)
     {
-        $this->paginate = [
-            'contain' => ['Customers', 'CarTypes', 'Services']
-        ];
-        $customerTariffs = $this->paginate($this->CustomerTariffs);
-
-        $this->set(compact('customerTariffs'));
+        $RecordShow = 0;
+        $where=array();
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $where['CustomerTariffs.is_deleted']=0;
+            foreach ($this->request->getData() as $key => $value) {
+                if(!empty($value))
+                { 
+                    $where['CustomerTariffs.'.$key] = $value;
+                }
+            }
+            $customerTariffsList = $this->CustomerTariffs->find()->where($where)->contain(['Customers', 'CarTypes', 'Services']); 
+            $RecordShow=1;
+        }
+        if($type == 'edt'){ $displayName = 'Edit';}
+        if($type == 'del'){ $displayName = 'Delete';}
+        if($type == 'ser'){ $displayName = 'Search';}
+        $customers = $this->CustomerTariffs->Customers->find('list', ['limit' => 200])->where(['Customers.is_deleted'=>0]);
+        $carTypes = $this->CustomerTariffs->CarTypes->find('list', ['limit' => 200]);
+        $this->set(compact('customers','displayName','type','RecordShow','carTypes','customerTariffsList'));
     }
 
     /**
@@ -53,16 +66,17 @@ class CustomerTariffsController extends AppController
         $customerTariff = $this->CustomerTariffs->newEntity();
         if ($this->request->is('post')) {
             $customerTariff = $this->CustomerTariffs->patchEntity($customerTariff, $this->request->getData());
+            //pr($customerTariff);exit;
             if ($this->CustomerTariffs->save($customerTariff)) {
                 $this->Flash->success(__('The customer tariff has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'add']);
             }
             $this->Flash->error(__('The customer tariff could not be saved. Please, try again.'));
         }
-        $customers = $this->CustomerTariffs->Customers->find('list', ['limit' => 200]);
+        $customers = $this->CustomerTariffs->Customers->find('list', ['limit' => 200])->where(['Customers.is_deleted'=>0]);
         $carTypes = $this->CustomerTariffs->CarTypes->find('list', ['limit' => 200]);
-        $services = $this->CustomerTariffs->Services->find('list', ['limit' => 200]);
+        $services = $this->CustomerTariffs->Services->find('list', ['limit' => 200])->where(['Services.is_deleted'=>0]);
         $this->set(compact('customerTariff', 'customers', 'carTypes', 'services'));
     }
 
@@ -83,7 +97,7 @@ class CustomerTariffsController extends AppController
             if ($this->CustomerTariffs->save($customerTariff)) {
                 $this->Flash->success(__('The customer tariff has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'index','edt']);
             }
             $this->Flash->error(__('The customer tariff could not be saved. Please, try again.'));
         }
@@ -102,14 +116,17 @@ class CustomerTariffsController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $customerTariff = $this->CustomerTariffs->get($id);
-        if ($this->CustomerTariffs->delete($customerTariff)) {
+        $customerTariff = $this->CustomerTariffs->get($id, [
+            'contain' => []
+        ]); 
+        $customerTariff = $this->CustomerTariffs->patchEntity($customerTariff, $this->request->getData());
+        $customerTariff->is_deleted = 1;
+        if ($this->CustomerTariffs->save($customerTariff)) {
             $this->Flash->success(__('The customer tariff has been deleted.'));
         } else {
             $this->Flash->error(__('The customer tariff could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['action' => 'index','del']);
     }
 }

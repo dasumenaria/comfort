@@ -1,69 +1,123 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\CustomerTariff[]|\Cake\Collection\CollectionInterface $customerTariffs
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Customer Tariff'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Customers'), ['controller' => 'Customers', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Customer'), ['controller' => 'Customers', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Car Types'), ['controller' => 'CarTypes', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Car Type'), ['controller' => 'CarTypes', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Services'), ['controller' => 'Services', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Service'), ['controller' => 'Services', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="customerTariffs index large-9 medium-8 columns content">
-    <h3><?= __('Customer Tariffs') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('customer_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('car_type_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('service_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('rate') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('minimum_chg_km') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('extra_km_rate') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('minimum_chg_hourly') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('extra_hour_rate') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('is_deleted') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($customerTariffs as $customerTariff): ?>
-            <tr>
-                <td><?= $this->Number->format($customerTariff->id) ?></td>
-                <td><?= $customerTariff->has('customer') ? $this->Html->link($customerTariff->customer->name, ['controller' => 'Customers', 'action' => 'view', $customerTariff->customer->id]) : '' ?></td>
-                <td><?= $customerTariff->has('car_type') ? $this->Html->link($customerTariff->car_type->name, ['controller' => 'CarTypes', 'action' => 'view', $customerTariff->car_type->id]) : '' ?></td>
-                <td><?= $customerTariff->has('service') ? $this->Html->link($customerTariff->service->name, ['controller' => 'Services', 'action' => 'view', $customerTariff->service->id]) : '' ?></td>
-                <td><?= h($customerTariff->rate) ?></td>
-                <td><?= h($customerTariff->minimum_chg_km) ?></td>
-                <td><?= h($customerTariff->extra_km_rate) ?></td>
-                <td><?= $this->Number->format($customerTariff->minimum_chg_hourly) ?></td>
-                <td><?= $this->Number->format($customerTariff->extra_hour_rate) ?></td>
-                <td><?= h($customerTariff->is_deleted) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $customerTariff->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $customerTariff->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $customerTariff->id], ['confirm' => __('Are you sure you want to delete # {0}?', $customerTariff->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-    </div>
-</div>
+<section class="content">
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary"> 
+            <div class="box-header with-border">
+                <i class="fa fa-plus"></i> Customer Tariff <?= $displayName;?>
+            </div>
+            <?php
+            if($RecordShow != 1)
+            {
+                ?>
+                <?= $this->Form->create('',['type'=>'file','id'=>'CityForm']) ?>
+                <div class="box-body" >
+                    <div class="row">
+                        <div class="">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">Customer</label>
+                                <?php echo $this->Form->control('customer_id' , ['label' => false,'class' => 'select2  supplierType','empty'=>'Select...','options'=>$customers,'autocomplete'=>'off']); ?>
+                                </div>
+                            
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">Car </label>
+                                    <?php echo $this->Form->control('car_type_id' , ['label' => false,'class' => 'select2  supplierType','empty'=>'Select...','options'=>$carTypes,'autocomplete'=>'off']); ?>
+                                </div> 
+                            </div> 
+                        </div>
+                    </div> 
+                </div>
+            
+                <div class="box-footer">
+                    <div class="row">
+                        <center>
+                            <div class="col-md-12">
+                                <div class="col-md-offset-3 col-md-6">  
+                                    <?php echo $this->Form->button('Submit',['class'=>'btn btn-primary','id'=>'submit_member']); ?>
+                                </div>
+                            </div>
+                        </center>       
+                    </div>
+                </div>
+                <?= $this->Form->end() ?>
+            <?php 
+            }
+            else{ ?>
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr style="table-layout: fixed;">
+                            <th><?=  ('Sl.') ?></th> 
+                            <th><?=  ('Customer Name') ?></th>
+                            <th><?=  ('Service Name') ?></th>
+                            <th><?=  ('Car') ?></th>
+                            <th><?=  ('Rate') ?></th>
+                            <th><?=  ('Kilometers') ?></th>
+                            <th><?=  ('Extra KM Rate ') ?></th>
+                            <th><?=  ('Min.Charge Hourly') ?></th>
+                            <th><?=  ('Extra.Hour Rate') ?></th>
+                            <th class="actions text-center"><?= __('Action') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $page_no=0; foreach ($customerTariffsList as $city):
+                            @$k++;
+                        ?>
+                        <tr>
+                            <td><?= h(++$page_no) ?></td> 
+                            <td><?= h($city->customer->name) ?></td>
+                            <td><?= h($city->service->name) ?></td>
+                            <td><?= h($city->car_type->name) ?></td>
+                            <td><?= h($city->rate) ?></td>
+                            <td><?= h($city->minimum_chg_km) ?></td>
+                            <td><?= h($city->extra_km_rate) ?></td>
+                            <td><?= h($city->minimum_chg_hourly) ?></td>
+                            <td><?= h($city->extra_hour_rate) ?></td>
+                            
+                            <td  class="actions text-center">
+                                <?php if($type == 'edt') { ?>
+                                <?php echo $this->Html->link('<i class="fa fa-pencil-square-o"></i>',['action' => 'edit', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info' ,'target'=>'_blank')); ?>
+                            <?php } if($type == 'del') {?>
+                                <a class=" btn btn-danger btn-xs" data-target="#deletemodal<?php echo $city->id; ?>" data-toggle=modal><i class="fa fa-trash"></i></a>
+                                
+                            <?php } if($type == 'ser') { 
+                                echo $this->Html->link('<i class="fa fa-search"></i>',['action' => 'view', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info','target'=>'_blank')); 
+                            } ?>
+
+                            </td>
+                            <div id="deletemodal<?php echo $city->id; ?>" class="modal fade" role="dialog">
+                                    <div class="modal-dialog modal-md" > 
+                                        <div class="modal-content">
+                                          <div class="modal-header" style=" background-color: #5ea3af;color:#fff;">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title" >
+                                                    &nbsp; Stay Attention
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h4>
+                                                &nbsp; Are you sure you want to remove this Record ?
+                                                </h4>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <?= $this->Form->postLink('Yes', array(
+                                                        'controller' => 'CustomerTariffs',
+                                                        'action' => 'delete',$city->id
+                                                    ), array(
+                                                       'class' => 'btn btn-sm btn-info'
+                                                    ));
+                                                ?>
+                                                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                </div>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php
+            }
+            ?>
+        </div> 
+    </div>   
+</section>
