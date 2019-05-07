@@ -80,19 +80,52 @@ class CarsController extends AppController
         $car = $this->Cars->newEntity();
         if ($this->request->is('post')) {
             $car = $this->Cars->patchEntity($car, $this->request->getData());
-            $car->rto_tax_date = date('Y-m-d',strtotime($this->request->getData('rto_tax_date')));
+            
+            $rto_tax_date = $car->rto_tax_date = date('Y-m-d',strtotime($this->request->getData('rto_tax_date')));
+            
+            if (empty($rto_tax_date)) {
+                $car->rto_tax_date = '0000-00-00';
+            }
 
-            $car->insurance_date_from = date('Y-m-d',strtotime($this->request->getData('insurance_date_from')));
+            $insurance_date_from = $car->insurance_date_from = date('Y-m-d',strtotime($this->request->getData('insurance_date_from')));
+            if (empty($insurance_date_from)) {
+                $car->insurance_date_from = '0000-00-00';
+            }
+            
+            $insurance_date_to = $car->insurance_date_to = date('Y-m-d',strtotime($this->request->getData('insurance_date_to')));
+            
+             if (empty($insurance_date_to)) {
+                $car->insurance_date_to = '0000-00-00';
+            }
 
-            $car->insurance_date_to = date('Y-m-d',strtotime($this->request->getData('insurance_date_to')));
+            $authorization_date = $car->authorization_date = date('Y-m-d',strtotime($this->request->getData('authorization_date')));
+            
+            
+             if (empty($authorization_date)) {
+                $car->authorization_date = '0000-00-00';
+            }
 
-             $car->authorization_date = date('Y-m-d',strtotime($this->request->getData('authorization_date')));
+            $permit_date = $car->permit_date = date('Y-m-d',strtotime($this->request->getData('permit_date')));
+            
+            
+             if (empty($permit_date)) {
+                $car->permit_date = '0000-00-00';
+            }
 
-             $car->permit_date = date('Y-m-d',strtotime($this->request->getData('permit_date')));
+            $fitness_date = $car->fitness_date = date('Y-m-d',strtotime($this->request->getData('fitness_date')));
+            
+            
+             if (empty($fitness_date)) {
+                $car->fitness_date = '0000-00-00';
+            }
 
-             $car->fitness_date = date('Y-m-d',strtotime($this->request->getData('fitness_date')));
+            $puc_date = $car->puc_date = date('Y-m-d',strtotime($this->request->getData('puc_date')));
+            
+            
+             if (empty($puc_date)) {
+                $car->puc_date = '0000-00-00';
+            }
 
-             $car->puc_date = date('Y-m-d',strtotime($this->request->getData('puc_date')));
             //pr($car); die();
             if ($this->Cars->save($car)) {
                 $this->Flash->success(__('The car has been saved.'));
@@ -120,6 +153,50 @@ class CarsController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $car = $this->Cars->patchEntity($car, $this->request->getData());
+            $rto_tax_date = $car->rto_tax_date = date('Y-m-d',strtotime($this->request->getData('rto_tax_date')));
+            
+            if (empty($rto_tax_date)) {
+                $car->rto_tax_date = '0000-00-00';
+            }
+
+            $insurance_date_from = $car->insurance_date_from = date('Y-m-d',strtotime($this->request->getData('insurance_date_from')));
+            if (empty($insurance_date_from)) {
+                $car->insurance_date_from = '0000-00-00';
+            }
+            
+            $insurance_date_to = $car->insurance_date_to = date('Y-m-d',strtotime($this->request->getData('insurance_date_to')));
+            
+             if (empty($insurance_date_to)) {
+                $car->insurance_date_to = '0000-00-00';
+            }
+
+            $authorization_date = $car->authorization_date = date('Y-m-d',strtotime($this->request->getData('authorization_date')));
+            
+            
+             if (empty($authorization_date)) {
+                $car->authorization_date = '0000-00-00';
+            }
+
+            $permit_date = $car->permit_date = date('Y-m-d',strtotime($this->request->getData('permit_date')));
+            
+            
+             if (empty($permit_date)) {
+                $car->permit_date = '0000-00-00';
+            }
+
+            $fitness_date = $car->fitness_date = date('Y-m-d',strtotime($this->request->getData('fitness_date')));
+            
+            
+             if (empty($fitness_date)) {
+                $car->fitness_date = '0000-00-00';
+            }
+
+            $puc_date = $car->puc_date = date('Y-m-d',strtotime($this->request->getData('puc_date')));
+            
+            
+             if (empty($puc_date)) {
+                $car->puc_date = '0000-00-00';
+            }
             if ($this->Cars->save($car)) {
                 $this->Flash->success(__('The car has been saved.'));
 
