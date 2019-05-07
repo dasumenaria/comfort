@@ -64,32 +64,7 @@ class SupplierTariffsTable extends Table
             ->integer('id')
             ->allowEmptyString('id', 'create');
 
-        $validator
-            ->scalar('rate')
-            ->maxLength('rate', 20)
-            ->requirePresence('rate', 'create')
-            ->allowEmptyString('rate', false);
-
-        $validator
-            ->integer('minimum_chg_km')
-            ->requirePresence('minimum_chg_km', 'create')
-            ->allowEmptyString('minimum_chg_km', false);
-
-        $validator
-            ->integer('extra_km_rate')
-            ->requirePresence('extra_km_rate', 'create')
-            ->allowEmptyString('extra_km_rate', false);
-
-        $validator
-            ->integer('minimum_chg_hourly')
-            ->requirePresence('minimum_chg_hourly', 'create')
-            ->allowEmptyString('minimum_chg_hourly', false);
-
-        $validator
-            ->integer('extra_hour_rate')
-            ->requirePresence('extra_hour_rate', 'create')
-            ->allowEmptyString('extra_hour_rate', false);
-
+        
         return $validator;
     }
 
