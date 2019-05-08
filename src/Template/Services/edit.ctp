@@ -7,9 +7,9 @@
                 $updt_id=$service->id;
                 if(!empty($updt_id)){ ?>
                     <i class="fa fa-pencil-square-o"></i> Edit Service
-                    <div class="pull-right">
+                    <!-- <div class="pull-right">
                        <?php echo $this->Html->link('<i class="fa fa-plus"></i>',['action' => 'add'],array('escape'=>false,'class'=>'btn btn-xs btn-info')); ?>  
-                    </div>
+                    </div> -->
                 <?php }else{ ?>
                     <i class="fa fa-plus"></i> Add Service
                 <?php } ?>

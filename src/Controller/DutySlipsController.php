@@ -50,6 +50,8 @@ class DutySlipsController extends AppController
      */
     public function add()
     {
+            
+         $this->Auth->User('name'); 
         $dutySlip = $this->DutySlips->newEntity();
         if ($this->request->is('post')) {
             $dutySlip = $this->DutySlips->patchEntity($dutySlip, $this->request->getData());
@@ -61,12 +63,14 @@ class DutySlipsController extends AppController
             $this->Flash->error(__('The duty slip could not be saved. Please, try again.'));
         }
           
-        $services = $this->DutySlips->Services->find('list', ['limit' => 200]);
+        $services = $this->DutySlips->Services->find('list', ['limit' => 200])->where(['is_deleted'=>0]);
         $carTypes = $this->DutySlips->CarTypes->find('list', ['limit' => 200]);
-        $cars = $this->DutySlips->Cars->find('list', ['limit' => 200]);
-        $customers = $this->DutySlips->Customers->find('list', ['limit' => 200]); 
+        $employees = $this->DutySlips->Employees->find('list', ['limit' => 200])->where(['is_deleted'=>0]);
+        $cars = $this->DutySlips->Cars->find('list', ['limit' => 200])->where(['is_deleted'=>0]);
+        $customers = $this->DutySlips->Customers->find('list', ['limit' => 200])->where(['is_deleted'=>0]); 
         $counters = $this->DutySlips->Counters->find('list', ['limit' => 200]); 
-        $this->set(compact('dutySlip', 'services', 'carTypes', 'cars', 'customers', 'counters'));
+        $serviceCity = $this->DutySlips->ServiceCities->find('list', ['limit' => 200]); 
+        $this->set(compact('dutySlip', 'services', 'carTypes', 'cars', 'customers', 'counters','employees','serviceCity'));
     }
 
     /**

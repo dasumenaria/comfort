@@ -45,7 +45,7 @@ class AppController extends Controller
             'enableBeforeRedirect' => false,
         ]);
         $this->loadComponent('Flash');
-        $this->loadComponent('Auth', [
+        $auth = $this->loadComponent('Auth', [
             'authenticate' => [
                 'Form' => [ 
                     'fields' => [
@@ -69,6 +69,7 @@ class AppController extends Controller
         // Allow the display action so our pages controller
         // continues to work.
         $this->Auth->allow(['display']);
+        $this->set(compact('auth'));
          
     }
 }
