@@ -77,7 +77,9 @@
                             <?php } if($type == 'del') {?>
                                 <a class=" btn btn-danger btn-xs" data-target="#deletemodal<?php echo $city->id; ?>" data-toggle=modal><i class="fa fa-trash"></i></a>
                                 
-                            <?php } if($type == 'ser') {}?>
+                            <?php } if($type == 'ser') {
+                             echo $this->Html->link('<i class="fa fa-search"></i>',['action' => 'view', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info','target'=>'_blank'));
+                            }?>
 
                             </td>
                             <div id="deletemodal<?php echo $city->id; ?>" class="modal fade" role="dialog">

@@ -53,7 +53,7 @@
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">RTO Tax Date:</label>
                                 <div class="col-sm-8">
-                                 <?php echo $this->Form->control('rto_tax_date',['label' => false,'class' => 'form-control  date-picker','type'=>'text','placeholder'=>'dd-mm-yy','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?> 
+                                 <?php echo $this->Form->control('rto_tax_date',['label' => false,'class' => 'form-control  datepickers','type'=>'text','placeholder'=>'dd-mm-yy','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?> 
                                 </div>
                             </div>
                         </div> 
@@ -63,13 +63,13 @@
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Insurance Starting Date:</label>
                                 <div class="col-sm-8">
-                                    <?php echo $this->Form->control('insurance_date_from',['label' => false,'class' => 'form-control  date-picker','type'=>'text','placeholder'=>'dd-mm-yy','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?> 
+                                    <?php echo $this->Form->control('insurance_date_from',['label' => false,'class' => 'form-control  datepickers','type'=>'text','placeholder'=>'dd-mm-yy','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?> 
                                 </div>
                             </div> 
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">  Insurance Ending Date:</label>
                                 <div class="col-sm-8">
-                                 <?php echo $this->Form->control('insurance_date_to',['label' => false,'class' => 'form-control  date-picker','type'=>'text','placeholder'=>'dd-mm-yy','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?> 
+                                 <?php echo $this->Form->control('insurance_date_to',['label' => false,'class' => 'form-control  datepickers','type'=>'text','placeholder'=>'dd-mm-yy','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?> 
                                 </div>
                             </div>
                         </div> 
@@ -78,13 +78,13 @@
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Authorization Detail Date:</label>
                                 <div class="col-sm-8">
-                                    <?php echo $this->Form->control('authorization_date',['label' => false,'class' => 'form-control  date-picker','type'=>'text','placeholder'=>'dd-mm-yy','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?> 
+                                    <?php echo $this->Form->control('authorization_date',['label' => false,'class' => 'form-control  datepickers','type'=>'text','placeholder'=>'dd-mm-yy','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?> 
                                 </div>
                             </div> 
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Permit Date:</label>
                                 <div class="col-sm-8">
-                                  <?php echo $this->Form->control('permit_date',['label' => false,'class' => 'form-control  date-picker','type'=>'text','placeholder'=>'dd-mm-yy','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?> 
+                                  <?php echo $this->Form->control('permit_date',['label' => false,'class' => 'form-control  datepickers','type'=>'text','placeholder'=>'dd-mm-yy','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?> 
                                 </div>
                             </div>
                         </div> 
@@ -93,13 +93,13 @@
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Fitness Date:</label>
                                 <div class="col-sm-8">
-                                    <?php echo $this->Form->control('fitness_date',['label' => false,'class' => 'form-control  date-picker','type'=>'text','placeholder'=>'dd-mm-yy','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?>     
+                                    <?php echo $this->Form->control('fitness_date',['label' => false,'class' => 'form-control  datepickers','type'=>'text','placeholder'=>'dd-mm-yy','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?>     
                                 </div>
                             </div> 
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">PUC Date:</label>
                                 <div class="col-sm-8">
-                                  <?php echo $this->Form->control('puc_date',['label' => false,'class' => 'form-control  date-picker','type'=>'text','placeholder'=>'dd-mm-yy','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?>     
+                                  <?php echo $this->Form->control('puc_date',['label' => false,'class' => 'form-control  datepickers','type'=>'text','placeholder'=>'dd-mm-yy','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?>     
                                 </div>
                             </div>
                         </div> 

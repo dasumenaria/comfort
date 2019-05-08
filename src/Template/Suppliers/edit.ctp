@@ -3,7 +3,7 @@
     <div class="col-md-12">
         <div class="box box-primary"> 
             <div class="box-header with-border">
-                <i class="fa fa-plus"></i> Add Supplier
+                <i class="fa fa-plus"></i> Edit Supplier
             </div>
             <?= $this->Form->create($supplier,['type'=>'file','id'=>'CityForm']) ?>
             <div class="box-body" >
@@ -250,10 +250,7 @@ $(document).ready(function() {
             name: {
                 required: true, 
             }, 
-            mobile_no: {
-                required: true,
-                digits: true,
-            }, 
+             
              
         },
         

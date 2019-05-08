@@ -18,14 +18,14 @@
                                 $values['employee'] = 'Employee';
                                 ?>
                                 <div class="col-sm-8">
-                                    <?php echo $this->Form->control('employee_type' , ['label' => false,'class' => 'form-control','options'=>$values,'autocomplete'=>'off']); ?>
+                                    <?php echo $this->Form->control('employee_type' , ['label' => false,'class' => 'form-control hello','options'=>$values,'autocomplete'=>'off']); ?>
                                 </div>
                             </div> 
                             <div class="col-md-6 ">
-                                <label class="control-label col-sm-4">Driver Name:</label>
+                                <label class="control-label col-sm-4 lname">Driver Name:</label>
                                 <div class="col-sm-8">
                                 
-                                <?php echo $this->Form->control('name' , ['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Driver Name','autocomplete'=>'off']); ?>
+                                <?php echo $this->Form->control('name' , ['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Name','autocomplete'=>'off']); ?>
                                 
                                 </div>
                             </div>
@@ -34,9 +34,9 @@
 
                         <div class="col-md-12 space">
                             <div class="col-md-6 ">
-                                <label class="control-label col-sm-4">Driver Mobile No.:</label>
+                                <label class="control-label dmobile col-sm-4">Driver Mobile No.:</label>
                                 <div class="col-sm-8">
-                                    <?php echo $this->Form->control('mobile_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Driver Mobile No.','autocomplete'=>'off']); ?> 
+                                    <?php echo $this->Form->control('mobile_no',['label' => false,'class' => 'form-control    firstupercase','placeholder'=>'Mobile No.','autocomplete'=>'off']); ?> 
                                 </div>
                             </div> 
                             <div class="col-md-6 ">
@@ -56,9 +56,9 @@
                                 </div>
                             </div> 
                             <div class="col-md-6 ">
-                                <label class="control-label col-sm-4">  Driver Qualification :</label>
+                                <label class="control-label qualification col-sm-4">  Driver Qualification :</label>
                                 <div class="col-sm-8">
-                                 <?php echo $this->Form->control('qualification',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Driver Qualification','autocomplete'=>'off']); ?> 
+                                 <?php echo $this->Form->control('qualification',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Qualification','autocomplete'=>'off']); ?> 
                                 </div>
                             </div>
                         </div> 
@@ -347,19 +347,21 @@ jQuery(".loadingshow").submit(function(){
 }); 
 $(document).ready(function() {
     
-    $(document).on('change','.supplierType',function(){
+    $(document).on('change','.hello',function(){
         var selected = $('option:selected', this).val();
 
-        var url='<?php echo $this->Url->build(['controller'=>'Suppliers','action'=>'autoFetchSubType']) ?>';
-            url=url+'?supplier_type_id='+selected;
-        $.ajax({
-            url: url,
-        }).done(function(response) {
-            $('.NewSubData').html(response);
-            $('.select2').select2();
-        });
-         
+        if(selected == 'driver'){
+            $('.lname').html('Driver Name');
+            $('.dmobile').html('Driver Mobile No.:');
+            $('.qualification').html('Driver Qualification:');
+        }
+        else{
+            $('.lname').html('Employee Name');  
+            $('.dmobile').html('Employee Mobile No');  
+            $('.qualification').html('Employee Qualification:');  
+        }     
     });
+         
     $.validator.addMethod("specialChars", function( value, element ) {
         var regex = new RegExp("^[a-zA-Z ]+$");
         var key = value;
