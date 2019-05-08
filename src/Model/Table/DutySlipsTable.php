@@ -78,6 +78,7 @@ class DutySlipsTable extends Table
             'joinType' => 'INNER'
         ]); 
         $this->belongsTo('ServiceCities'); 
+        $this->belongsTo('CustomerTariffs'); 
     }
 
     /**

@@ -44,7 +44,7 @@ $ldrview = $auth->User('ldrview');
                         <label class="control-label">Customer Name</label>
                     </div>
                     <div class="col-md-4">
-                        <?php echo $this->Form->control('customer_id' , ['label' => false,'class' => 'select2  supplierType','empty'=>'Select...','options'=>$customers,'autocomplete'=>'off']); ?>
+                        <?php echo $this->Form->control('customer_id' , ['label' => false,'class' => 'select2  getGST','empty'=>'Select...','options'=>$customers,'autocomplete'=>'off']); ?>
                     </div>
                 </div>
                 <span class="help-block"></span>  
@@ -71,11 +71,11 @@ $ldrview = $auth->User('ldrview');
                         <label class="control-label">Email Address</label>
                     </div>
                     <div class="col-md-4">
-                        <?php echo $this->Form->control('email_id',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Email Address','autocomplete'=>'off','type'=>'text']); ?> 
+                        <?php echo $this->Form->control('email_id',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Email Address','autocomplete'=>'off','type'=>'email']); ?> 
                     </div>
                 </div>
                 <span class="help-block"></span> 
-                <div class="row container" style="margin: auto;">
+                <div class="row container" id="gst_input" style="margin: auto;">
                     <div class="col-md-2">
                         <label class="control-label">GST Number </label>
                     </div>
@@ -189,7 +189,7 @@ $ldrview = $auth->User('ldrview');
                         <label class="control-label">Rate </label>
                     </div>
                     <div class="col-md-4">
-                        <?php echo $this->Form->control('rate',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Rate','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')"]); ?> 
+                        <?php echo $this->Form->control('rate',['label' => false,'class' => 'form-control  calculateamount','placeholder'=>'Rate','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')",'onMouseDown'=>"fetch_rate('get_rate');"]); ?> 
                     </div>
                 </div>
                 <div class="CorporateBilling">
@@ -199,7 +199,7 @@ $ldrview = $auth->User('ldrview');
                             <label class="control-label">No of Days </label>
                         </div>
                         <div class="col-md-4">
-                            <?php echo $this->Form->control('no_of_days',['label' => false,'class' => 'form-control','type'=>'text', 'placeholder'=>'No of Days','autocomplete'=>'off']); ?> 
+                            <?php echo $this->Form->control('no_of_days',['label' => false,'class' => 'form-control calculateamount','type'=>'text', 'placeholder'=>'No of Days','autocomplete'=>'off']); ?> 
                         </div>
                     </div>
 
@@ -229,7 +229,7 @@ $ldrview = $auth->User('ldrview');
                             <label class="control-label">Opening KM </label>
                         </div>
                         <div class="col-md-4">
-                            <?php echo $this->Form->control('opening_km',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Opening KM','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')"]); ?> 
+                            <?php echo $this->Form->control('opening_km',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Opening KM','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')",'onMouseDown'=>"fetch_rate('get_km');",'onClick'=>"dutyslip_openclose();"]); ?> 
                         </div>
                     </div>
 
@@ -462,8 +462,18 @@ jQuery(".loadingshow").submit(function(){
     jQuery("#loader-1").show();
 }); 
 $(document).ready(function() {
-    HideShowSection('Normal Billing');
-    
+    HideShowSection('Normal Billing'); 
+    $(document).on('change','.getGST',function(){
+        var option = $('option:selected', this).attr('gst_number');
+        if(option.length >0)
+        {
+            $('#gst_input').hide();
+        }
+        else
+        {   
+            $('#gst_input').show();     
+        }
+    });
     $(document).on('change','.check',function(){
         var selected = $('option:selected', this).html();
         var res = selected.split(" ");
@@ -485,6 +495,19 @@ $(document).ready(function() {
         else{
             $('.driverSHow').hide();
         }
+    }); 
+    $(document).on('keyup','.calculateamount',function(){
+        var rate = $('#rate').val();
+        var no_of_days = $('#no_of_days').val();
+         
+        if(rate.length > 0 && no_of_days.length > 0)  
+        {
+            var total_amount = parseInt(no_of_days) * parseInt(rate);
+            $('#cop_amounts').val(total_amount);
+        }
+        else
+        {$('#cop_amounts').val('');}
+            
     });
     $.validator.addMethod("specialChars", function( value, element ) {
         var regex = new RegExp("^[a-zA-Z ]+$");
@@ -530,6 +553,14 @@ $(document).ready(function() {
         }
     }); 
 
+    var csrf = <?=json_encode($this->request->getParam('_csrfToken'))?>;
+    $.ajaxSetup({
+        headers: { 'X-CSRF-Token': csrf },
+        error: function(){
+        //toastr.error('ajex error');
+    }
+    });
+
 });
 function HideShowSection(values)
 {
@@ -542,6 +573,39 @@ function HideShowSection(values)
     {
         $('.NormalBilling').show();
         $('.CorporateBilling').hide();  
+    }
+}
+function fetch_rate(value){
+    if(value=='get_km')
+    {    
+        var car_id=$('option:selected #car-id').val();
+        var query="?car_id=" + car_id + "&identity=" + "opening_km";
+    }
+    else 
+    {
+         var customer_id=$('#customer-id option:selected ').val(); 
+         var service_id=$('#service-id option:selected ').val(); 
+         var car_type_id=$('#car-type-id option:selected ').val(); 
+         
+         var query="?customer_id=" + customer_id + "&service_id=" + service_id + "&car_type_id=" +car_type_id + "&identity=" + "ratefix";    
+    }
+    var url='<?php echo $this->Url->build(['controller'=>'DutySlips','action'=>'getRate']) ?>';
+    url=url+query;  
+    $.ajax({
+        url: url,
+    }).done(function(response) {
+         if(value=='get_km')
+            $('#opening-km').val(response); 
+        else 
+            $('#rate').val(response); 
+    });
+}
+function dutyslip_openclose() 
+{
+    if($('#opening-km').val()==0)
+    {   
+        alert("Close previous DS.");
+        //location.reload();
     }
 }
 </script>
