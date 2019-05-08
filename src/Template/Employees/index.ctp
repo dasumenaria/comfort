@@ -68,7 +68,7 @@
                             <td><?= h($city->mobile_no) ?></td>
                             <td><?= h($city->present_add) ?></td>
                             <td><?= h($city->dob) ?></td>
-                            <td><?= h($city->driver_doj) ?></td>
+                            <td><?= h($city->driver_doj)?></td>
                             <td><?= h($city->lic_exp_date) ?></td>
                             <td  class="actions text-center">
                                 <?php if($type == 'edt') { ?>
@@ -95,7 +95,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <?= $this->Form->postLink('Yes', array(
-                                                        'controller' => 'Cars',
+                                                        'controller' => 'Employees',
                                                         'action' => 'delete',$city->id
                                                     ), array(
                                                        'class' => 'btn btn-sm btn-info'

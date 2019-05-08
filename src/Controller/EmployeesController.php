@@ -75,40 +75,58 @@ class EmployeesController extends AppController
         if ($this->request->is('post')) {
             $employee = $this->Employees->patchEntity($employee, $this->request->getData());
 
-            $dob = $employee->dob = date('Y-m-d',strtotime($this->request->getData('dob')));
+            $dob = $this->request->getData('dob');
+            if (!empty($dob_leave)) {
+                $employee->dob = date('y-m-d',strtotime($this->request->getData('dob_leave')));
+            }
+            else
+            {
             
-            if (empty($dob)) {
                 $employee->dob = '0000-00-00';
             }
-
-            $driver_doj = $employee->driver_doj = date('Y-m-d',strtotime($this->request->getData('driver_doj')));
+            $driver_doj = $this->request->getData('driver_doj');
+            if (!empty($driver_doj)) {
+                $employee->dob = date('y-m-d',strtotime($this->request->getData('driver_doj')));
+            }
+            else
+            {
             
-            if (empty($driver_doj)) {
                 $employee->driver_doj = '0000-00-00';
             }
-
-            $lic_issue_date = $employee->lic_issue_date = date('Y-m-d',strtotime($this->request->getData('lic_issue_date')));
+            $lic_issue_date = $this->request->getData('lic_issue_date');
+            if (!empty($lic_issue_date)) {
+                $employee->lic_issue_date = date('y-m-d',strtotime($this->request->getData('lic_issue_date')));
+            }
+            else
+            {
             
-            if (empty($lic_issue_date)) {
                 $employee->lic_issue_date = '0000-00-00';
             }
 
-            $lic_exp_date = $employee->lic_exp_date = date('Y-m-d',strtotime($this->request->getData('lic_exp_date')));
-            
-            if (empty($lic_exp_date)) {
-                $employee->lic_exp_date = '0000-00-00';
+            $lic_exp_date = $this->request->getData('lic_exp_date');
+            if (!empty($lic_exp_date)) {
+                $employee->lic_exp_date = date('y-m-d',strtotime($this->request->getData('lic_exp_date')));
             }
-
-            $dob_leave = $employee->dob_leave = date('Y-m-d',strtotime($this->request->getData('dob_leave')));
+            else
+            {
             
-            if (empty($dob_leave)) {
+                $employee->lic_exp_date  = '0000-00-00';
+            }
+            $dob_leave = $this->request->getData('dob_leave');
+            if (!empty($dob_leave)) {
+                $employee->dob_leave = date('y-m-d',strtotime($this->request->getData('dob_leave')));
+            }
+            else
+            {
+            
                 $employee->dob_leave = '0000-00-00';
             }
 
+           // pr($employee); die();
             if ($this->Employees->save($employee)) {
                 $this->Flash->success(__('The employee has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'add']);
             }
             $this->Flash->error(__('The employee could not be saved. Please, try again.'));
         }
@@ -131,39 +149,57 @@ class EmployeesController extends AppController
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $employee = $this->Employees->patchEntity($employee, $this->request->getData());
-            $dob = $employee->dob = date('Y-m-d',strtotime($this->request->getData('dob')));
+            $dob = $this->request->getData('dob');
+            if (!empty($dob_leave)) {
+                $employee->dob = date('y-m-d',strtotime($this->request->getData('dob_leave')));
+            }
+            else
+            {
             
-            if (empty($dob)) {
                 $employee->dob = '0000-00-00';
             }
-
-            $driver_doj = $employee->driver_doj = date('Y-m-d',strtotime($this->request->getData('driver_doj')));
+            $driver_doj = $this->request->getData('driver_doj');
+            if (!empty($driver_doj)) {
+                $employee->dob = date('y-m-d',strtotime($this->request->getData('driver_doj')));
+            }
+            else
+            {
             
-            if (empty($driver_doj)) {
                 $employee->driver_doj = '0000-00-00';
             }
-
-            $lic_issue_date = $employee->lic_issue_date = date('Y-m-d',strtotime($this->request->getData('lic_issue_date')));
+            $lic_issue_date = $this->request->getData('lic_issue_date');
+            if (!empty($lic_issue_date)) {
+                $employee->lic_issue_date = date('y-m-d',strtotime($this->request->getData('lic_issue_date')));
+            }
+            else
+            {
             
-            if (empty($lic_issue_date)) {
                 $employee->lic_issue_date = '0000-00-00';
             }
 
-            $lic_exp_date = $employee->lic_exp_date = date('Y-m-d',strtotime($this->request->getData('lic_exp_date')));
-            
-            if (empty($lic_exp_date)) {
-                $employee->lic_exp_date = '0000-00-00';
+            $lic_exp_date = $this->request->getData('lic_exp_date');
+            if (!empty($lic_exp_date)) {
+                $employee->lic_exp_date = date('y-m-d',strtotime($this->request->getData('lic_exp_date')));
             }
-
-            $dob_leave = $employee->dob_leave = date('Y-m-d',strtotime($this->request->getData('dob_leave')));
+            else
+            {
             
-            if (empty($dob_leave)) {
+                $employee->lic_exp_date  = '0000-00-00';
+            }
+            $dob_leave = $this->request->getData('dob_leave');
+            if (!empty($dob_leave)) {
+                $employee->dob_leave = date('y-m-d',strtotime($this->request->getData('dob_leave')));
+            }
+            else
+            {
+            
                 $employee->dob_leave = '0000-00-00';
             }
+            
             if ($this->Employees->save($employee)) {
                 $this->Flash->success(__('The employee has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'index','edt']);
             }
             $this->Flash->error(__('The employee could not be saved. Please, try again.'));
         }
@@ -181,12 +217,13 @@ class EmployeesController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $employee = $this->Employees->get($id);
-        if ($this->Employees->delete($employee)) {
+        $employee->is_deleted = 1;
+        if ($this->Employees->save($employee)) {
             $this->Flash->success(__('The employee has been deleted.'));
         } else {
             $this->Flash->error(__('The employee could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['action' => 'index','del']);
     }
 }
