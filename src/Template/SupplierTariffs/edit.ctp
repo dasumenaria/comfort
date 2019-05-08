@@ -18,7 +18,7 @@
 
                 <div class="row container" style="margin: auto;">
                         <div class="col-md-2">
-                            <label class="control-label">Supplier Name:<span class="required" aria-required="true"> * </span></label>
+                            <label class="control-label">Supplier Name:</label>
                         </div>
                         <div class="col-md-4">
                             <?php echo $this->Form->control('supplier_id' , ['label' => false,'class' => 'select2  supplierType','empty'=>'Select...','options'=>$suppliers,'autocomplete'=>'off']); ?>
@@ -27,7 +27,7 @@
                 <span class="help-block"></span>    
                 <div class="row container" style="margin: auto;">
                         <div class="col-md-2">
-                            <label class="control-label">Car: <span class="required" aria-required="true"> * </span></label>
+                            <label class="control-label">Car: </label>
                         </div>
                         <div class="col-md-4">
                             
@@ -40,7 +40,7 @@
                 <span class="help-block"></span>    
                 <div class="row container" style="margin: auto;">
                         <div class="col-md-2">
-                            <label class="control-label">Service: <span class="required" aria-required="true"> * </span></label>
+                            <label class="control-label">Service: </label>
                         </div>
                         <div class="col-md-4">
                             
@@ -53,7 +53,7 @@
                 <span class="help-block"></span>    
                 <div class="row container" style="margin: auto;">
                         <div class="col-md-2">
-                            <label class="control-label">Rate: <span class="required" aria-required="true"> * </span></label>
+                            <label class="control-label">Rate: </label>
                         </div>
                         <div class="col-md-4">
                             
@@ -66,7 +66,7 @@
                 <span class="help-block"></span>    
                 <div class="row container" style="margin: auto;">
                         <div class="col-md-2">
-                            <label class="control-label">Charged KM :<span class="required" aria-required="true"> * </span></label>
+                            <label class="control-label">Charged KM :</label>
                         </div>
                         <div class="col-md-4">
                             
@@ -79,7 +79,7 @@
                     <span class="help-block"></span>    
                 <div class="row container" style="margin: auto;">
                         <div class="col-md-2">
-                            <label class="control-label">Extra KM Rate:<span class="required" aria-required="true"> * </span></label>
+                            <label class="control-label">Extra KM Rate:</label>
                         </div>
                         <div class="col-md-4">
                             
@@ -94,7 +94,7 @@
                 
                 <div class="row container" style="margin: auto;">
                         <div class="col-md-2">
-                            <label class="control-label"> Minimum Charges Hourly:<span class="required" aria-required="true"> * </span></label>
+                            <label class="control-label"> Minimum Charges Hourly:</label>
                         </div>
                         <div class="col-md-4">
                             
@@ -108,7 +108,7 @@
                 
                 <div class="row container" style="margin: auto;">
                         <div class="col-md-2">
-                            <label class="control-label">Extra Hour Rate:<span class="required" aria-required="true"> * </span></label>
+                            <label class="control-label">Extra Hour Rate:</label>
                         </div>
                         <div class="col-md-4">
                             

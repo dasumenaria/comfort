@@ -1,109 +1,118 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Employee[]|\Cake\Collection\CollectionInterface $employees
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Employee'), ['action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="employees index large-9 medium-8 columns content">
-    <h3><?= __('Employees') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('mobile_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('father_name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('qualification') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('dob') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('esi_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('pf_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('designation') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('basicsalary') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('dearness') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('houserent') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('conveyance') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('phone_amnt') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('medical_amnt') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('professiontax') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('providentfund') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('fpf') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('esic') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('incometaxtds') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('bank_account_number') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('bank_name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('driver_doj') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('blood_group') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('ref_name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('lic_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('lic_issue_date') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('lic_issue_place') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('lic_exp_date') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('badge_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('dob_leave') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('leave_reason') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('is_deleted') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($employees as $employee): ?>
-            <tr>
-                <td><?= $this->Number->format($employee->id) ?></td>
-                <td><?= h($employee->name) ?></td>
-                <td><?= h($employee->mobile_no) ?></td>
-                <td><?= h($employee->father_name) ?></td>
-                <td><?= h($employee->qualification) ?></td>
-                <td><?= h($employee->dob) ?></td>
-                <td><?= h($employee->esi_no) ?></td>
-                <td><?= h($employee->pf_no) ?></td>
-                <td><?= h($employee->designation) ?></td>
-                <td><?= h($employee->basicsalary) ?></td>
-                <td><?= h($employee->dearness) ?></td>
-                <td><?= h($employee->houserent) ?></td>
-                <td><?= h($employee->conveyance) ?></td>
-                <td><?= h($employee->phone_amnt) ?></td>
-                <td><?= h($employee->medical_amnt) ?></td>
-                <td><?= h($employee->professiontax) ?></td>
-                <td><?= h($employee->providentfund) ?></td>
-                <td><?= h($employee->fpf) ?></td>
-                <td><?= h($employee->esic) ?></td>
-                <td><?= h($employee->incometaxtds) ?></td>
-                <td><?= h($employee->bank_account_number) ?></td>
-                <td><?= h($employee->bank_name) ?></td>
-                <td><?= h($employee->driver_doj) ?></td>
-                <td><?= h($employee->blood_group) ?></td>
-                <td><?= h($employee->ref_name) ?></td>
-                <td><?= h($employee->lic_no) ?></td>
-                <td><?= h($employee->lic_issue_date) ?></td>
-                <td><?= h($employee->lic_issue_place) ?></td>
-                <td><?= h($employee->lic_exp_date) ?></td>
-                <td><?= h($employee->badge_no) ?></td>
-                <td><?= h($employee->dob_leave) ?></td>
-                <td><?= h($employee->leave_reason) ?></td>
-                <td><?= h($employee->is_deleted) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $employee->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $employee->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $employee->id], ['confirm' => __('Are you sure you want to delete # {0}?', $employee->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-    </div>
-</div>
+<section class="content">
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary"> 
+            <div class="box-header with-border">
+                <i class="fa fa-plus"></i> Employee <?= $displayName;?>
+            </div>
+            <?php
+            if($RecordShow != 1)
+            {
+                ?>
+                <?= $this->Form->create('',['type'=>'file','id'=>'CityForm']) ?>
+                <div class="box-body" >
+                    <div class="row">
+                        <div class="">
+                            <div class="col-md-12">
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Employee Name</label>
+                                <?php echo $this->Form->control('name' , ['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Employee Name','autocomplete'=>'off']); ?>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Mobile No.:</label>
+                                <?php echo $this->Form->control('mobile_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Driver Mobile No.','autocomplete'=>'off']); ?> 
+                            </div>
+
+                             
+                    </div>
+                        </div>
+                    </div> 
+                </div>
+            
+                <div class="box-footer">
+                    <div class="row">
+                        <center>
+                            <div class="col-md-12">
+                                <div class="col-md-offset-3 col-md-6">  
+                                    <?php echo $this->Form->button('Submit',['class'=>'btn btn-primary','id'=>'submit_member']); ?>
+                                </div>
+                            </div>
+                        </center>       
+                    </div>
+                </div>
+                <?= $this->Form->end() ?>
+            <?php 
+            }
+            else{ ?>
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr style="table-layout: fixed;">
+                            <th><?=  ('Sl.') ?></th> 
+                            <th><?=  ('Name') ?></th>
+                            <th><?=  ('Mobile') ?></th>
+                            <th><?=  ('Present Address') ?></th>
+                            <th><?=  ('Date of Birth') ?></th>
+                            <th><?=  ('Date Joining') ?></th>
+                            <th><?=  ('Licence Valid Till') ?></th>
+                            <th class="actions text-center"><?= __('Action') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $page_no=0; foreach ($EmployeeList as $city):
+                            @$k++;
+                        ?>
+                        <tr>
+                            <td><?= h(++$page_no) ?></td> 
+                            <td><?= h($city->name) ?></td>
+                            <td><?= h($city->mobile_no) ?></td>
+                            <td><?= h($city->present_add) ?></td>
+                            <td><?= h($city->dob) ?></td>
+                            <td><?= h($city->driver_doj) ?></td>
+                            <td><?= h($city->lic_exp_date) ?></td>
+                            <td  class="actions text-center">
+                                <?php if($type == 'edt') { ?>
+                                <?php echo $this->Html->link('<i class="fa fa-pencil-square-o"></i>',['action' => 'edit', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info')); ?>
+                            <?php } if($type == 'del') {?>
+                                <a class=" btn btn-danger btn-xs" data-target="#deletemodal<?php echo $city->id; ?>" data-toggle=modal><i class="fa fa-trash"></i></a>
+                                
+                            <?php } if($type == 'ser') {}?>
+
+                            </td>
+                            <div id="deletemodal<?php echo $city->id; ?>" class="modal fade" role="dialog">
+                                    <div class="modal-dialog modal-md" > 
+                                        <div class="modal-content">
+                                          <div class="modal-header" style=" background-color: #5ea3af;color:#fff;">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title" >
+                                                    &nbsp; Stay Attention
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h4>
+                                                &nbsp; Are you sure you want to remove this Record ?
+                                                </h4>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <?= $this->Form->postLink('Yes', array(
+                                                        'controller' => 'Cars',
+                                                        'action' => 'delete',$city->id
+                                                    ), array(
+                                                       'class' => 'btn btn-sm btn-info'
+                                                    ));
+                                                ?>
+                                                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                </div>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php
+            }
+            ?>
+        </div> 
+    </div>   
+</section>

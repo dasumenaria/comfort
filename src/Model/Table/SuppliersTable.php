@@ -68,28 +68,21 @@ class SuppliersTable extends Table
             ->allowEmptyString('id', 'create');
 
         $validator
+            ->scalar('supplier_type_id')
+            ->requirePresence('supplier_type_id', 'create')
+            ->allowEmptyString('supplier_type_id', false);
+
+        $validator
+            ->scalar('supplier_type_sub_id')
+            ->requirePresence('supplier_type_sub_id', 'create')
+            ->allowEmptyString('supplier_type_sub_id', false);
+
+        $validator
             ->scalar('name')
             ->maxLength('name', 40)
             ->requirePresence('name', 'create')
             ->allowEmptyString('name', false);
 
-        $validator
-            ->scalar('address')
-            ->maxLength('address', 40)
-            ->requirePresence('address', 'create')
-            ->allowEmptyString('address', false);
-
-        $validator
-            ->scalar('contact_name')
-            ->maxLength('contact_name', 20)
-            ->requirePresence('contact_name', 'create')
-            ->allowEmptyString('contact_name', false);
-
-        $validator
-            ->scalar('office_no')
-            ->maxLength('office_no', 20)
-            ->requirePresence('office_no', 'create')
-            ->allowEmptyString('office_no', false);
 
 
         return $validator;

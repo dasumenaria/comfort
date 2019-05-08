@@ -16,6 +16,7 @@ class EmployeesFixture extends TestFixture
     // @codingStandardsIgnoreStart
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
+        'employee_type' => ['type' => 'string', 'length' => 10, 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'name' => ['type' => 'string', 'length' => 50, 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'mobile_no' => ['type' => 'string', 'length' => 20, 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'present_add' => ['type' => 'text', 'length' => null, 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'precision' => null],
@@ -49,7 +50,7 @@ class EmployeesFixture extends TestFixture
         'badge_no' => ['type' => 'string', 'length' => 30, 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'dob_leave' => ['type' => 'date', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         'leave_reason' => ['type' => 'string', 'length' => 30, 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
-        'is_deleted' => ['type' => 'boolean', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
+        'is_deleted' => ['type' => 'boolean', 'length' => null, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
         ],
@@ -69,13 +70,14 @@ class EmployeesFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
+                'employee_type' => 'Lorem ip',
                 'name' => 'Lorem ipsum dolor sit amet',
                 'mobile_no' => 'Lorem ipsum dolor ',
                 'present_add' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
                 'father_name' => 'Lorem ipsum dolor sit amet',
                 'qualification' => 'Lorem ipsum dolor sit amet',
                 'address' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-                'dob' => '2019-05-07',
+                'dob' => '2019-05-08',
                 'esi_no' => 'Lorem ipsum dolor sit amet',
                 'pf_no' => 'Lorem ipsum dolor sit amet',
                 'designation' => 'Lorem ipsum dolor sit amet',
@@ -92,15 +94,15 @@ class EmployeesFixture extends TestFixture
                 'incometaxtds' => 'Lorem ipsum dolor sit amet',
                 'bank_account_number' => 'Lorem ipsum dolor sit amet',
                 'bank_name' => 'Lorem ipsum dolor sit amet',
-                'driver_doj' => '2019-05-07',
+                'driver_doj' => '2019-05-08',
                 'blood_group' => 'Lorem ipsum dolor sit amet',
                 'ref_name' => 'Lorem ipsum dolor sit amet',
                 'lic_no' => 'Lorem ipsum dolor sit amet',
-                'lic_issue_date' => '2019-05-07',
+                'lic_issue_date' => '2019-05-08',
                 'lic_issue_place' => 'Lorem ipsum dolor sit amet',
-                'lic_exp_date' => '2019-05-07',
+                'lic_exp_date' => '2019-05-08',
                 'badge_no' => 'Lorem ipsum dolor sit amet',
-                'dob_leave' => '2019-05-07',
+                'dob_leave' => '2019-05-08',
                 'leave_reason' => 'Lorem ipsum dolor sit amet',
                 'is_deleted' => 1
             ],

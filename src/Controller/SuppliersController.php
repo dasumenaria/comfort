@@ -156,7 +156,7 @@ class SuppliersController extends AppController
         $supplier_type_id = $this->request->getQuery('supplier_type_id');
         $SubList = $this->Suppliers->SupplierTypeSubs->find('list')->where(['SupplierTypeSubs.supplier_type_id'=>$supplier_type_id]);
         $html = new FormHelper(new \Cake\View\View());
-        echo $html->control('supplier_type_sub_id' , ['label' => false,'class' => 'select2  firstupercase','empty'=>'Select...','options'=>$SubList,'autocomplete'=>'off']);
+        echo $html->control('supplier_type_sub_id' , ['label' => false,'class' => 'form-control  firstupercase','empty'=>'Select...','options'=>$SubList,'autocomplete'=>'off','required']);
 
         exit;
     }

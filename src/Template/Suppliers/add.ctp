@@ -14,14 +14,14 @@
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Supplier Type: </label>
                                 <div class="col-sm-8">
-                                    <?php echo $this->Form->control('supplier_type_id' , ['label' => false,'class' => 'select2  supplierType','empty'=>'Select...','options'=>$supplierTypes,'autocomplete'=>'off']); ?>
+                                    <?php echo $this->Form->control('supplier_type_id' , ['label' => false,'class' => 'form-control supplierType','empty'=>'Select...','options'=>$supplierTypes,'autocomplete'=>'off']); ?>
                                 </div>
                             </div> 
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Supplier Category:</label>
                                 <div class="col-sm-8">
                                 <div class="NewSubData">
-                                <?php echo $this->Form->control('supplier_type_sub_id' , ['label' => false,'class' => 'select2  firstupercase','empty'=>'Select...','options'=>'','autocomplete'=>'off']); ?>
+                                <?php echo $this->Form->control('supplier_type_sub_id' , ['label' => false,'class' => 'form-control  firstupercase','empty'=>'Select...','options'=>'','autocomplete'=>'off']); ?>
                                 </div>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@
                                 </div>
                             </div> 
                             <div class="col-md-6 ">
-                                <label class="control-label col-sm-4">Fax Number::</label>
+                                <label class="control-label col-sm-4">Fax Number:</label>
                                 <div class="col-sm-8">
                                   <?php echo $this->Form->control('fax_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Fax No.','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')",'autocomplete'=>'off']); ?> 
                                 </div>
@@ -249,10 +249,7 @@ $(document).ready(function() {
             name: {
                 required: true, 
             }, 
-            mobile_no: {
-                required: true,
-                digits: true,
-            }, 
+             
              
         },
         

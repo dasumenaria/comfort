@@ -15,12 +15,12 @@
                         <div class="">
                             <div class="col-md-12">
                                 <div class="form-group col-md-6">
-                                    <label class="control-label">Supplier: <span class="required" aria-required="true">*</span></label>
+                                    <label class="control-label">Supplier: </label>
                                 <?php echo $this->Form->control('supplier_id' , ['label' => false,'class' => 'select2  supplierType','empty'=>'Select...','options'=>$suppliers,'autocomplete'=>'off']); ?>
                                 </div>
                             
                             <div class="form-group col-md-6">
-                                <label class="control-label">Car: <span class="required" aria-required="true">*</span></label>
+                                <label class="control-label">Car: </label>
                                 <?php echo $this->Form->control('car_type_id' , ['label' => false,'class' => 'select2  supplierType','empty'=>'Select...','options'=>$carTypes,'autocomplete'=>'off']); ?>
                         </div> 
                     </div> 

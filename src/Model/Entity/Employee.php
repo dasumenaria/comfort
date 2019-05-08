@@ -7,6 +7,7 @@ use Cake\ORM\Entity;
  * Employee Entity
  *
  * @property int $id
+ * @property string $employee_type
  * @property string $name
  * @property string $mobile_no
  * @property string $present_add
@@ -54,6 +55,7 @@ class Employee extends Entity
      * @var array
      */
     protected $_accessible = [
+        'employee_type' => true,
         'name' => true,
         'mobile_no' => true,
         'present_add' => true,

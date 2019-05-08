@@ -25,7 +25,7 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                <label class="control-label">Supplier Name: <span class="required" aria-required="true">*</span></label>
+                                <label class="control-label">Supplier Name:</label>
                                 <?php echo $this->Form->control('supplier_id',['label' => false,'class' => 'form-control select2  firstupercase','options' => $suppliers,'empty'=>'Select...','autocomplete'=>'off']); ?>
                         </div> 
                     </div>

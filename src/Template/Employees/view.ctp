@@ -17,6 +17,10 @@
     <h3><?= h($employee->name) ?></h3>
     <table class="vertical-table">
         <tr>
+            <th scope="row"><?= __('Employee Type') ?></th>
+            <td><?= h($employee->employee_type) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Name') ?></th>
             <td><?= h($employee->name) ?></td>
         </tr>
