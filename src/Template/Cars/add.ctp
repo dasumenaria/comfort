@@ -38,7 +38,7 @@
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">  Engine Number:</label>
                                 <div class="col-sm-8">
-                                <?php echo $this->Form->control('address',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Engine Number','type'=>'text','autocomplete'=>'off']); ?> 
+                                <?php echo $this->Form->control('engine_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Engine Number','type'=>'text','autocomplete'=>'off']); ?> 
                                 </div>
                             </div>
                         </div> 
@@ -119,8 +119,12 @@
             </div>
         </div>
         <?= $this->Form->end() ?>
-    </div> 
-</div>  
+        </div> 
+
+        </div>  
+    </div>
+</div>
+</section>
 <?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?> 
 <script>
 jQuery(".loadingshow").submit(function(){

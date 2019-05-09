@@ -112,27 +112,30 @@
                         </div>
                         <div class="col-md-4">
                             
-                                <?php echo $this->Form->control('extra_hour_rate',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Mobile Number','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')"]); ?> 
-                                
+                                <?php echo $this->Form->control('extra_hour_rate',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Mobile Number','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')"]); ?>       
                         </div>
                     </div>
                 
 
                 
-        <div class="box-footer">
-            <div class="row">
-                <center>
-                    <div class="col-md-12">
-                        <div class="col-md-offset-3 col-md-6">  
-                            <?php echo $this->Form->button('Submit',['class'=>'btn btn-primary','id'=>'submit_member']); ?>
-                        </div>
+                <div class="box-footer">
+                    <div class="row">
+                        <center>
+                            <div class="col-md-12">
+                                <div class="col-md-offset-3 col-md-6">  
+                                    <?php echo $this->Form->button('Submit',['class'=>'btn btn-primary','id'=>'submit_member']); ?>
+                                </div>
+                            </div>
+                        </center>       
                     </div>
-                </center>       
-            </div>
-        </div>
-        <?= $this->Form->end() ?>
-    </div> 
-</div>  
+                </div>
+                <?= $this->Form->end() ?>
+            </div> 
+               
+        </div>  
+    </div>
+</div>
+</section>
 <?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?> 
 <script>
 jQuery(".loadingshow").submit(function(){

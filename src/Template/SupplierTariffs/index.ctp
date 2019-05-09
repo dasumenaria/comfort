@@ -122,3 +122,22 @@
     </div>   
 </section>
 
+<?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?> 
+<script>
+jQuery(".loadingshow").submit(function(){
+    jQuery("#loader-1").show();
+}); 
+$(document).ready(function() {
+   
+    $("#CityForm").validate({ 
+        
+        submitHandler: function () {
+            $("#submit_member").attr('disabled','disabled');
+            $("#loader-1").show();
+            form.submit();
+        }
+    }); 
+
+    
+});
+</script>

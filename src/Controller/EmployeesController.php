@@ -226,4 +226,19 @@ class EmployeesController extends AppController
 
         return $this->redirect(['action' => 'index','del']);
     }
+
+    public function ajaxAutocompleted(){
+        $name=$this->request->getData('input'); 
+        $employee=$this->Employees->find()->where(['Employees.name Like'=>''.$name.'%','Employees.is_deleted'=>0]);
+        ?>
+            <ul id="country-list">
+                <?php foreach($employee as $show){ ?>
+                    <li onClick="selectAutoCompleted('<?php echo $show->name;?>')">
+                        <?php echo $show->name?>
+                    </li>
+                <?php } ?>
+            </ul>
+        <?php
+        exit;  
+    }
 }

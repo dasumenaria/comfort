@@ -1,27 +1,28 @@
 <section class="content">
-<div class="row">
-    <div class="col-md-12">
-        <div class="box box-primary"> 
-            <div class="box-header with-border">
-                <i class="fa fa-plus"></i> Add Supplier
-            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary"> 
+                <div class="box-header with-border">
+                    <i class="fa fa-plus"></i> Add Supplier
+                </div>
             <?= $this->Form->create($supplier,['type'=>'file','id'=>'CityForm']) ?>
-            <div class="box-body" >
-                <div class="row">
-                    <div class="">
-                        <div class="col-md-12">
-                         <div class="col-md-12 space">
-                            <div class="col-md-6 ">
-                                <label class="control-label col-sm-4">Supplier Type: </label>
-                                <div class="col-sm-8">
-                                    <?php echo $this->Form->control('supplier_type_id' , ['label' => false,'class' => 'form-control supplierType','empty'=>'Select...','options'=>$supplierTypes,'autocomplete'=>'off']); ?>
-                                </div>
-                            </div> 
+                <div class="box-body" >
+                    <div class="row">
+                        <div class="">
+                            <div class="col-md-12">
+                                <div class="col-md-12 space">
+                                    <div class="col-md-6 ">
+                                        <label class="control-label col-sm-4">Supplier Type: </label>
+                                        <div class="col-sm-8">
+                                        <?php echo $this->Form->control('supplier_type_id' , ['label' => false,'class' => 'form-control supplierType','empty'=>'Select...','options'=>$supplierTypes,'autocomplete'=>'off']); ?>
+                                        </div>
+                                    </div> 
+
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Supplier Category:</label>
                                 <div class="col-sm-8">
                                 <div class="NewSubData">
-                                <?php echo $this->Form->control('supplier_type_sub_id' , ['label' => false,'class' => 'form-control  firstupercase','empty'=>'Select...','options'=>'','autocomplete'=>'off']); ?>
+                                <?php echo $this->Form->control('supplier_type_sub_id' , ['label' => false,'class' => 'form-control  firstupercase','empty'=>'Select...','options'=>array(),'autocomplete'=>'off']); ?>
                                 </div>
                                 </div>
                             </div>
@@ -35,10 +36,11 @@
                                     <?php echo $this->Form->control('name',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Supplier Name.','autocomplete'=>'off']); ?> 
                                 </div>
                             </div> 
-                            <div class="col-md-6 ">
+
+                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Address :</label>
                                 <div class="col-sm-8">
-                                <?php echo $this->Form->control('address',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Address','type'=>'textarea','rows'=>'2','autocomplete'=>'off']); ?> 
+                                    <?php echo $this->Form->control('address',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Address','type'=>'textarea','rows'=>'2','autocomplete'=>'off']); ?> 
                                 </div>
                             </div>
                         </div> 
@@ -51,7 +53,8 @@
                                     <?php echo $this->Form->control('contact_name',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Contact Name.','autocomplete'=>'off']); ?> 
                                 </div>
                             </div> 
-                            <div class="col-md-6 ">
+
+                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Office Number:</label>
                                 <div class="col-sm-8">
                                  <?php echo $this->Form->control('office_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Office Number.','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"]); ?> 
@@ -92,8 +95,6 @@
                             </div>
                         </div> 
                         
-
-
                         <div class="col-md-12 space">
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Opening Balance:</label>
@@ -109,8 +110,6 @@
                             </div>
                         </div> 
                         
-
-
                         <div class="col-md-12 space">
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Due Days:</label>
@@ -126,8 +125,6 @@
                             </div>
                         </div> 
                         
-
-
                         <div class="col-md-12 space">
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Pan Number:</label>
@@ -142,8 +139,6 @@
                                 </div>
                             </div>
                         </div> 
-
-
 
                         <div class="col-md-12 space">
                             <div class="col-md-6 ">
@@ -164,8 +159,6 @@
                             </div>
                         </div> 
                         
-
-
                         <div class="col-md-12 space">
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Credit/Debit:</label>
@@ -193,28 +186,27 @@
 
 
 
-
-
-
-
-                        </div>
-                </div> 
-            </div>
-        </fieldset>
-        <div class="box-footer">
-            <div class="row">
-                <center>
-                    <div class="col-md-12">
-                        <div class="col-md-offset-3 col-md-6">  
+        </div>
+    </div> 
+</div>
+        
+            <div class="box-footer">
+                <div class="row">
+                    <center>
+                        <div class="col-md-12">
+                            <div class="col-md-offset-3 col-md-6">  
                             <?php echo $this->Form->button('Submit',['class'=>'btn btn-primary','id'=>'submit_member']); ?>
                         </div>
                     </div>
                 </center>       
+                </div>
             </div>
-        </div>
-        <?= $this->Form->end() ?>
-    </div> 
-</div>  
+            <?= $this->Form->end() ?>
+            </div> 
+        </div>  
+    </div>
+</div>
+</section>
 <?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?> 
 <script>
 jQuery(".loadingshow").submit(function(){

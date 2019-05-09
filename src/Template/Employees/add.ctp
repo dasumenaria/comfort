@@ -31,7 +31,6 @@
                             </div>
                         </div> 
                             
-
                         <div class="col-md-12 space">
                             <div class="col-md-6 ">
                                 <label class="control-label dmobile col-sm-4">Driver Mobile No.:</label>
@@ -46,8 +45,7 @@
                                 </div>
                             </div>
                         </div> 
-                        
-
+    
                         <div class="col-md-12 space">
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Father Name :</label>
@@ -63,7 +61,6 @@
                             </div>
                         </div> 
                         
-
                         <div class="col-md-12 space">
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Permanent Address :</label>
@@ -79,8 +76,6 @@
                             </div>
                         </div> 
                         
-
-
                         <div class="col-md-12 space">
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">ESIC Number:</label>
@@ -95,7 +90,6 @@
                                 </div>
                             </div>
                         </div> 
-                        
 
 
                         <div class="col-md-12 space">
@@ -112,8 +106,6 @@
                                 </div>
                             </div>
                         </div> 
-                        
-
 
                         <div class="col-md-12 space">
                             <div class="col-md-6 ">
@@ -130,8 +122,6 @@
                             </div>
                         </div> 
                         
-
-
                         <div class="col-md-12 space">
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Conveyance:</label>
@@ -146,8 +136,6 @@
                                 </div>
                             </div>
                         </div> 
-
-
 
                         <div class="col-md-12 space">
                             <div class="col-md-6 ">
@@ -166,8 +154,6 @@
                             </div>
                         </div> 
                         
-
-
                         <div class="col-md-12 space">
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Provident Fund:</label>
@@ -246,7 +232,6 @@
                                 </div>
                             </div>
                         </div> 
-                        
 
                         <div class="col-md-12 space">
                             <div class="col-md-6 ">
@@ -315,15 +300,8 @@
                                 </div>
                             </div>
                         </div>
-                        
-
-
-
-
-
-
-
-                        </div>
+                    
+                    </div>
                 </div> 
             </div>
         <div class="box-footer">
@@ -338,8 +316,12 @@
             </div>
         </div>
         <?= $this->Form->end() ?>
-    </div> 
-</div>  
+        
+            </div> 
+        </div>  
+    </div>
+</div>
+</section>
 <?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?> 
 <script>
 jQuery(".loadingshow").submit(function(){

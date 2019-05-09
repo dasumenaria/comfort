@@ -16,12 +16,13 @@
                             <div class="col-md-12">
                             <div class="form-group col-md-4">
                                 <label class="control-label">Supplier Name:</label>
-                                <?php echo $this->Form->control('name',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Supplier Name:','autocomplete'=>'off']); ?> 
+                                <?php echo $this->Form->control('name' , ['label' => false,'class' => 'form-control autocompleted selectedAutoCompleted','placeholder'=>'Search by Customer Name','autocomplete'=>'off','valueType'=>'supplier_name']); ?>                               <div class="suggesstion-box" style="margin-top:-10px;"></div> 
                             </div>
 
                             <div class="form-group col-md-4">
                                 <label class="control-label">Mobile No.</label>
-                                <?php echo $this->Form->control('mobile_no',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Mobile No.','autocomplete'=>'off','maxlength'=>10,'minlength'=>10,'oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"]); ?> 
+                                <?php echo $this->Form->control('mobile_no',['label' => false,'class' => 'form-control  autocompleted selectedAutoCompleted1','placeholder'=>'Search by Mobile No.','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'minlength'=>10,'valueType'=>'mobile_no']); ?>
+                                <div class="suggesstion-box" style="margin-top:-10px;"></div> 
                             </div>
 
                             <div class="form-group col-md-4">
@@ -121,3 +122,68 @@
         </div> 
     </div>   
 </section>
+
+
+<?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?> 
+<script>
+jQuery(".loadingshow").submit(function(){
+    jQuery("#loader-1").show();
+}); 
+$(document).ready(function() {
+    $(document).on('blur',".autocompleted",function(){ 
+        $('.suggesstion-box').delay(1000).fadeOut(500);
+    }); 
+
+    $(document).on('keyup',".autocompleted",function(){
+        var searchType = $(this).attr('valueType');
+        var input=$(this).val();
+        var master = $(this); 
+        if(input.length>0){
+            var m_data = new FormData();
+            m_data.append('input',input); 
+            m_data.append('searchType',searchType); 
+            $.ajax({
+                url: "<?php echo $this->Url->build(["controller" => "Suppliers", "action" => "ajaxAutocompleted"]); ?>",
+                data: m_data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                dataType:'text',
+                success: function(data)
+                { 
+                    master.closest('div.form-group').find('div.suggesstion-box').show();
+                    master.closest('div.form-group').find('div.suggesstion-box').html(data);
+                    master.css("background","#FFF");
+                }
+            });
+        }
+    });
+    var csrf = <?=json_encode($this->request->getParam('_csrfToken'))?>;
+    $.ajaxSetup({
+        headers: { 'X-CSRF-Token': csrf },
+        error: function(){}
+    });
+
+    $("#CityForm").validate({ 
+        
+        submitHandler: function () {
+            $("#submit_member").attr('disabled','disabled');
+            $("#loader-1").show();
+            form.submit();
+        }
+    }); 
+
+    
+});
+    
+</script>
+<script>
+function selectAutoCompleted(value) {  
+    $('.selectedAutoCompleted').val(value);
+    $(".suggesstion-box").hide();     
+}
+function selectAutoCompleted1(value) {  
+    $('.selectedAutoCompleted1').val(value);
+    $(".suggesstion-box").hide();     
+}
+</script>

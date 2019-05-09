@@ -169,16 +169,33 @@ class CustomersController extends AppController
 
     public function ajaxAutocompleted(){
         $name=$this->request->getData('input'); 
-        $customers=$this->Customers->find()->where(['Customers.name Like'=>''.$name.'%','Customers.is_deleted'=>0]);
-        ?>
-            <ul id="country-list">
-                <?php foreach($customers as $show){ ?>
-                    <li onClick="selectAutoCompleted('<?php echo $show->name;?>')">
-                        <?php echo $show->name?>
-                    </li>
-                <?php } ?>
-            </ul>
-        <?php
+        $searchType=$this->request->getData('searchType');
+        if($searchType == 'customer_name'){
+            $customers=$this->Customers->find()->where(['Customers.name Like'=>''.$name.'%','Customers.is_deleted'=>0]);
+            ?>
+                <ul id="country-list">
+                    <?php foreach($customers as $show){ ?>
+                        <li onClick="selectAutoCompleted('<?php echo $show->name;?>')">
+                            <?php echo $show->name?>
+                        </li>
+                    <?php } ?>
+                </ul>
+            <?php
+        }
+        else
+        {
+            $customers=$this->Customers->find()->where(['Customers.mobile_no Like'=>''.$name.'%','Customers.is_deleted'=>0]);
+            ?>
+                <ul id="country-list">
+                    <?php foreach($customers as $show){ ?>
+                        <li onClick="selectAutoCompleted1('<?php echo $show->mobile_no;?>')">
+                            <?php echo $show->mobile_no?>
+                        </li>
+                    <?php } ?>
+                </ul>
+            <?php
+        }
+        
         exit;  
     }
 }
