@@ -16,13 +16,14 @@
                             <div class="col-md-12">
                             <div class="form-group col-md-6">
                                 <label class="control-label">Employee Name</label>
-                                <?php echo $this->Form->control('name' , ['label' => false,'class' => 'form-control selectedAutoCompleted autocompleted firstupercase','placeholder'=>'Employee Name','autocomplete'=>'off']); ?>
+                                <?php echo $this->Form->control('name' , ['label' => false,'class' => 'form-control autocompleted selectedAutoCompleted','placeholder'=>'Search by Employee Name','autocomplete'=>'off','valueType'=>'employee_name']); ?>
                                 <div class="suggesstion-box" style="margin-top:-10px;"></div>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label class="control-label">Mobile No.:</label>
-                                <?php echo $this->Form->control('mobile_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Mobile No.','autocomplete'=>'off']); ?> 
+                                <?php echo $this->Form->control('mobile_no',['label' => false,'class' => 'form-control  autocompleted selectedAutoCompleted1','placeholder'=>'Search by Mobile No.','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');",'maxlength'=>10,'minlength'=>10,'valueType'=>'mobile_no']); ?> 
+                                    <div class="suggesstion-box" style="margin-top:-10px;"></div>
                             </div>
 
                              
@@ -132,11 +133,13 @@ $(document).ready(function() {
     }); 
 
     $(document).on('keyup',".autocompleted",function(){
+        var searchType = $(this).attr('valueType');
         var input=$(this).val();
-        if(input.length>0){ 
-            var master=$(this);
+        var master = $(this); 
+        if(input.length>0){
             var m_data = new FormData();
             m_data.append('input',input); 
+            m_data.append('searchType',searchType); 
             $.ajax({
                 url: "<?php echo $this->Url->build(["controller" => "Employees", "action" => "ajaxAutocompleted"]); ?>",
                 data: m_data,
@@ -146,8 +149,8 @@ $(document).ready(function() {
                 dataType:'text',
                 success: function(data)
                 { 
-                    $('.suggesstion-box').show();
-                    $('.suggesstion-box').html(data);
+                    master.closest('div.form-group').find('div.suggesstion-box').show();
+                    master.closest('div.form-group').find('div.suggesstion-box').html(data);
                     master.css("background","#FFF");
                 }
             });
@@ -175,6 +178,10 @@ $(document).ready(function() {
 <script>
 function selectAutoCompleted(value) {  
     $('.selectedAutoCompleted').val(value);
+    $(".suggesstion-box").hide();     
+}
+function selectAutoCompleted1(value) {  
+    $('.selectedAutoCompleted1').val(value);
     $(".suggesstion-box").hide();     
 }
 </script>

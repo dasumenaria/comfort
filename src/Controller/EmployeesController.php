@@ -227,18 +227,36 @@ class EmployeesController extends AppController
         return $this->redirect(['action' => 'index','del']);
     }
 
+
     public function ajaxAutocompleted(){
         $name=$this->request->getData('input'); 
-        $employee=$this->Employees->find()->where(['Employees.name Like'=>''.$name.'%','Employees.is_deleted'=>0]);
-        ?>
-            <ul id="country-list">
-                <?php foreach($employee as $show){ ?>
-                    <li onClick="selectAutoCompleted('<?php echo $show->name;?>')">
-                        <?php echo $show->name?>
-                    </li>
-                <?php } ?>
-            </ul>
-        <?php
+        $searchType=$this->request->getData('searchType');
+        if($searchType == 'employee_name'){
+            $employee=$this->Employees->find()->where(['Employees.name Like'=>''.$name.'%','Employees.is_deleted'=>0]);
+            ?>
+                <ul id="country-list">
+                    <?php foreach($employee as $show){ ?>
+                        <li onClick="selectAutoCompleted('<?php echo $show->name;?>')">
+                            <?php echo $show->name?>
+                        </li>
+                    <?php } ?>
+                </ul>
+            <?php
+        }
+        else
+        {
+            $employee=$this->Employees->find()->where(['Employees.mobile_no Like'=>''.$name.'%','Employees.is_deleted'=>0]);
+            ?>
+                <ul id="country-list">
+                    <?php foreach($employee as $show){ ?>
+                        <li onClick="selectAutoCompleted1('<?php echo $show->mobile_no;?>')">
+                            <?php echo $show->mobile_no?>
+                        </li>
+                    <?php } ?>
+                </ul>
+            <?php
+        }
+        
         exit;  
     }
 }

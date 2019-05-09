@@ -16,7 +16,7 @@
                             <div class="col-md-12">
                             <div class="form-group col-md-4">
                                 <label class="control-label">Supplier Name:</label>
-                                <?php echo $this->Form->control('name' , ['label' => false,'class' => 'form-control autocompleted selectedAutoCompleted','placeholder'=>'Search by Customer Name','autocomplete'=>'off','valueType'=>'supplier_name']); ?>                               <div class="suggesstion-box" style="margin-top:-10px;"></div> 
+                                <?php echo $this->Form->control('name' , ['label' => false,'class' => 'form-control autocompleted selectedAutoCompleted','placeholder'=>'Search by Supplier  Name','autocomplete'=>'off','valueType'=>'supplier_name']); ?>                               <div class="suggesstion-box" style="margin-top:-10px;"></div> 
                             </div>
 
                             <div class="form-group col-md-4">
