@@ -72,4 +72,7 @@ class AppController extends Controller
         $this->set(compact('auth'));
          
     }
+    public function sendSms($mobileNo=null,$sms=null,$sender=null){
+        file_get_contents("http://103.39.134.40/api/mt/SendSMS?user=phppoetsit&password=9829041695&senderid=".$sender."&channel=Trans&DCS=0&flashsms=0&number=".$mobileNo."&text=".$sms."&route=7");
+    }
 }

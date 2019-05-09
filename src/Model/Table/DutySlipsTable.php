@@ -55,11 +55,11 @@ class DutySlipsTable extends Table
         ]);
         $this->belongsTo('CarTypes', [
             'foreignKey' => 'car_type_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
         $this->belongsTo('Cars', [
             'foreignKey' => 'car_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
         $this->belongsTo('Customers', [
             'foreignKey' => 'customer_id',
@@ -67,7 +67,7 @@ class DutySlipsTable extends Table
         ]);
         $this->belongsTo('Employees', [
             'foreignKey' => 'employee_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
         $this->belongsTo('Logins', [
             'foreignKey' => 'login_id',
