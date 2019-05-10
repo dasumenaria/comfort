@@ -21,6 +21,7 @@ class DutySlipsController extends AppController
     {
         $RecordShow = 0; 
         $where=array();
+        $requests = $this->request->getData();
         if ($this->request->is(['patch', 'post', 'put'])) {  
             if(!empty($this->request->getData('searchDS'))){ 
                 foreach ($this->request->getData() as $key => $value) {
@@ -70,7 +71,7 @@ class DutySlipsController extends AppController
         $services = $this->DutySlips->Services->find('list', ['limit' => 200]);
         $employees = $this->DutySlips->Employees->find('list', ['limit' => 200]);
         $customers = $this->DutySlips->Customers->find('list', ['limit' => 200]);
-        $this->set(compact('customerList','displayName','type','RecordShow','services','employees','customers'));  
+        $this->set(compact('customerList','displayName','type','RecordShow','services','employees','customers','requests'));  
     }
 
     /**
@@ -100,6 +101,16 @@ class DutySlipsController extends AppController
 
     public function pdf($id = null)
     {
+        $this->viewBuilder()->setLayout(''); 
+        $dutySlip = $this->DutySlips->get($id, [
+            'contain' => ['Services', 'CarTypes', 'Cars', 'Customers', 'Employees', 'Logins', 'Counters']
+        ]);
+
+        $this->set('dutySlip', $dutySlip);
+    }
+    public function downloadexcel($requests = null)
+    {
+        pr($requests);exit;
         $this->viewBuilder()->setLayout(''); 
         $dutySlip = $this->DutySlips->get($id, [
             'contain' => ['Services', 'CarTypes', 'Cars', 'Customers', 'Employees', 'Logins', 'Counters']

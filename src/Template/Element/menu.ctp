@@ -224,7 +224,7 @@
 
             <li><a href="<?php echo $this->Url->build(["controller" => "DutySlips",'action'=>'index','edt']); ?>"><i class="fa fa-circle-o"></i> Edit </a></li>
 
-            <li><a href="<?php echo $this->Url->build(["controller" => "DutySlips",'action'=>'index','del']); ?>"><i class="fa fa-circle-o"></i> Delete </a></li>
+            <li><a href="<?php echo $this->Url->build(["controller" => "DutySlips",'action'=>'index','del']); ?>"><i class="fa fa-circle-o"></i> Waveoff </a></li>
 
             <li><a href="<?php echo $this->Url->build(["controller" => "DutySlips",'action'=>'index','ser']); ?>"><i class="fa fa-circle-o"></i> Search </a></li>
           </ul>
