@@ -4,19 +4,24 @@
         <div class="box box-primary"> 
             <div class="box-header with-border">
                 <i class="fa fa-plus"></i> DutySlip <?= $displayName;?>
-                <div class="pull-right">
-                    <?= $this->Form->create('',['type'=>'file','id'=>'CityForm']) ?>
-                    <?php echo $this->Html->link('<i class="fa fa-download"></i>',['action' => 'downloadexcel',$requests['id'],$requests['service_id'],$requests['customer_id'],$requests['employee_id'],$requests['date_from'],$requests['date_to']],array('escape'=>false,'class'=>'btn btn-sm btn-danger','title'=>'Click here to download Excel'));?>
-                    <?php echo $this->Form->hidden('id' , ['label' => false,'value' => $requests['id']]); ?>
-                    <?php echo $this->Form->hidden('service_id' , ['label' => false,'value' => $requests['service_id']]); ?>
-                    <?php echo $this->Form->hidden('customer_id' , ['label' => false,'value' => $requests['customer_id']]); ?>
-                    <?php echo $this->Form->hidden('employee_id' , ['label' => false,'value' => $requests['employee_id']]); ?>
-                    <?php echo $this->Form->hidden('date_to' , ['label' => false,'value' => $requests['date_to']]); ?> 
-                    <?php echo $this->Form->hidden('date_from' , ['label' => false,'value' => $requests['date_from']]); ?> 
+                <?php if($RecordShow == 1)
+                { if($type == "ser") { ?>
+                    <div class="pull-right">
+                        <?= $this->Form->create(null, ['url' => [
+                                'controller' => 'DutySlips',
+                                'action' => 'downloadexcel'
+                            ]]); ?> 
+                        <?php echo $this->Form->hidden('id' , ['label' => false,'value' => $requests['id']]); ?>
+                        <?php echo $this->Form->hidden('service_id' , ['label' => false,'value' => $requests['service_id']]); ?>
+                        <?php echo $this->Form->hidden('customer_id' , ['label' => false,'value' => $requests['customer_id']]); ?>
+                        <?php echo $this->Form->hidden('employee_id' , ['label' => false,'value' => $requests['employee_id']]); ?>
+                        <?php echo $this->Form->hidden('date_to' , ['label' => false,'value' => $requests['date_to']]); ?> 
+                        <?php echo $this->Form->hidden('date_from' , ['label' => false,'value' => $requests['date_from']]); ?> 
 
-                    <?php echo $this->Form->button('<i class="fa fa-download"></i>',['class'=>'btn btn-success btn-sm btn-danger','title'=>'Click here to download Excel']); ?> 
-                    <?= $this->Form->end() ?>
-                </div>
+                        <?php echo $this->Form->button('<i class="fa fa-download"></i>',['class'=>'btn btn-sm btn-danger','title'=>'Click here to download Excel']); ?> 
+                        <?= $this->Form->end() ?>
+                    </div>
+                <?php }  } ?>
             </div>
             <?php
             if($RecordShow != 1)
