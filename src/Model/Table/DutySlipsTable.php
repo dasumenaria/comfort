@@ -128,10 +128,10 @@ class DutySlipsTable extends Table
     public function buildRules(RulesChecker $rules)
     { 
         $rules->add($rules->existsIn(['service_id'], 'Services'));
-        $rules->add($rules->existsIn(['car_type_id'], 'CarTypes'));
+        //$rules->add($rules->existsIn(['car_type_id'], 'CarTypes'));
         //$rules->add($rules->existsIn(['car_id'], 'Cars'));
         $rules->add($rules->existsIn(['customer_id'], 'Customers'));
-        $rules->add($rules->existsIn(['employee_id'], 'Employees'));
+        //$rules->add($rules->existsIn(['employee_id'], 'Employees'));
         $rules->add($rules->existsIn(['login_id'], 'Logins'));
         $rules->add($rules->existsIn(['counter_id'], 'Counters')); 
         return $rules;
