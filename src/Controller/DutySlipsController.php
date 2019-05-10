@@ -335,4 +335,65 @@ class DutySlipsController extends AppController
         }
         exit;
     }
+
+    public function waveoffds()
+    {
+       $RecordShow = 0;
+
+       $where=array();
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $where['DutySlips.waveoff_status']=0;
+            foreach ($this->request->getData() as $key => $value) {
+
+                if(!empty($value))
+                { 
+                    if (strpos($key, 'date_from') !== false)
+                    {
+                        $where['DutySlips.'.$key] = $value;
+                    }
+                    else{
+                        $where['DutySlips.'.$key] = $value;
+                    }
+                }
+            }
+
+            $waveoffds = $this->DutySlips->find()->contain(['Cars','CarTypes','Customers','Services'])->where($where); 
+            //pr($waveoffds->toArray());exit();
+            $RecordShow=1;
+        }
+
+      
+
+       $this->set(compact('RecordShow','waveoffds'));
+    }
+
+    public function OpenDs()
+    {
+        $RecordShow=0;
+        $where=array();
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $where['DutySlips.waveoff_status']=0;
+            $where['DutySlips.billing_status']='no';
+
+            foreach ($this->request->getData() as $key => $value) {
+            
+                if(!empty($value))
+                { 
+                    if (strpos($key, 'fkjdk') !== false)
+                    {
+                        $where['DutySlips.'.$key] = $value;
+                    }
+                    else{
+                        $where['DutySlips.'.$key] = $value;
+                    }
+                }
+            }
+        }
+
+        $opends = $this->DutySlips->Customers->find('list')->where(['is_deleted'=>0]);
+        
+        $RecordShow = 1;
+        $this->set(compact('RecordShow','opends','opendsList'));
+         
+    }
 }

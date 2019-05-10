@@ -239,6 +239,8 @@
             </span>
           </a>
           <ul class="treeview-menu"> 
+            <li><a href="<?php echo $this->Url->build(["controller" => "DutySlips",'action'=>'waveoffds']); ?>"><i class="fa fa-circle-o"></i> Waveoff Duty Slip </a></li>
+            <li><a href="<?php echo $this->Url->build(["controller" => "DutySlips",'action'=>'OpenDs']); ?>"><i class="fa fa-circle-o"></i> Open DS</a></li>
             <li><?php echo $this->Html->link($this->Html->tag('i', '', ['class' => 'fa fa-circle-o']).' Check-In', '/CheckInDetails/checkinreport',['escape' => false]); ?></li>
           </ul>
         </li>
