@@ -452,4 +452,60 @@ class DutySlipsController extends AppController
         $this->set(compact('RecordShow','opends','opendsList'));
          
     }
+
+    public function openDs()
+    {
+        $RecordShow = 0;
+        $where=array();
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $where['DutySlips.waveoff_status']=0;
+            $where['DutySlips.billing_type']='Normal Billing';
+            $where['DutySlips.closing_km']=0;
+
+            foreach ($this->request->getData() as $key => $value) {
+            
+                if(!empty($value))
+                { 
+                     $where['DutySlips.'.$key] = $value;
+                }
+            }
+            $opendsList = $this->DutySlips->find()->contain(['Cars','CarTypes','Customers','Services'])->where($where)->order(['date'=>'DESC']);
+            //pr($opendsList->toArray()); exit;
+            $RecordShow = 1;
+
+        }
+
+        
+        $opends = $this->DutySlips->Customers->find('list');
+        //$RecordShow = 1;
+        $this->set(compact('RecordShow','opends','opendsList'));
+    }
+
+
+    public function records()
+    {
+        $RecordShow = 0;
+        $login_id = $this->Auth->User('id');
+        $where=array();
+        if ($this->request->is(['patch', 'post', 'put'])) {
+           
+            foreach ($this->request->getData() as $key => $value) {
+            
+                if(!empty($value))
+                { 
+                     $where['DutySlips.'.$key] = $value;
+                }
+            }
+            
+            //pr($opendsList->toArray()); exit;
+            $RecordShow = 1;
+
+        }
+        $login = $this->DutySlips->Logins->find('list')->where(['id'=>$login_id]);
+        $counterList = $this->DutySlips->Counters->find('list');
+        
+        //pr($login->toArray()); die();
+            
+        $this->set(compact('RecordShow','login','counterList'));    
+    }
 }

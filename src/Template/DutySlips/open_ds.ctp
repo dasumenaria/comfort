@@ -20,7 +20,7 @@
     <div class="col-md-12">
         <div class="box box-primary"> 
             <div class="box-header with-border">
-                <i class="fa fa-plus"></i>Unbilled DS
+                <i class="fa fa-plus"></i>Open DS
             </div>
             <?php
             if($RecordShow != 1)
@@ -64,12 +64,13 @@
             <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sl.') ?></th> 
-                            <th><?=  ('Duty Slip No .') ?></th> 
+                            <th><?=  ('DS No .') ?></th> 
                             <th><?=  ('Car No.') ?></th>
                             <th><?=  ('Service Name') ?></th>
                             <th><?=  ('Customer Name') ?></th>
                             <th><?=  ('Date') ?></th>
-                            
+                            <th><?=  ('Opening KM') ?></th>
+                            <th><?=  ('Closing KM') ?></th>     
                         </tr>
                     </thead>
                     <tbody>
@@ -78,25 +79,24 @@
                         ?>  
                         <tr>
                             <td><?= h(++$page_no) ?></td> 
-                            <td><?= h($city->id) ?></a></td> 
+                            <td><?= h($city->id) ?></td> 
                             <td><?= h($city->car->name) ?></td>
                             <td><?= h($city->service->name) ?></td>
                             <td><?= h($city->customer->name) ?></td> 
-                            <td>
-                               <?php
+                            <td><?php
                                if (!empty($city->date)) {?>
                                    <?= h($city->date)?>
-
                                 <?php
                                }
                                else
                                {
                                     echo "N/A";
                                }
-
-                               ?> 
-                                    
+                               ?>
                             </td>
+                            <td><?= h($city->opening_km)?></td>
+                            <td><?= h($city->closing_km)?></td>
+                            
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
