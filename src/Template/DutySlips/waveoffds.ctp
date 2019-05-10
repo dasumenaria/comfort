@@ -1,26 +1,19 @@
 
 <section class="content">
     <?php
-            if($RecordShow != 1)
-            {
-                ?>
-
-            <?php
-            }
-            else
-            {?>
-         <div>
-            <a href="" class="btn btn-primary"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
-            
-            <button class="btn btn-warning" onclick="prints()"><i class="fa fa-print" aria-hidden="true"></i></button>
-            
-            <button class="btn btn-danger "><i class="fa fa-download " aria-hidden="true"></i></button>
-        </div>
-        <span class="help-block"></span>
-        <?php
+            if($RecordShow ==1)
+            { ?>
+                <div>
+                    <a href="" class="btn btn-primary"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+                    
+                    <button class="btn btn-warning" onclick="window.print();"><i class="fa fa-print" aria-hidden="true"></i></button>
+                    
+                    <button class="btn btn-danger "><i class="fa fa-download " aria-hidden="true"></i></button>
+                </div>
+                <span class="help-block"></span>
+                    <?php
             }
             ?>
-         
 <div class="row">
 
     <div class="col-md-12">
@@ -172,8 +165,3 @@ $(document).ready(function() {
 });
 </script>
 
-<script type="text/javascript">
-    function prints() {
-        window.print();
-    }
-</script>

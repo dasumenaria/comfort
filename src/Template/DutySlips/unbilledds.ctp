@@ -1,32 +1,26 @@
 
 <section class="content">
     <?php
-            if($RecordShow != 1)
+            if($RecordShow == 1)
             {
                 ?>
-
-            <?php
-            }
-            else
-            {?>
-         <div>
-            <a href="" class="btn btn-primary"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
-            
-            <button class="btn btn-warning" onclick="prints()"><i class="fa fa-print" aria-hidden="true"></i></button>
-            
-            <button class="btn btn-danger "><i class="fa fa-download " aria-hidden="true"></i></button>
-        </div>
-        <span class="help-block"></span>
-        <?php
-            }
-            ?>
+                <div>
+                    <a href="" class="btn btn-primary"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+                    
+                    <button class="btn btn-warning" onclick="window.print();"><i class="fa fa-print" aria-hidden="true"></i></button>
+                    
+                    <button class="btn btn-danger "><i class="fa fa-download " aria-hidden="true"></i></button>
+                </div>
+                <span class="help-block"></span>
+                <?php
+                }?>
          
 <div class="row">
 
     <div class="col-md-12">
         <div class="box box-primary"> 
             <div class="box-header with-border">
-                <i class="fa fa-plus"></i>Open DS
+                <i class="fa fa-plus"></i>Unbilled DS
             </div>
             <?php
             if($RecordShow != 1)
@@ -42,7 +36,7 @@
                                 <label class="control-label col-sm-4">Customer Name:</label>
                                 <div class="col-sm-4">
                                    
-                                <?php echo $this->Form->control('',['label' => false,'class' => 'select2 ','options'=>$opends,'empty'=>'Select...','autocomplete'=>'off']); ?> 
+                                <?php echo $this->Form->control('customer_id',['label' => false,'class' => 'select2 ','options'=>$opends,'empty'=>'Select...','autocomplete'=>'off']); ?> 
                                 </div>
                             </div> 
                         </div>
@@ -71,28 +65,31 @@
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sl.') ?></th> 
                             <th><?=  ('DS No .') ?></th> 
-                            <th><?=  ('Customer Name') ?></th>
-                            <th><?=  ('Guest Name') ?></th>
-                            <th><?=  ('Service') ?></th>
-                            <th><?=  ('Car') ?></th>
                             <th><?=  ('Car No.') ?></th>
+                            <th><?=  ('Service Name') ?></th>
+                            <th><?=  ('Customer Name') ?></th>
+                            <th><?=  ('Date') ?></th>
                             <th><?=  ('Opening KM') ?></th>
-                            <th><?=  ('Closing KM') ?></th>
-                            
-                            
+                            <th><?=  ('Closing KM') ?></th>     
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $page_no=0; foreach ($opends as $city):
+                        <?php $page_no=0; foreach ($opendsList as $city):
                             
                         ?>  
                         <tr>
+                            <td><?= h(++$page_no) ?></td> 
+                            <td><?= h($city->id) ?></td> 
+                            <td><?= h($city->car->name) ?></td>
+                            <td><?= h($city->service->name) ?></td>
+                            <td><?= h($city->customer->name) ?></td> 
+                            <td><?= h($city->date) ?></td>
+                            <td><?= h($city->opening_km)?></td>
+                            <td><?= h($city->closing_km)?></td>
                             
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
-                            
-                    
             </table>
         <?php
             }
@@ -127,10 +124,4 @@ $(document).ready(function() {
     }); 
 
 });
-</script>
-
-<script type="text/javascript">
-    function prints() {
-        window.print();
-    }
 </script>

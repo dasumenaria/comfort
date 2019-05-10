@@ -413,7 +413,7 @@ class DutySlipsController extends AppController
        $this->set(compact('RecordShow','waveoffds'));
     }
 
-    public function OpenDs()
+    public function Unbilledds()
     {
         $RecordShow=0;
         $where=array();
@@ -425,20 +425,19 @@ class DutySlipsController extends AppController
             
                 if(!empty($value))
                 { 
-                    if (strpos($key, 'fkjdk') !== false)
-                    {
-                        $where['DutySlips.'.$key] = $value;
-                    }
-                    else{
-                        $where['DutySlips.'.$key] = $value;
-                    }
+                     $where['DutySlips.'.$key] = $value;
                 }
             }
+
+            $opendsList = $this->DutySlips->find()->contain(['Cars','CarTypes','Customers','Services'])->where($where);
+            //pr($opendsList->toArray()); exit;
+            $RecordShow = 1;
+
         }
 
-        $opends = $this->DutySlips->Customers->find('list')->where(['is_deleted'=>0]);
         
-        $RecordShow = 1;
+        $opends = $this->DutySlips->Customers->find('list');
+        
         $this->set(compact('RecordShow','opends','opendsList'));
          
     }
