@@ -17,14 +17,60 @@ class DutySlipsController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function index()
+    public function index($type = null)
     {
-        $this->paginate = [
-            'contain' => ['Emails', 'Photos', 'Services', 'CarTypes', 'Cars', 'Customers', 'Employees', 'Logins', 'Counters', 'MaxInvoices', 'WaveoffLogins', 'WaveoffCounters']
-        ];
-        $dutySlips = $this->paginate($this->DutySlips);
+        $RecordShow = 0; 
+        $where=array();
+        if ($this->request->is(['patch', 'post', 'put'])) {  
+            if(!empty($this->request->getData('searchDS'))){ 
+                foreach ($this->request->getData() as $key => $value) {
+                    if(!empty($value))
+                    { 
+                        if($key == 'date_from'){} 
+                        else if($key == 'searchDS'){} 
+                        else if($key != 'date_to') {
+                            $where['DutySlips.'.$key] = $value;
+                        }
+                       
+                    }
+                }
+                if($type == 'edt'){
+                    $where['DutySlips.billing_status'] = 'no'; 
+                    $where['DutySlips.waveoff_status'] = 0; 
+                } 
+                $customerList = $this->DutySlips->find()->contain(['Services', 'CarTypes', 'Cars', 'Customers', 'Employees'])->where($where);
 
-        $this->set(compact('dutySlips'));
+                if(!empty($this->request->getData('date_from'))){
+                    $date_from=date('Y-m-d',strtotime($this->request->getData('date_from'))); 
+                    $date_to=date('Y-m-d',strtotime($this->request->getData('date_to')));  
+                    $customerList->where(function($exp) use($date_from,$date_to) {
+                        return $exp->between('date', $date_from, $date_to, 'date');
+                    });
+                }
+                $RecordShow=1;
+            }
+            if(!empty($this->request->getData('deleteDS'))){
+                $login_id = $this->Auth->User('id'); 
+                $counter_id = $this->Auth->User('counter_id');
+
+                $id = $this->request->getData('dsid');
+                $reason = $this->request->getData('reason');
+                $query = $this->DutySlips->query(); 
+                $query->update()->set(['waveoff_reason'=>$reason,'waveoff_status'=>1,'waveoff_login_id'=>$login_id,'waveoff_counter_id'=>$counter_id,])
+                    ->where(['id' => $id])
+                    ->execute();
+                $this->Flash->success(__('Dutyslip Waveoff Successfully'));
+                return $this->redirect(['action' => 'index',$type]);
+            } 
+        } 
+        if($type == 'edt'){ $displayName = 'Edit';}
+        if($type == 'del'){ $displayName = 'Waveoff';}
+        if($type == 'ser'){ $displayName = 'Search';}
+
+        $services = $this->DutySlips->Services->find('list', ['limit' => 200]);
+        $employees = $this->DutySlips->Employees->find('list', ['limit' => 200]);
+        $customers = $this->DutySlips->Customers->find('list', ['limit' => 200]);
+        $this->set(compact('customerList','displayName','type','RecordShow','services','employees','customers'));  
     }
 
     /**
@@ -36,6 +82,25 @@ class DutySlipsController extends AppController
      */
     public function view($id = null)
     {
+        $dutySlip = $this->DutySlips->get($id, [
+            'contain' => ['Services', 'CarTypes', 'Cars', 'Customers', 'Employees', 'Logins', 'Counters']
+        ]);
+
+        $this->set('dutySlip', $dutySlip);
+    }
+
+    public function viewDutyslip($id = null)
+    {
+        $dutySlip = $this->DutySlips->get($id, [
+            'contain' => ['Services', 'CarTypes', 'Cars', 'Customers', 'Employees', 'Logins', 'Counters']
+        ]);
+
+        $this->set('dutySlip', $dutySlip);
+    }
+
+    public function pdf($id = null)
+    {
+        $this->viewBuilder()->setLayout(''); 
         $dutySlip = $this->DutySlips->get($id, [
             'contain' => ['Services', 'CarTypes', 'Cars', 'Customers', 'Employees', 'Logins', 'Counters']
         ]);
@@ -59,6 +124,7 @@ class DutySlipsController extends AppController
             $dutySlip = $this->DutySlips->patchEntity($dutySlip, $this->request->getData());
             $dutySlip->counter_id = $counter_id;
             $dutySlip->login_id = $login_id;
+            $dutySlip->date = date("Y-m-d");
             if(!empty($this->request->getData('date_from')))
             {
                 $dutySlip->date_from = date('Y-m-d',strtotime($this->request->getData('date_from')));
@@ -183,13 +249,13 @@ class DutySlipsController extends AppController
             {
                 $tot_amnt=$cop_amounts;
             }
- 
-            //pr($serviceCheck);exit;
-
+  
             if ($this->DutySlips->save($dutySlip)) {
                 $employee_id = $dutySlip->employee_id;
                 $car_id = $dutySlip->car_id;
                 $car_type_id = $dutySlip->car_type_id; 
+
+                $car_number='';
                 if(!empty($car_id)){
                     $cars = $this->DutySlips->Cars->get($car_id);
                     $car_to=$cars->name;
@@ -233,7 +299,7 @@ class DutySlipsController extends AppController
 
                 return $this->redirect(['action' => 'view',$dutySlip->id]);
             }
-            pr($serviceCheck);exit;
+            pr($dutySlip);exit;
             $this->Flash->error(__('The duty slip could not be saved. Please, try again.'));
         }
           
@@ -286,27 +352,7 @@ class DutySlipsController extends AppController
         $waveoffCounters = $this->DutySlips->WaveoffCounters->find('list', ['limit' => 200]);
         $this->set(compact('dutySlip', 'emails', 'photos', 'services', 'carTypes', 'cars', 'customers', 'employees', 'logins', 'counters', 'maxInvoices', 'waveoffLogins', 'waveoffCounters'));
     }
-
-    /**
-     * Delete method
-     *
-     * @param string|null $id Duty Slip id.
-     * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $dutySlip = $this->DutySlips->get($id);
-        if ($this->DutySlips->delete($dutySlip)) {
-            $this->Flash->success(__('The duty slip has been deleted.'));
-        } else {
-            $this->Flash->error(__('The duty slip could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
-    }
-
+ 
     public function getRate(){
         $identity = $this->request->getQuery('identity');
         if($identity == 'ratefix'){
