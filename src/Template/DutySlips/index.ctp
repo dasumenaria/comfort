@@ -27,7 +27,7 @@
             if($RecordShow != 1)
             {
                 ?>
-                <?= $this->Form->create('',['type'=>'file','id'=>'CityForm']) ?>
+                <?= $this->Form->create('',['class'=>'loadingshow','id'=>'CityForm']) ?>
                 <div class="box-body" >
                     <div class="row"> 
                         <div class="col-md-12">
@@ -124,7 +124,7 @@
                             <td><?= h(@$city->closing_km) ?></td>
                             <td  class="actions text-center">
                             <?php if($type == 'edt') { ?>
-                                <?php echo $this->Html->link('<i class="fa fa-pencil-square-o"></i>',['action' => 'edit', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info','target'=>'_blank')); ?>
+                                <?php echo $this->Html->link('<i class="fa fa-pencil-square-o"></i>',['action' => 'edit', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-danger','target'=>'_blank')); ?>
                             <?php } if($type == 'del') {?>
                                 <a class=" btn btn-danger btn-xs" data-target="#deletemodal<?php echo $city->id; ?>" data-toggle=modal><i class="fa fa-gavel"></i></a>
                                 
@@ -140,7 +140,7 @@
                             }?> 
                             </td>
                             <div id="deletemodal<?php echo $city->id; ?>" class="modal fade" role="dialog">
-                                <?= $this->Form->create('hello',['type'=>'file','id'=>'test']) ?>
+                                <?= $this->Form->create('hello',['class'=>'loadingshow','id'=>'test']) ?>
                                     <div class="modal-dialog modal-md" > 
                                         <div class="modal-content">
                                           <div class="modal-header" style=" background-color: #5ea3af;color:#fff;">

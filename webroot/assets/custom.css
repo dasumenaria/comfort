@@ -169,9 +169,9 @@ div.stars {
     }
     .btn-success
     {
-        background-color:#6FB98F !important;
+        background-color:#5CB85C !important;
         color:#FFF;
-        border-color:#6FB98F !important;
+        border-color:#5CB85C !important;
     }
     .btn-successto
     {
@@ -191,7 +191,7 @@ div.stars {
     }
     .btn
     {
-        border-radius: 6px;
+       /* border-radius: 6px;*/
     }
     textarea {
         resize:none !important;
@@ -307,7 +307,7 @@ background-color: #fff;}
 #Content{ width:90% !important; margin-left: 5%;}
 
 .space {
-    margin-top:10px;
+    margin-top:20px;
 }
 .box-success{
     background: #4b8df8 !important; 
@@ -333,4 +333,7 @@ background-color: #fff;}
 .box.box-primary{
     border: 1px solid #b4cef8 !important;
 } 
+.help-block{
+    margin-top: 22px !important;
+}
 

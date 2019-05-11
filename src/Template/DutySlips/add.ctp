@@ -5,6 +5,9 @@ $ldrview = $auth->User('ldrview');
 .test label {
     padding:10px;
 }
+label{
+    line-height: 35px;
+}
 </style>
 <section class="content">
 <div class="row">
@@ -443,8 +446,8 @@ $ldrview = $auth->User('ldrview');
                     <div class="row">
                         <center>
                             <div class="col-md-12">
-                                <div class="col-md-offset-3 col-md-6">  
-                                    <?php echo $this->Form->button('Submit',['class'=>'btn btn-primary','id'=>'submit_member']); ?>
+                                <div class="col-md-offset-1 col-md-6">  
+                                    <?php echo $this->Form->button('Submit',['class'=>'btn btn-success','id'=>'submit_member']); ?>
                                 </div>
                             </div>
                         </center>       
