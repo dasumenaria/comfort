@@ -5,27 +5,15 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
-DROP TABLE IF EXISTS `menus`;
-CREATE TABLE `menus` (
+DROP TABLE IF EXISTS `user_rights`;
+CREATE TABLE `user_rights` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `menu_name` varchar(30) NOT NULL,
-  `parent_id` int(11) DEFAULT NULL,
-  `lft` int(11) NOT NULL,
-  `rght` int(11) NOT NULL,
-  `controller` varchar(40) NOT NULL,
-  `action` varchar(40) NOT NULL,
-  `icon_class_name` varchar(50) NOT NULL,
-  `is_hidden` enum('Y','N') NOT NULL DEFAULT 'N',
-  `query_string` varchar(30) NOT NULL,
-  `target` varchar(20) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+  `login_id` int(11) DEFAULT NULL,
+  `menu_ids` text,
+  PRIMARY KEY (`id`),
+  KEY `login_id` (`login_id`),
+  CONSTRAINT `user_rights_ibfk_1` FOREIGN KEY (`login_id`) REFERENCES `logins` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
-INSERT INTO `menus` (`id`, `menu_name`, `parent_id`, `lft`, `rght`, `controller`, `action`, `icon_class_name`, `is_hidden`, `query_string`, `target`) VALUES
-(1, 'Dashboard',  NULL, 1,  2,  'Logins', 'index',  'fa fa-home', 'N',  '0',  '0'),
-(2, 'Masters',  NULL, 3,  10, '#',  '#',  '', 'N',  '0',  ''),
-(3, 'Customer', 2,  4,  9,  '#',  '#',  '', 'N',  '#',  ''),
-(4, 'Add',  3,  5,  6,  'Customers',  'add',  '', 'N',  '0',  ''),
-(5, 'Edit', 3,  7,  8,  'Customers',  'index',  '', 'N',  'edt',  '');
 
--- 2019-05-11 06:22:27
+-- 2019-05-11 08:30:42
