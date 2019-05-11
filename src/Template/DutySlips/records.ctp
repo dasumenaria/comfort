@@ -35,7 +35,7 @@
                                 <label class="control-label col-sm-4">Counter Name:</label>
                                 <div class="col-sm-4">
                                    
-                                <?php echo $this->Form->control('date_from',['label' => false,'class' => 'form-control select2','options'=>$counterList,'empty'=>'Select...','autocomplete'=>'off']); ?> 
+                                <?php echo $this->Form->control('counter_id',['label' => false,'class' => 'form-control select2','options'=>$counterList,'empty'=>'Select...','autocomplete'=>'off']); ?> 
                                 </div>
                             </div> 
                         </div>
@@ -45,7 +45,7 @@
                                 <label class="control-label col-sm-4">Login Name:</label>
                                 <div class="col-sm-4">
                                    
-                                <?php echo $this->Form->control('date_from',['label' => false,'class' => 'form-control select2','options'=>$login,'empty'=>'Select...','autocomplete'=>'off']); ?>
+                                <?php echo $this->Form->control('login_id',['label' => false,'class' => 'form-control select2','options'=>$login,'empty'=>'Select...','autocomplete'=>'off']); ?>
                                 </div>
                             </div> 
                     
@@ -58,7 +58,7 @@
                                 <?php 
                                     $values['1'] = 'Duty Slip';
                                     $values['0'] = 'Invoice';
-                                    echo $this->Form->control('date_from',['label' => false,'class' => 'form-control select2','options'=>$values,'empty'=>'Select...','autocomplete'=>'off']); ?>
+                                    echo $this->Form->control('type',['label' => false,'class' => 'form-control select2','options'=>$values,'autocomplete'=>'off']); ?>
                                 </div>
                             </div> 
                     
@@ -83,7 +83,7 @@
             }
             else{ 
                 
-                if ($dutyslip==1) {?>
+                if ($type != 0) {?>
                    <table class="table table-bordered table-striped">
                     <thead>
                         <tr style="table-layout: fixed;">
@@ -96,16 +96,47 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $page_no=0; foreach ($waveoffds as $city):
+                        <?php $page_no=0; foreach ($recordList as $city):
                             
                         ?>  
                         <tr>
                             <td><?= h(++$page_no) ?></td> 
                             <td><?= h($city->id) ?></td> 
-                            <td><?= h($city->customer->name) ?></td> 
-                            <td><?= h($city->guest_name) ?></td>
-                            <td><?= h($city->service->name) ?></td>
-                            <td><?= h($city->car_type->name) ?></td>
+                            <td><?php 
+                                    if ($city->waveoff_status=='0') {?>
+                                    <span class="badge bg-green">Yes</span>
+                                 <?php   
+                                    }
+                                    else
+                                    {?>
+                                        <span class="badge bg-red">No</span>
+                                    <?php    
+                                    }
+                            ?></td> 
+                            <td>
+                                    <?php 
+                                    if ($city->billing_status=='yes') {?>
+                                     <span class="badge bg-green">Yes</span>
+                                    <?php   
+                                    }
+                                    else
+                                    {?>
+                                        <span class="badge bg-red">No</span>
+                                     <?php    
+                                     }
+                            ?>
+                            </td>
+                            <td>
+                                <?php
+                                 echo $this->Html->link('<i class="fa fa-search"></i>',['action' => 'viewDutyslip', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info','target'=>'_blank'));
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                    echo $this->Html->link('<i class="fa fa-download"></i>',['action' => 'pdf', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-success','target'=>'_blank'));
+
+                                ?>
+                            </td>
                             
                         </tr>
                         <?php endforeach; ?>
@@ -121,24 +152,36 @@
                         <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sl.') ?></th> 
-                            <th><?=  ('DS No .') ?></th> 
-                            <th><?=  ('yohems Status') ?></th>
-                            <th><?=  ('Billing Status') ?></th>
+                            <th><?=  ('Invoice No.') ?></th> 
+                            <th><?=  ('Waveoff Status') ?></th>
+                            <th><?=  ('Payment Status') ?></th>
                             <th><?=  ('View') ?></th>
                             <th><?=  ('Pdf') ?></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $page_no=0; foreach ($waveoffds as $city):
+                        <?php $page_no=0; foreach ($recordList as $city):
                             
                         ?>  
                         <tr>
                             <td><?= h(++$page_no) ?></td> 
-                            <td><?= h($city->id) ?></td> 
-                            <td><?= h($city->customer->name) ?></td> 
-                            <td><?= h($city->guest_name) ?></td>
-                            <td><?= h($city->service->name) ?></td>
-                            <td><?= h($city->car_type->name) ?></td>
+                            <td>0</td> 
+                            <td>
+                                <?php 
+                                    if ($city->waveoff_status=='0') {?>
+                                    <span class="badge bg-green">Yes</span>
+                                 <?php   
+                                    }
+                                    else
+                                    {?>
+                                        <span class="badge bg-red">No</span>
+                                    <?php    
+                                    }
+                            ?>
+                            </td> 
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             
                         </tr>
                         <?php endforeach; ?>

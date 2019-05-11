@@ -637,15 +637,19 @@ class DutySlipsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
            
             foreach ($this->request->getData() as $key => $value) {
-            
+                $type = $this->request->getData('type');
+
                 if(!empty($value))
-                { 
-                     $where['DutySlips.'.$key] = $value;
+                {       if($key == 'type'){} 
+                        else{
+                            $where['DutySlips.'.$key] = $value;
+                        }
                 }
             }
             
-            //pr($opendsList->toArray()); exit;
+            $recordList = $this->DutySlips->find()->where($where);
             $RecordShow = 1;
+
 
         }
         $login = $this->DutySlips->Logins->find('list')->where(['id'=>$login_id]);
@@ -653,6 +657,6 @@ class DutySlipsController extends AppController
         
         //pr($login->toArray()); die();
             
-        $this->set(compact('RecordShow','login','counterList'));    
+        $this->set(compact('RecordShow','login','counterList','type','recordList'));    
     }
 }
