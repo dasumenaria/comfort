@@ -91,24 +91,6 @@
 
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-share"></i> <span>Tariff Rates</span>
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="<?php echo $this->Url->build(["controller" => "",'action'=>'']); ?>"><i class="fa fa-circle-o"></i> Add</a></li> 
-
-                <li><a href="<?php echo $this->Url->build(["controller" => "",'action'=>'index','edt']); ?>"><i class="fa fa-circle-o"></i> Edit </a></li>
-
-                <li><a href="<?php echo $this->Url->build(["controller" => "",'action'=>'index','del']); ?>"><i class="fa fa-circle-o"></i> Delete </a></li>
-
-                <li><a href="<?php echo $this->Url->build(["controller" => "",'action'=>'index','ser']); ?>"><i class="fa fa-circle-o"></i> Search </a></li>
-              </ul>
-            </li>
-
-            <li class="treeview">
-              <a href="#">
                 <i class="fa fa-share"></i> <span>Customer Tariff</span>
                 <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
@@ -156,52 +138,7 @@
               </ul>
             </li>
 
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-share"></i> <span>Bank</span>
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="<?php echo $this->Url->build(["controller" => "",'action'=>'add']); ?>"><i class="fa fa-circle-o"></i> Add</a></li> 
-
-                <li><a href="<?php echo $this->Url->build(["controller" => "",'action'=>'index']); ?>"><i class="fa fa-circle-o"></i> Edit | Delete | View</a></li>
-              </ul>
-            </li>
-
             <li><a href="<?php echo $this->Url->build(["controller" => "Counters",'action'=>'add']); ?>"><i class="fa fa-share"></i> Counter</a></li> 
-
-            <li><a href="<?php echo $this->Url->build(["controller" => "",'action'=>'add']); ?>"><i class="fa fa-share"></i> Rate Master</a></li> 
- 
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-share"></i> <span>Fuel</span>
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="<?php echo $this->Url->build(["controller" => "",'action'=>'add']); ?>"><i class="fa fa-circle-o"></i> Add</a></li> 
-
-                <li><a href="<?php echo $this->Url->build(["controller" => "",'action'=>'index']); ?>"><i class="fa fa-circle-o"></i> Edit</a></li>
-              </ul>
-            </li>
-
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-share"></i> <span>Ledger</span>
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="<?php echo $this->Url->build(["controller" => "",'action'=>'']); ?>"><i class="fa fa-circle-o"></i> Ledger Type</a></li> 
-
-                <li><a href="<?php echo $this->Url->build(["controller" => "",'action'=>'']); ?>"><i class="fa fa-circle-o"></i> Ledger View</a></li>
-              </ul>
-            </li>
-
 
              <li><a href="<?php echo $this->Url->build(["controller" => "CarTypes",'action'=>'index']); ?>"><i class="fa fa-share"></i> Car Type</a></li>
 
@@ -242,7 +179,8 @@
             <li><a href="<?php echo $this->Url->build(["controller" => "DutySlips",'action'=>'waveoffds']); ?>"><i class="fa fa-circle-o"></i> Waveoff Duty Slip </a></li>
             <li><a href="<?php echo $this->Url->build(["controller" => "DutySlips",'action'=>'OpenDs']); ?>"><i class="fa fa-circle-o"></i> Open DS</a></li>
             <li><a href="<?php echo $this->Url->build(["controller" => "DutySlips",'action'=>'Unbilledds']); ?>"><i class="fa fa-circle-o"></i> Unbilled DS</a></li>
-            <li><?php echo $this->Html->link($this->Html->tag('i', '', ['class' => 'fa fa-circle-o']).' Check-In', '/CheckInDetails/checkinreport',['escape' => false]); ?></li>
+            <li><a href="<?php echo $this->Url->build(["controller" => "DutySlips",'action'=>'records']); ?>"><i class="fa fa-circle-o"></i> Records</a></li>
+            
           </ul>
         </li>
     </ul>
