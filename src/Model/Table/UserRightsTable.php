@@ -39,6 +39,8 @@ class UserRightsTable extends Table
         $this->belongsTo('Logins', [
             'foreignKey' => 'login_id'
         ]);
+
+        $this->belongsTo('Menus');
     }
 
     /**

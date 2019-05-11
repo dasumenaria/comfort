@@ -85,7 +85,7 @@ class LoginsController extends AppController
             if ($this->Logins->save($login)) {
                 $this->Flash->success(__('The login has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'add']);
             }
             $this->Flash->error(__('The login could not be saved. Please, try again.'));
         }
@@ -110,7 +110,7 @@ class LoginsController extends AppController
             if ($this->Logins->save($login)) {
                 $this->Flash->success(__('The login has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'LoginView']);
             }
             $this->Flash->error(__('The login could not be saved. Please, try again.'));
         }
@@ -129,12 +129,24 @@ class LoginsController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $login = $this->Logins->get($id);
-        if ($this->Logins->delete($login)) {
+        $login->is_deleted = 1;
+        if ($this->Logins->save($login)) {
             $this->Flash->success(__('The login has been deleted.'));
         } else {
             $this->Flash->error(__('The login could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['action' => 'LoginView']);
+    }
+
+
+    public function LoginView()
+    {   
+        $page_no = 0;
+        $where['Logins.is_deleted']=0;
+       
+        $loginList = $this->Logins->find()->contain(['Counters'])->where($where);
+        
+        $this->set(compact('loginList','page_no'));
     }
 }

@@ -51,17 +51,32 @@ class UserRightsController extends AppController
     public function add()
     {
         $userRight = $this->UserRights->newEntity();
-        if ($this->request->is('post')) {
-            $userRight = $this->UserRights->patchEntity($userRight, $this->request->getData());
-            if ($this->UserRights->save($userRight)) {
-                $this->Flash->success(__('The user right has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The user right could not be saved. Please, try again.'));
-        }
+        
         $logins = $this->UserRights->Logins->find('list', ['limit' => 200]);
         $this->set(compact('userRight', 'logins'));
+    }
+    public function employeeUserRight()
+    {
+        
+        $employee_id=$this->request->getData('login_id');
+        $menus =  $this->UserRights->Menus->find('threaded');
+        $employee =  $this->UserRights->Logins->get($employee_id);
+       
+        //$userRights = $this->UserRights->find()->where(['login_id'=>$employee_id]);
+        $menu_ids=[];
+        $userRightsIds=[];
+        /*foreach ($userRights as $userRight) 
+        {
+                $menu_ids[]=explode(',',$userRight->menu_ids);
+        }
+        foreach ($menu_ids as $key => $value) 
+        {
+            foreach ($value as $key1 => $value1) 
+            {
+                $userRightsIds[]=$value1;
+            }
+        }*/
+        $this->set(compact('menus','userRightsIds'));
     }
 
     /**
@@ -107,5 +122,40 @@ class UserRightsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function addEmployeeRights()
+    {
+       
+        if ($this->request->is('post')) {
+            
+            $employee_id=$this->request->getData('login_id');
+            $userRights = $this->UserRights->find()->where(['login_id'=>$employee_id])->first();
+            if($userRights->id)
+            {
+                $userRight = $this->UserRights->get($userRights->id);
+            }
+            else
+            {
+                $userRight = $this->UserRights->newEntity();
+            }
+            
+           
+            $userRight = $this->UserRights->patchEntity($userRight, $this->request->getData());
+            if(!empty($this->request->getData('menu_id')))
+            {
+                $userRight->menu_ids=implode(',',$this->request->getData('menu_id'));
+            }
+            else
+            {
+                $userRight->menu_ids='';
+            }
+            if ($this->UserRights->save($userRight)) {
+                $this->Flash->success(__('The user right has been saved.'));
+
+                return $this->redirect(['action' => 'add']);
+            }
+            $this->Flash->error(__('The user right could not be saved. Please, try again.'));
+        }
     }
 }

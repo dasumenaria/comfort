@@ -73,15 +73,15 @@ class LoginsTable extends Table
             ->allowEmptyString('name', false);
 
         $validator
+            ->scalar('counter_id')
+            ->requirePresence('name', 'create')
+            ->allowEmptyString('name', false);
+
+        $validator
             ->scalar('ldrview')
             ->maxLength('ldrview', 10)
             ->requirePresence('ldrview', 'create')
             ->allowEmptyString('ldrview', false);
-
-        $validator
-            ->email('email')
-            ->requirePresence('email', 'create')
-            ->allowEmptyString('email', false);
 
         return $validator;
     }
