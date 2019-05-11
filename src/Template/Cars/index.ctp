@@ -64,17 +64,29 @@
                     <tbody>
                         <?php $page_no=0; foreach ($carsList as $city):
                             @$k++;
+                            if($city->insurance_date_from != '0000-00-00'){
+                                if($city->insurance_date_from != '1970-01-01')
+                                $insDate = date('d-M-Y',strtotime($city->insurance_date_from));
+                                else
+                                $insDate = '-';    
+                            }
+                            if($city->insurance_date_to != '0000-00-00'){
+                                if($city->insurance_date_to != '1970-01-01')
+                                $insDate2 = date('d-M-Y',strtotime($city->insurance_date_to));
+                                else
+                                $insDate2 = '-';    
+                            }
                         ?>
                         <tr>
                             <td><?= h(++$page_no) ?></td> 
                             <td><?= h($city->car_type->name) ?></td>
                             <td><?= h($city->name) ?></td>
                             <td><?= h($city->supplier->name) ?></td>
-                            <td><?= h($city->insurance_date_from) ?></td>
-                            <td><?= h($city->insurance_date_to) ?></td>
+                            <td><?= $DateConvert->dateforview($city->insurance_date_from) ?></td>
+                            <td><?= $DateConvert->dateforview($city->insurance_date_to) ?></td>
                             <td  class="actions text-center">
                                 <?php if($type == 'edt') { ?>
-                                <?php echo $this->Html->link('<i class="fa fa-pencil-square-o"></i>',['action' => 'edit', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info')); ?>
+                                <?php echo $this->Html->link('<i class="fa fa-pencil-square-o"></i>',['action' => 'edit', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info','target'=>'_blank')); ?>
                             <?php } if($type == 'del') {?>
                                 <a class=" btn btn-danger btn-xs" data-target="#deletemodal<?php echo $city->id; ?>" data-toggle=modal><i class="fa fa-trash"></i></a>
                                 

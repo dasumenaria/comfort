@@ -45,6 +45,7 @@ class AppController extends Controller
             'enableBeforeRedirect' => false,
         ]);
         $this->loadComponent('Flash');
+        $DateConvert = $this->loadComponent('Date');
         $auth = $this->loadComponent('Auth', [
             'authenticate' => [
                 'Form' => [ 
@@ -69,10 +70,11 @@ class AppController extends Controller
         // Allow the display action so our pages controller
         // continues to work.
         $this->Auth->allow(['display']);
-        $this->set(compact('auth'));
+        $this->set(compact('auth','DateConvert'));
          
     }
     public function sendSms($mobileNo=null,$sms=null,$sender=null){
         file_get_contents("http://103.39.134.40/api/mt/SendSMS?user=phppoetsit&password=9829041695&senderid=".$sender."&channel=Trans&DCS=0&flashsms=0&number=".$mobileNo."&text=".$sms."&route=7");
     }
+
 }
