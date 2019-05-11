@@ -5,100 +5,27 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
-DROP TABLE IF EXISTS `customer_tariffs`;
-CREATE TABLE `customer_tariffs` (
+DROP TABLE IF EXISTS `menus`;
+CREATE TABLE `menus` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `customer_id` varchar(30) NOT NULL,
-  `car_type_id` varchar(10) NOT NULL,
-  `service_id` varchar(50) NOT NULL,
-  `rate` varchar(20) NOT NULL,
-  `minimum_chg_km` varchar(11) NOT NULL,
-  `extra_km_rate` varchar(11) NOT NULL,
-  `minimum_chg_hourly` int(11) NOT NULL,
-  `extra_hour_rate` int(11) NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `menu_name` varchar(30) NOT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `lft` int(11) NOT NULL,
+  `rght` int(11) NOT NULL,
+  `controller` varchar(40) NOT NULL,
+  `action` varchar(40) NOT NULL,
+  `icon_class_name` varchar(50) NOT NULL,
+  `is_hidden` enum('Y','N') NOT NULL DEFAULT 'N',
+  `query_string` varchar(30) NOT NULL,
+  `target` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
-INSERT INTO `customer_tariffs` (`id`, `customer_id`, `car_type_id`, `service_id`, `rate`, `minimum_chg_km`, `extra_km_rate`, `minimum_chg_hourly`, `extra_hour_rate`, `is_deleted`) VALUES
-(1,	'3',	'1',	'2',	'1200',	'100',	'200',	300,	1500,	0);
+INSERT INTO `menus` (`id`, `menu_name`, `parent_id`, `lft`, `rght`, `controller`, `action`, `icon_class_name`, `is_hidden`, `query_string`, `target`) VALUES
+(1, 'Dashboard',  NULL, 1,  2,  'Logins', 'index',  'fa fa-home', 'N',  '0',  '0'),
+(2, 'Masters',  NULL, 3,  10, '#',  '#',  '', 'N',  '0',  ''),
+(3, 'Customer', 2,  4,  9,  '#',  '#',  '', 'N',  '#',  ''),
+(4, 'Add',  3,  5,  6,  'Customers',  'add',  '', 'N',  '0',  ''),
+(5, 'Edit', 3,  7,  8,  'Customers',  'index',  '', 'N',  'edt',  '');
 
-DROP TABLE IF EXISTS `duty_slips`;
-CREATE TABLE `duty_slips` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `date` date NOT NULL,
-  `guest_name` varchar(255) NOT NULL,
-  `reporting_address` text NOT NULL,
-  `mobile_no` varchar(200) NOT NULL,
-  `email_id` varchar(100) NOT NULL,
-  `photo_id` varchar(50) NOT NULL,
-  `service_id` varchar(20) NOT NULL,
-  `car_type_id` varchar(20) NOT NULL,
-  `car_id` varchar(20) NOT NULL,
-  `temp_car_no` varchar(20) NOT NULL,
-  `customer_id` varchar(20) NOT NULL,
-  `detail_no` varchar(30) NOT NULL,
-  `employee_id` varchar(20) NOT NULL,
-  `opening_km` bigint(20) NOT NULL,
-  `opening_time` time NOT NULL,
-  `closing_km` bigint(20) NOT NULL,
-  `closing_time` time NOT NULL,
-  `date_from` date NOT NULL,
-  `date_to` date NOT NULL,
-  `extra_chg` int(10) NOT NULL,
-  `permit_chg` int(10) NOT NULL,
-  `parking_chg` int(10) NOT NULL,
-  `otherstate_chg` int(10) NOT NULL COMMENT 'Drive Allowanace',
-  `guide_chg` int(10) NOT NULL COMMENT 'Border Tax',
-  `misc_chg` int(10) NOT NULL,
-  `remarks` text NOT NULL,
-  `billed_complimentary` varchar(20) NOT NULL,
-  `authorized_person` varchar(30) NOT NULL,
-  `date_authorization` date NOT NULL,
-  `reason` varchar(200) NOT NULL,
-  `billing_status` varchar(20) NOT NULL,
-  `total_km` varchar(30) NOT NULL,
-  `rate` bigint(20) NOT NULL,
-  `extra` varchar(10) NOT NULL,
-  `extra_details` varchar(30) NOT NULL,
-  `extra_amnt` bigint(20) NOT NULL,
-  `tot_amnt` bigint(20) NOT NULL,
-  `amount` bigint(20) NOT NULL,
-  `login_id` varchar(30) NOT NULL,
-  `counter_id` varchar(20) NOT NULL,
-  `max_invoice_id` varchar(10) NOT NULL,
-  `new_car_no` varchar(100) NOT NULL,
-  `waveoff_status` int(10) NOT NULL,
-  `waveoff_reason` text NOT NULL,
-  `waveoff_login_id` int(10) NOT NULL,
-  `waveoff_counter_id` int(10) NOT NULL,
-  `temp_driver_name` varchar(50) NOT NULL,
-  `gst_no` varchar(50) NOT NULL,
-  `service_date` date NOT NULL,
-  `ref` varchar(100) NOT NULL,
-  `no_of_days` varchar(100) NOT NULL,
-  `texi_no` varchar(100) NOT NULL,
-  `cop_amounts` varchar(100) NOT NULL,
-  `billing_type` varchar(100) NOT NULL,
-  `fuel_hike_chg` int(15) NOT NULL,
-  `city` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
-INSERT INTO `duty_slips` (`id`, `date`, `guest_name`, `reporting_address`, `mobile_no`, `email_id`, `photo_id`, `service_id`, `car_type_id`, `car_id`, `temp_car_no`, `customer_id`, `detail_no`, `employee_id`, `opening_km`, `opening_time`, `closing_km`, `closing_time`, `date_from`, `date_to`, `extra_chg`, `permit_chg`, `parking_chg`, `otherstate_chg`, `guide_chg`, `misc_chg`, `remarks`, `billed_complimentary`, `authorized_person`, `date_authorization`, `reason`, `billing_status`, `total_km`, `rate`, `extra`, `extra_details`, `extra_amnt`, `tot_amnt`, `amount`, `login_id`, `counter_id`, `max_invoice_id`, `new_car_no`, `waveoff_status`, `waveoff_reason`, `waveoff_login_id`, `waveoff_counter_id`, `temp_driver_name`, `gst_no`, `service_date`, `ref`, `no_of_days`, `texi_no`, `cop_amounts`, `billing_type`, `fuel_hike_chg`, `city`) VALUES
-(2,	'0000-00-00',	'Dashrath Menaria',	'',	'9680747166',	'dasu@123.com',	'Passport Number',	'2',	'1',	'2',	'',	'3',	'74587452',	'2',	0,	'00:00:00',	120,	'00:00:00',	'2019-05-09',	'2019-05-09',	1,	2,	3,	4,	5,	6,	'tezt',	'',	'',	'0000-00-00',	'tezt',	'',	'',	1200,	'',	'',	0,	0,	0,	'4',	'1',	'',	'',	0,	'',	0,	0,	'',	'',	'0000-00-00',	'',	'',	'',	'',	'Normal Billing',	7,	'Udaipur');
-
-DROP TABLE IF EXISTS `service_cities`;
-CREATE TABLE `service_cities` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `flag` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
-INSERT INTO `service_cities` (`id`, `name`, `flag`) VALUES
-(1,	'Udaipur',	0),
-(2,	'Jaipur',	0),
-(3,	'Surat',	0);
-
--- 2019-05-10 04:20:37
+-- 2019-05-11 06:22:27
