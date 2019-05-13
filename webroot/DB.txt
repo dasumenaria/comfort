@@ -5,15 +5,32 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
-DROP TABLE IF EXISTS `user_rights`;
-CREATE TABLE `user_rights` (
+DROP TABLE IF EXISTS `corporate_billings`;
+CREATE TABLE `corporate_billings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `login_id` int(11) DEFAULT NULL,
-  `menu_ids` text,
-  PRIMARY KEY (`id`),
-  KEY `login_id` (`login_id`),
-  CONSTRAINT `user_rights_ibfk_1` FOREIGN KEY (`login_id`) REFERENCES `logins` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+  `invoice_no` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `customer_name` varchar(200) NOT NULL,
+  `guest_name` varchar(120) NOT NULL,
+  `ref` text NOT NULL,
+  `service_date` varchar(500) NOT NULL,
+  `service` varchar(200) NOT NULL,
+  `rate` varchar(500) NOT NULL,
+  `no_of_days` varchar(500) NOT NULL,
+  `taxi_no` varchar(500) NOT NULL,
+  `amount` varchar(100) NOT NULL,
+  `tot_amnt` varchar(100) NOT NULL,
+  `service_tax` varchar(100) NOT NULL,
+  `discount` varchar(100) NOT NULL,
+  `net_amnt` varchar(100) NOT NULL,
+  `login_id` int(11) NOT NULL,
+  `counter_id` int(11) NOT NULL,
+  `waveoff_status` int(11) NOT NULL,
+  `waveoff_reason` text NOT NULL,
+  `waveoff_login_id` int(11) NOT NULL,
+  `waveoff_counter_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
--- 2019-05-11 08:30:42
+-- 2019-05-13 04:47:32
