@@ -183,6 +183,36 @@
             
           </ul>
         </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-database"></i>
+            <span>Security</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu"> 
+
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-share"></i> <span>User Right</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="<?php echo $this->Url->build(["controller" => "Logins",'action'=>'add']); ?>"><i class="fa fa-circle-o"></i> Add New User</a></li> 
+
+               <li><a href="<?php echo $this->Url->build(["controller" => "UserRights",'action'=>'add']); ?>"><i class="fa fa-circle-o"></i> User Wise Rights </a></li>
+
+              <li><a href="<?php echo $this->Url->build(["controller" => "Logins",'action'=>'LoginView']); ?>"><i class="fa fa-circle-o"></i> View Rights </a></li>
+
+              </ul>
+            </li>
+          </ul>
+        </li>
+        
     </ul>
     </section>
     </aside>
