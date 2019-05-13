@@ -17,14 +17,50 @@ class CorporateBillingsController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function index()
-    {
-        $this->paginate = [
-            'contain' => ['Logins', 'Counters', 'WaveoffLogins', 'WaveoffCounters']
-        ];
-        $corporateBillings = $this->paginate($this->CorporateBillings);
+    public function index($type = null)
+    {   
+        $RecordShow = 0;
+        $where=array();
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            
+            foreach ($this->request->getData() as $key => $value) {
+                if(!empty($value))
+                { 
+                    if (strpos($key, 'supplier_type_id') !== false)
+                    {
+                        $where['Suppliers.'.$key] = $value;
+                    }
+                    else{
+                        $where['Suppliers.'.$key.' LIKE '] = '%'.$value.'%';
+                    }
+                }
 
-        $this->set(compact('corporateBillings'));
+                if(!empty($this->request->getData('deleteDS'))){
+                $login_id = $this->Auth->User('id'); 
+                $counter_id = $this->Auth->User('counter_id');
+
+                $id = $this->request->getData('dsid');
+                $reason = $this->request->getData('reason');
+                $query = $this->CorporateBillings->query(); 
+                $query->update()->set(['waveoff_reason'=>$reason,'waveoff_status'=>1,'waveoff_login_id'=>$login_id,'waveoff_counter_id'=>$counter_id,])
+                    ->where(['id' => $id])
+                    ->execute();
+                $this->Flash->success(__(' Waveoff Successfully'));
+                return $this->redirect(['action' => 'index',$type]);
+            }
+            }
+            $customerLists = $this->CorporateBillings->find()->contain(['Customers']);
+            //pr($SuppliersList->toArray());exit();
+            $RecordShow=1;
+        }
+        if($type == 'edt'){ $displayName = 'Edit';}
+        if($type == 'del'){ $displayName = 'Delete';}
+        if($type == 'ser'){ $displayName = 'Search';}
+        
+       $customerList = $this->CorporateBillings->Customers->find('list');
+      
+
+        $this->set(compact('corporateBillings','RecordShow','displayName','customerList','customerLists','type'));
     }
 
     /**
@@ -51,18 +87,46 @@ class CorporateBillingsController extends AppController
     public function add()
     {
         $corporateBilling = $this->CorporateBillings->newEntity();
+        $login_id = $this->Auth->User('id');
+        $counter_id = $this->Auth->User('counter_id'); 
         if ($this->request->is('post')) {
             $corporateBilling = $this->CorporateBillings->patchEntity($corporateBilling, $this->request->getData());
+            $corporateBilling->login_id = $login_id;
+            $corporateBilling->counter_id = $counter_id;
+
+            $date = $this->request->getData('date');
+            
+            if (!empty($date)) {
+                $corporateBilling->date = date('y-m-d',strtotime($this->request->getData('date')));
+            }
+            else
+            {
+            
+                $corporateBilling->date = '0000-00-00';
+            }
+
+            $service_date = $this->request->getData('service_date');
+            if (!empty($service_date)) {
+                $corporateBilling->service_date = date('y-m-d',strtotime($this->request->getData('service_date')));
+            }
+            else
+            {
+                $corporateBilling->service_date = '0000-00-00';
+            }
+            
+            
             if ($this->CorporateBillings->save($corporateBilling)) {
+
                 $this->Flash->success(__('The corporate billing has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'add']);
             }
+            
             $this->Flash->error(__('The corporate billing could not be saved. Please, try again.'));
         }
-        $logins = $this->CorporateBillings->Logins->find('list', ['limit' => 200]);
-        $counters = $this->CorporateBillings->Counters->find('list', ['limit' => 200]);
-        $this->set(compact('corporateBilling', 'logins', 'counters', 'waveoffLogins', 'waveoffCounters'));
+        
+        $customerList = $this->CorporateBillings->Customers->find('list');
+        $this->set(compact('corporateBilling', 'logins', 'counters', 'waveoffLogins', 'waveoffCounters','customerList'));
     }
 
     /**
@@ -78,7 +142,34 @@ class CorporateBillingsController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
+            $login_id = $this->Auth->User('id');
+            $counter_id = $this->Auth->User('counter_id'); 
             $corporateBilling = $this->CorporateBillings->patchEntity($corporateBilling, $this->request->getData());
+            $corporateBilling = $this->CorporateBillings->patchEntity($corporateBilling, $this->request->getData());
+            $corporateBilling->login_id = $login_id;
+            $corporateBilling->counter_id = $counter_id;
+
+            $date = $this->request->getData('date');
+            
+            if (!empty($date)) {
+                $corporateBilling->date = date('y-m-d',strtotime($this->request->getData('date')));
+            }
+            else
+            {
+            
+                $corporateBilling->date = '0000-00-00';
+            }
+
+            $service_date = $this->request->getData('service_date');
+            if (!empty($service_date)) {
+                $corporateBilling->service_date = date('y-m-d',strtotime($this->request->getData('service_date')));
+            }
+            else
+            {
+                $corporateBilling->service_date = '0000-00-00';
+            }
+            
+            
             if ($this->CorporateBillings->save($corporateBilling)) {
                 $this->Flash->success(__('The corporate billing has been saved.'));
 
@@ -86,11 +177,10 @@ class CorporateBillingsController extends AppController
             }
             $this->Flash->error(__('The corporate billing could not be saved. Please, try again.'));
         }
-        $logins = $this->CorporateBillings->Logins->find('list', ['limit' => 200]);
-        $counters = $this->CorporateBillings->Counters->find('list', ['limit' => 200]);
-        $waveoffLogins = $this->CorporateBillings->WaveoffLogins->find('list', ['limit' => 200]);
-        $waveoffCounters = $this->CorporateBillings->WaveoffCounters->find('list', ['limit' => 200]);
-        $this->set(compact('corporateBilling', 'logins', 'counters', 'waveoffLogins', 'waveoffCounters'));
+        $customerList = $this->CorporateBillings->Customers->find('list');
+        
+        
+        $this->set(compact('corporateBilling', 'logins', 'counters', 'waveoffLogins', 'waveoffCounters','customerList'));
     }
 
     /**

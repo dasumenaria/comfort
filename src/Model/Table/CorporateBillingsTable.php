@@ -47,6 +47,11 @@ class CorporateBillingsTable extends Table
             'foreignKey' => 'counter_id',
             'joinType' => 'INNER'
         ]);
+        $this->belongsTo('Customers', [
+            'foreignKey' => 'customer_id',
+            'joinType' => 'INNER'
+        ]);
+       
         
     }
 
@@ -62,11 +67,7 @@ class CorporateBillingsTable extends Table
             ->integer('id')
             ->allowEmptyString('id', 'create');
 
-        $validator
-            ->integer('invoice_no')
-            ->requirePresence('invoice_no', 'create')
-            ->allowEmptyString('invoice_no', false);
-
+        
         $validator
             ->date('date')
             ->requirePresence('date', 'create')
@@ -124,40 +125,6 @@ class CorporateBillingsTable extends Table
             ->maxLength('amount', 100)
             ->requirePresence('amount', 'create')
             ->allowEmptyString('amount', false);
-
-        $validator
-            ->scalar('tot_amnt')
-            ->maxLength('tot_amnt', 100)
-            ->requirePresence('tot_amnt', 'create')
-            ->allowEmptyString('tot_amnt', false);
-
-        $validator
-            ->scalar('service_tax')
-            ->maxLength('service_tax', 100)
-            ->requirePresence('service_tax', 'create')
-            ->allowEmptyString('service_tax', false);
-
-        $validator
-            ->scalar('discount')
-            ->maxLength('discount', 100)
-            ->requirePresence('discount', 'create')
-            ->allowEmptyString('discount', false);
-
-        $validator
-            ->scalar('net_amnt')
-            ->maxLength('net_amnt', 100)
-            ->requirePresence('net_amnt', 'create')
-            ->allowEmptyString('net_amnt', false);
-
-        $validator
-            ->integer('waveoff_status')
-            ->requirePresence('waveoff_status', 'create')
-            ->allowEmptyString('waveoff_status', false);
-
-        $validator
-            ->scalar('waveoff_reason')
-            ->requirePresence('waveoff_reason', 'create')
-            ->allowEmptyString('waveoff_reason', false);
 
         return $validator;
     }

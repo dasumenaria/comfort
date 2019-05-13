@@ -18,14 +18,14 @@
                                 
                                 <label class="control-label col-sm-4">Customer Name</label>
                                 <div class="col-sm-8">
-                                    <?php echo $this->Form->control('df' , ['label' => false,'class' => 'select2  supplierType','empty'=>'Select...','options'=>'','autocomplete'=>'off']); ?>
+                                    <?php echo $this->Form->control('customer_name' , ['label' => false,'class' => 'select2  supplierType','empty'=>'Select...','options'=>$customerList,'autocomplete'=>'off']); ?>
                                 </div>
                             </div> 
                             <div class="col-md-6 space">
                                 <label class="control-label col-sm-4">  Name of Guest</label>
                                 <div class="col-sm-8">
                                 
-                               <?php echo $this->Form->control('name',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Name of Guest','autocomplete'=>'off']); ?> 
+                               <?php echo $this->Form->control('guest_name',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Name of Guest','autocomplete'=>'off']); ?> 
                                 
                                 </div>
                             </div>
@@ -52,77 +52,102 @@
                         </div>
 
                         <div class="col-md-12">
-                            <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                        <tr style="table-layout: fixed;">
-                            <th style="width: 12%"><?=  ('DATE') ?></th> 
-                            <th><?=  ('SERVICE NAME/HOURS') ?></th>
-                            <th style="width: 13%;"><?=  ('RATE (RS)') ?></th>
-                            <th style="width: 12%;"> <?=  ('NO. OF DAYS') ?></th>
-                            <th><?=  (' TAXI No. / GUIDE Tkt. No.') ?></th>
-                            <th><?=  ('Amount') ?></th>
-                            <th class="actions text-center"><?= __('Action') ?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                        <tr>
-                            <td>
-                            <?php echo $this->Form->control('date',['label' => false,'class' => 'form-control datepickers firstupercase','placeholder'=>'dd-mm-yy','type'=>'text','data-date-format'=>'dd-mm-yyyy','autocomplete'=>'off']); ?> 
-                            </td>
-                            <td>
-                            <?php echo $this->Form->control('service',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Service Name','autocomplete'=>'off']); ?> 
-                            </td>
-                            <td>
-                             <?php echo $this->Form->control('rate',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Rate','autocomplete'=>'off']); ?> 
-                            </td>
-                            <td>
-                             <?php echo $this->Form->control('no_of_days',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'No. of Days','autocomplete'=>'off']); ?> 
-                            </td>
-                            <td>
-                            
-                            <?php echo $this->Form->control('taxi_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'TAXI/Guide No.','autocomplete'=>'off']); ?> 
-                            </td>
-                            <td>
-                                <?php echo $this->Form->control('amount',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Amount','autocomplete'=>'off']); ?> 
-                            </td>
+                            <table id="example1" class="table table-bordered table-hover table-condensed">
+                             <thead>
+                                <tr style="table-layout: fixed;">
+                                    <th style="width: 12%"><?=  ('DATE') ?></th> 
+                                    <th><?=  ('SERVICE NAME/HOURS') ?></th>
+                                    <th style="width: 13%;"><?=  ('RATE (RS)') ?></th>
+                                    <th style="width: 12%;"> <?=  ('NO. OF DAYS') ?></th>
+                                    <th><?=  (' TAXI No. / GUIDE Tkt. No.') ?></th>
+                                    <th><?=  ('Amount') ?></th>
+                                    <th class="actions text-center"><?= __('Action') ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                    <?php echo $this->Form->control('service_date',['label' => false,'class' => 'form-control datepickers firstupercase','placeholder'=>'dd-mm-yy','type'=>'text','data-date-format'=>'dd-mm-yyyy','autocomplete'=>'off']); ?> 
+                                    </td>
+                                    <td>
+                                    <?php echo $this->Form->control('service',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Service Name','autocomplete'=>'off']); ?> 
+                                    </td>
+                                    <td>
+                                     <?php echo $this->Form->control('rate',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Rate','autocomplete'=>'off']); ?> 
+                                    </td>
+                                    <td>
+                                     <?php echo $this->Form->control('no_of_days',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'No. of Days','autocomplete'=>'off']); ?> 
+                                    </td>
+                                    <td>
+                                    
+                                    <?php echo $this->Form->control('taxi_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'TAXI/Guide No.','autocomplete'=>'off']); ?> 
+                                    </td>
+                                    <td>
+                                        <?php echo $this->Form->control('amount',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Amount','autocomplete'=>'off']); ?> 
+                                    </td>
 
-                            <td>
-                                <button class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
-                            </td>
-                        </tr>
-                            
-                        <tr>
-                           <td colspan="4"></td>
-                           <th>TOTAL AMOUNT</th>
-                           <td>
-                            <?php echo $this->Form->control('amount',['label' => false,'class' => 'form-control  firstupercase','autocomplete'=>'off','readonly']); ?> 
-                           </td>
+                                    <td>
+                                        <button class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                    
+                                <tr>
+                                   <td colspan="4"></td>
+                                   <th>TOTAL AMOUNT</th>
+                                   <td>
+                                    <?php echo $this->Form->control('tot_amnts',['label' => false,'class' => 'form-control  firstupercase','autocomplete'=>'off','readonly']); ?> 
+                                   </td>
+                                </tr>
 
-                        </tr>
+                                <tr>
+                                    <td colspan="4"></td>
 
-                        <tr>
-                            <td colspan="4"></td>
-                           
-                           
-                            
-                        </tr>
-                    </tbody>
-                </table>
+                                    <td>
+                                        <b style="float: left;">SERVICE TAX</b>
+                                        <?php echo $this->Form->control('tax',['label' => false,'class' => 'form-control  firstupercase','autocomplete'=>'off','style'=>'width:27%; float:right','placeholder'=>'%']); ?> 
+                                    </td>
+
+                                    <td>
+                                        
+                                        <?php echo $this->Form->control('service_tax',['label' => false,'class' => 'form-control  firstupercase','autocomplete'=>'off','readonly']); ?> 
+                                   </td>    
+                                </tr>
+
+                                <tr>
+                                    <td colspan="4"></td>
+                                    <th>DISCOUNT</th>
+                                    <td>
+                                        <?php echo $this->Form->control('discount',['label' => false,'class' => 'form-control  firstupercase','autocomplete'=>'off']); ?> 
+                                   </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"></td>
+                                    <th>NET AMOUNT</th>
+                                   
+                                    <td>
+                                        <?php echo $this->Form->control('net_amnt',['label' => false,'class' => 'form-control  firstupercase','autocomplete'=>'off','readonly']); ?> 
+                                   </td>
+                                    
+                                </tr>
+
+                                <tr>
+                                    <td colspan="7">
+                                        <?php echo $this->Form->button('Add Row',['class'=>'btn btn-warning fa fa-print','id'=>'submit_member','id'=>'addMore']); ?>
+                                        
+                                        <?php echo $this->Form->button('Save & Print',['class'=>'btn btn-primary fa fa-print','id'=>'submit_member']); ?>
+
+                                        <?php echo $this->Form->button('Reset All',['class'=>'btn btn-default fa fa-retweet','type'=>'reset']); ?>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                         </div>
-                        
                     </div>
                 </div> 
             </div>
         <div class="box-footer">
             <div class="row">
-                <center>
-                    <div class="col-md-12">
-                        <div class="col-md-offset-3 col-md-6">  
-                            <?php echo $this->Form->button('Submit',['class'=>'btn btn-primary','id'=>'submit_member']); ?>
-                        </div>
-                    </div>
-                </center>       
+                
             </div>
         </div>
         <?= $this->Form->end() ?>
