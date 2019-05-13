@@ -77,6 +77,10 @@ class DutySlipsTable extends Table
             'foreignKey' => 'counter_id',
             'joinType' => 'INNER'
         ]); 
+        $this->belongsTo('FinancialYears', [
+            'foreignKey' => 'financial_year_id',
+            'joinType' => 'INNER'
+        ]); 
         $this->belongsTo('ServiceCities'); 
         $this->belongsTo('CustomerTariffs'); 
     }

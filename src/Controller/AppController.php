@@ -118,5 +118,11 @@ class AppController extends Controller
             $this->Security->setConfig('unlockedActions', [$this->request->getParam('action')]);
         }
     }
+    public function activeFinancialYear(){
+        $this->loadModel('FinancialYears');
+        $CurrentSession = $this->FinancialYears->find()->where(['status'=>'open'])->first();
+        return $CurrentSession->id;
+
+    }
 
 }

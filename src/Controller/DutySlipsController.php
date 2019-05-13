@@ -144,12 +144,14 @@ class DutySlipsController extends AppController
             
         $login_id = $this->Auth->User('id'); 
         $counter_id = $this->Auth->User('counter_id'); 
+        $financial_year_id = $this->activeFinancialYear();
 
         $dutySlip = $this->DutySlips->newEntity();
         if ($this->request->is('post')) {
             $dutySlip = $this->DutySlips->patchEntity($dutySlip, $this->request->getData());
             $dutySlip->counter_id = $counter_id;
             $dutySlip->login_id = $login_id;
+            $dutySlip->financial_year_id = $financial_year_id;
             $dutySlip->date = date("Y-m-d");
             if(!empty($this->request->getData('date_from')))
             {
