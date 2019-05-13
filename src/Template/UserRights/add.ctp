@@ -18,12 +18,12 @@
 }
 #bread ul li label a.toggle{
     transition: background .3s ease;
-    color: #b7f099 !important;
+    color: #fff !important;
 }
 #bread ul li label {
     width: 100%;
     display: block;
-    background: rgb(77, 55, 75);
+    background: rgb(44, 59, 65);
     color: #fefefe;
     padding: 0.75em;
     margin-bottom: 0px;
@@ -41,38 +41,23 @@
         <div class="box-header with-border no-print">
             <h3 class="box-title">Assign Module</h3>
         </div>
-        <div class="box-body">
-            <div class="col-md-12">
-                <div class="nav-tabs-custom">
-                    <ul class="nav nav-tabs">
-                        <li class="active">
-                            <a href="#tab_1" data-toggle="tab" aria-expanded="true">User Wise</a>
-                        </li>
-            
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab_1">
-
+        <div class="box-body" >
+                <div class="row">
+                    <div class="col-md-12 "> 
+                        <div class="col-md-12 space">
                         <?php echo $this->Form->create($userRight, ['url'=>['action'=>'addEmployeeRights'],'type' => 'post','class'=>'form-horizontal']); ?>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">User Login</label>
                                 <div class="col-sm-4">
-                                    <?php 
-                                    
-                                    echo $this->Form->control('login_id', ['empty'=> '--Select--','data-placeholder'=>'Select ID...','label' => false,'class'=>'select2 login_id','options'=>$logins,'id'=>'login_id']); ?>
-                                    <span class="help-block">
-                                    Provide your login id to assign rights</span>
+                                    <?php echo $this->Form->control('login_id', ['empty'=> '--Select--','data-placeholder'=>'Select Login...','label' => false,'class'=>'select2 login_id','options'=>$logins,'id'=>'login_id']); ?>
                                 </div>
                             </div>
-                            <div class="" id="user_data">
-                                
-                            </div>
-                            <?= $this->Form->unlockField('menu_id') ?>
+                            <div class="" id="user_data"></div>
+                        <?= $this->Form->unlockField('menu_id') ?>
                         <?php echo $this->Form->end(); ?>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

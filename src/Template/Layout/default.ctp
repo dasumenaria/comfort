@@ -109,6 +109,12 @@
 <?php echo $this->Html->script('/assets/scroll/js/fixed_table_rc.js'); ?>
  
 <script>
+$(window).load(function(){
+    var menuSelect=$("a[href='<?php echo $this->request->getAttribute('here');  ?>']"); 
+    menuSelect.parents('li:not(.first,.prev,.next,.last,.paginator-number)').addClass('active');
+});
+</script>
+<script>
     $('.select2').select2();
     var date = new Date();
     date.setDate(date.getDate());
@@ -133,6 +139,7 @@
         'insert_img':false,
     }); 
     $("#example1").DataTable();
+
 </script>   
 </body>
 </html>

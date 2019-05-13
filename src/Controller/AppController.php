@@ -76,5 +76,47 @@ class AppController extends Controller
     public function sendSms($mobileNo=null,$sms=null,$sender=null){
         file_get_contents("http://103.39.134.40/api/mt/SendSMS?user=phppoetsit&password=9829041695&senderid=".$sender."&channel=Trans&DCS=0&flashsms=0&number=".$mobileNo."&text=".$sms."&route=7");
     }
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $user_id=$this->Auth->User('id');  
+        
+        /////////////// UserRights /////////////
+        $menus=[];  
+        $controller=$this->request->getParam('controller');
+        $action=$this->request->getParam('action');
+        $this->loadModel('UserRights');
+        $userRights = $this->UserRights;
+        
+        $userRights = $userRights->find()->where(['login_id'=>$user_id]);
+        $menu_ids=[];
+        $userRightsIds=[];
+        foreach ($userRights as $userRight) {
+            $menu_ids[]=explode(',',$userRight->menu_ids);
+        }
+        foreach ($menu_ids as $key => $value) {
+
+            foreach ($value as $key1 => $value1) {
+                $userRightsIds[]=$value1;
+            }
+        }  
+        $this->set(compact('userRightsIds')); 
+        /////////////// Menus /////////////
+        $this->loadModel('Menus');
+        $menuFind = $this->Menus->find()->where(['controller'=>$controller,'action'=>$action])->first();
+
+        if(!empty($userRightsIds))
+        {
+            $menus =  $this->Menus->find('threaded')->where(['id IN'=>$userRightsIds,'is_hidden'=>'N']);
+        }
+        
+        $this->set(compact('menus','menuFind'));
+        
+        /////////////////// End Menus/////////////
+        if ($this->request->getParam('_ext') == 'json') 
+        {
+            $this->Security->setConfig('unlockedActions', [$this->request->getParam('action')]);
+        }
+    }
 
 }

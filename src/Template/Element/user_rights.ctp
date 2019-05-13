@@ -2,6 +2,7 @@
 <div id="bread">
 <ul class="accordion">
 <?php
+//pr($userRightsIds);
 foreach ($menus as $menu) {
     if(empty($menu->children))
     {
