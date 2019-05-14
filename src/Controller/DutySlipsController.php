@@ -547,40 +547,54 @@ class DutySlipsController extends AppController
        $RecordShow = 0;
 
        $where=array();
+       $date_from='';
+       $date_to='';
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $where['DutySlips.waveoff_status']=0;
-            foreach ($this->request->getData() as $key => $value) {
-
-                if(!empty($value))
-                { 
-                    if (strpos($key, 'date_from') !== false)
-                    {
-                        $where['DutySlips.'.$key] = $value;
-                    }
-                    else{
-                        $where['DutySlips.'.$key] = $value;
-                    }
-                }
-            }
-
-            $waveoffds = $this->DutySlips->find()->contain(['Cars','CarTypes','Customers','Services'])->where($where); 
-            //pr($waveoffds->toArray());exit();
+            $where['DutySlips.waveoff_status']=1;
+            $waveoffds = $this->DutySlips->find()->contain(['Cars','CarTypes','Customers','Services'])->where($where);
+            if(!empty($this->request->getData('date_from'))){
+                $date_from=date('Y-m-d',strtotime($this->request->getData('date_from'))); 
+                $date_to=date('Y-m-d',strtotime($this->request->getData('date_to')));  
+                $waveoffds->where(function($exp) use($date_from,$date_to) {
+                    return $exp->between('date', $date_from, $date_to, 'date');
+                });
+            } 
             $RecordShow=1;
         }
+       $this->set(compact('RecordShow','waveoffds','date_from','date_to'));
+    }
 
-      
-
-       $this->set(compact('RecordShow','waveoffds'));
+    public function reportexcel()
+    {
+        $this->viewBuilder()->setLayout(''); 
+        $where=array();
+        foreach ($this->request->getData() as $key => $value) {
+            if($key == 'date_from'){}
+            else if($key == 'date_to'){}
+            else{
+                $where['DutySlips.'.$key] = $value;
+            } 
+        } 
+        $waveoffds = $this->DutySlips->find()->contain(['Cars','CarTypes','Customers','Services'])->where($where);
+        if(!empty($this->request->getData('date_from'))){
+            $date_from=date('Y-m-d',strtotime($this->request->getData('date_from'))); 
+            $date_to=date('Y-m-d',strtotime($this->request->getData('date_to')));  
+            $waveoffds->where(function($exp) use($date_from,$date_to) {
+                return $exp->between('date', $date_from, $date_to, 'date');
+            });
+        } 
+        $this->set(compact('waveoffds'));
     }
 
     public function Unbilledds()
     {
         $RecordShow=0;
+        $customer_id='';
         $where=array();
         if ($this->request->is(['patch', 'post', 'put'])) {
             $where['DutySlips.waveoff_status']=0;
             $where['DutySlips.billing_status']='no';
-
+            $customer_id = $this->request->getData('customer_id');
             foreach ($this->request->getData() as $key => $value) {
             
                 if(!empty($value))
@@ -588,17 +602,12 @@ class DutySlipsController extends AppController
                      $where['DutySlips.'.$key] = $value;
                 }
             }
-
             $opendsList = $this->DutySlips->find()->contain(['Cars','CarTypes','Customers','Services'])->where($where);
-            //pr($opendsList->toArray()); exit;
             $RecordShow = 1;
-
-        }
-
-        
+        } 
         $opends = $this->DutySlips->Customers->find('list');
         
-        $this->set(compact('RecordShow','opends','opendsList'));
+        $this->set(compact('RecordShow','opends','opendsList','customer_id'));
          
     }
 
@@ -606,46 +615,50 @@ class DutySlipsController extends AppController
     {
         $RecordShow = 0;
         $where=array();
+        $customer_id='';
         if ($this->request->is(['patch', 'post', 'put'])) {
             $where['DutySlips.waveoff_status']=0;
             $where['DutySlips.billing_type']='Normal Billing';
             $where['DutySlips.closing_km']=0;
-
+            $customer_id = $this->request->getData('customer_id');
             foreach ($this->request->getData() as $key => $value) {
-            
                 if(!empty($value))
                 { 
                      $where['DutySlips.'.$key] = $value;
                 }
             }
-            $opendsList = $this->DutySlips->find()->contain(['Cars','CarTypes','Customers','Services'])->where($where)->order(['date'=>'DESC']);
-            //pr($opendsList->toArray()); exit;
+            $opendsList = $this->DutySlips->find()->contain(['Cars','CarTypes','Customers','Services'])->where($where)->order(['date'=>'DESC']); 
             $RecordShow = 1;
-
-        }
-
-        
-        $opends = $this->DutySlips->Customers->find('list');
-        //$RecordShow = 1;
-        $this->set(compact('RecordShow','opends','opendsList'));
+        } 
+        $opends = $this->DutySlips->Customers->find('list'); 
+        $this->set(compact('RecordShow','opends','opendsList','customer_id'));
     }
 
 
     public function records()
     {
         $RecordShow = 0;
-        $login_id = $this->Auth->User('id');
+        $counter_id = '';
+        $login_id = '';
+        $type = '';
+        $auth_id = $this->Auth->User('id');
         $where=array();
         if ($this->request->is(['patch', 'post', 'put'])) {
-           
+            $counter_id = $this->request->getData('counter_id');
+            $login_id = $this->request->getData('login_id'); 
             foreach ($this->request->getData() as $key => $value) {
                 $type = $this->request->getData('type');
-
                 if(!empty($value))
-                {       if($key == 'type'){} 
-                        else{
+                {   
+                    if($key == 'type'){} 
+                    else{
+                        if($type == '1'){
                             $where['DutySlips.'.$key] = $value;
                         }
+                        else{
+                            $where['Billings.'.$key] = $value;
+                        }
+                    }
                 }
             }
             
@@ -654,11 +667,36 @@ class DutySlipsController extends AppController
 
 
         }
-        $login = $this->DutySlips->Logins->find('list')->where(['id'=>$login_id]);
+        $login = $this->DutySlips->Logins->find('list')->where(['id'=>$auth_id]);
         $counterList = $this->DutySlips->Counters->find('list');
         
         //pr($login->toArray()); die();
             
-        $this->set(compact('RecordShow','login','counterList','type','recordList'));    
+        $this->set(compact('RecordShow','login','counterList','type','recordList','counter_id','login_id'));    
     }
+
+    public function recordexcel()
+    {
+        $this->viewBuilder()->setLayout('');  
+        $where=array();  
+        foreach ($this->request->getData() as $key => $value) {
+            $type = $this->request->getData('type');
+
+            if(!empty($value))
+            {       
+                if($key == 'type'){} 
+                else{
+                  if($type == '1'){
+                    $where['DutySlips.'.$key] = $value;
+                  }
+                  else{
+                    $where['Billings.'.$key] = $value;
+                  }
+                }
+            }
+        }
+        $recordList = $this->DutySlips->find()->where($where); 
+        $this->set(compact('recordList','type'));    
+    }
+
 }

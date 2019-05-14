@@ -1,24 +1,36 @@
 
 <section class="content">
-    <?php
-            if($RecordShow ==1)
-            { ?>
-                <div>
-                    <a href="" class="btn btn-primary"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
-                    
-                    <button class="btn btn-warning" onclick="window.print();"><i class="fa fa-print" aria-hidden="true"></i></button>
-                    
-                    <button class="btn btn-danger "><i class="fa fa-download " aria-hidden="true"></i></button>
-                </div>
-                <span class="help-block"></span>
-                    <?php
-            }
-            ?>
+<?php
+if($RecordShow == 1)
+{ ?>
+    <table class="hide_print">
+        <tr>
+            <td>
+                <a href="" class="btn btn-primary"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+            </td>
+            <td>&nbsp;
+            <button class="btn btn-warning" onclick="window.print();"><i class="fa fa-print" aria-hidden="true"></i></button>
+            </td>
+            <td>
+            <?= $this->Form->create(null, ['url' => [
+                    'controller' => 'DutySlips',
+                    'action' => 'recordexcel'
+                ]]); ?>  
+            <?php echo $this->Form->hidden('counter_id' , ['label' => false,'value' => $counter_id]); ?> 
+            <?php echo $this->Form->hidden('login_id' , ['label' => false,'value' => $login_id]); ?> 
+            <?php echo $this->Form->hidden('type' , ['label' => false,'value' => $type]); ?>
+
+            &nbsp;<?php echo $this->Form->button('<i class="fa fa-download"></i>',['class'=>'btn btn-danger','title'=>'Click here to download Excel']); ?> 
+            <?= $this->Form->end() ?>
+            </td>
+        </tr>
+    </table>
+<?php } ?>
 <div class="row">
 
     <div class="col-md-12">
         <div class="box box-primary"> 
-            <div class="box-header with-border">
+            <div class="box-header with-border hide_print">
                 <i class="fa fa-plus"></i>Records
             </div>
             <?php
@@ -26,8 +38,8 @@
             {
                 ?>
             <?= $this->Form->create('df',['type'=>'file','id'=>'CityForm']) ?>
-            <div class="box-body" >
-                <div class="row">
+            <div class="box-body " >
+                <div class="row hide_print">
                     <div class="">
                         <div class="col-md-12">
                         <div class="col-md-12 space">
@@ -57,7 +69,7 @@
                                    
                                 <?php 
                                     $values['1'] = 'Duty Slip';
-                                    $values['0'] = 'Invoice';
+                                    $values['2'] = 'Invoice';
                                     echo $this->Form->control('type',['label' => false,'class' => 'form-control select2','options'=>$values,'autocomplete'=>'off']); ?>
                                 </div>
                             </div> 
@@ -66,24 +78,24 @@
                     </div>
                 </div> 
             </div>
-        <div class="box-footer">
-            <div class="row">
-                <center>
-                    <div class="col-md-12">
-                        <div class="col-md-offset-3 col-md-6">  
-                            <?php echo $this->Form->button('Generate',['class'=>'btn btn-success','id'=>'submit_member']); ?>
+            <div class="box-footer">
+                <div class="row">
+                    <center>
+                        <div class="col-md-12">
+                            <div class="col-md-offset-3 col-md-6">  
+                                <?php echo $this->Form->button('Generate',['class'=>'btn btn-success','id'=>'submit_member']); ?>
+                            </div>
                         </div>
-                    </div>
-                </center>       
+                    </center>       
+                </div>
             </div>
-        </div>
         <?= $this->Form->end() ?>
 
         <?php 
             }
             else{ 
                 
-                if ($type != 0) {?>
+                if ($type == 1) {?>
                    <table class="table table-bordered table-striped">
                     <thead>
                         <tr style="table-layout: fixed;">

@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="box box-primary"> 
-            <div class="box-header with-border">
+            <div class="box-header with-border hide_print">
                 <i class="fa fa-plus"></i> DutySlip <?= $displayName;?>
                 <?php if($RecordShow == 1)
                 { if($type == "ser") { ?>
@@ -28,7 +28,7 @@
             {
                 ?>
                 <?= $this->Form->create('',['class'=>'loadingshow','id'=>'CityForm']) ?>
-                <div class="box-body" >
+                <div class="box-body hide_print" >
                     <div class="row"> 
                         <div class="col-md-12">
                             <div class="form-group col-md-6">
@@ -104,7 +104,7 @@
                             <th><?= ('Date') ?></th>
                             <th><?= ('Open KM') ?></th>
                             <th><?= ('Close KM') ?></th>
-                            <th class="actions text-center"><?= __('Action') ?></th>
+                            <th class="actions text-center hide_print"><?= __('Action') ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,7 +122,7 @@
                             <td><?= h(date('d-M-Y',strtotime($city->date))) ?></td>
                             <td><?= h(@$city->opening_km) ?></td>
                             <td><?= h(@$city->closing_km) ?></td>
-                            <td  class="actions text-center">
+                            <td  class="actions text-center hide_print">
                             <?php if($type == 'edt') { ?>
                                 <?php echo $this->Html->link('<i class="fa fa-pencil-square-o"></i>',['action' => 'edit', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-danger','target'=>'_blank')); ?>
                             <?php } if($type == 'del') {?>

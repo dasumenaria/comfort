@@ -69,7 +69,6 @@ if($dutySlip->billing_type == 'Normal Billing')
          <td colspan="3">'.$dutySlip->email_id.'</td>
       </tr>
 
-
       <tr>
          <td><strong>Service</strong></td>
          <td colspan="5">'.$dutySlip->service->name.'</td>

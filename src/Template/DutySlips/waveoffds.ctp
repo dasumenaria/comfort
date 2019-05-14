@@ -1,24 +1,38 @@
 
 <section class="content">
-    <?php
-            if($RecordShow ==1)
-            { ?>
-                <div>
+<?php
+    if($RecordShow == 1)
+    { ?>
+        <table class="hide_print">
+            <tr>
+                <td>
                     <a href="" class="btn btn-primary"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
-                    
-                    <button class="btn btn-warning" onclick="window.print();"><i class="fa fa-print" aria-hidden="true"></i></button>
-                    
-                    <button class="btn btn-danger "><i class="fa fa-download " aria-hidden="true"></i></button>
-                </div>
-                <span class="help-block"></span>
-                    <?php
-            }
-            ?>
+                </td>
+                <td>&nbsp;
+                <button class="btn btn-warning" onclick="window.print();"><i class="fa fa-print" aria-hidden="true"></i></button>
+                </td>
+                <td>
+                <?= $this->Form->create(null, ['url' => [
+                        'controller' => 'DutySlips',
+                        'action' => 'reportexcel'
+                    ]]); ?>  
+                <?php echo $this->Form->hidden('waveoff_status' , ['label' => false,'value' =>1]); ?> 
+                <?php echo $this->Form->hidden('date_to' , ['label' => false,'value' => $date_to]); ?> 
+                <?php echo $this->Form->hidden('date_from' , ['label' => false,'value' => $date_from]); ?>
+                &nbsp;<?php echo $this->Form->button('<i class="fa fa-download"></i>',['class'=>'btn btn-danger','title'=>'Click here to download Excel']); ?> 
+                <?= $this->Form->end() ?>
+                </td>
+            </tr>
+        </table>
+        <span class="help-block"></span>
+    <?php
+    }
+?>
 <div class="row">
 
     <div class="col-md-12">
         <div class="box box-primary"> 
-            <div class="box-header with-border">
+            <div class="box-header with-border hide_print">
                 <i class="fa fa-plus"></i>Waveoff DS
             </div>
             <?php
@@ -35,7 +49,7 @@
                                 <label class="control-label col-sm-4">Date From:</label>
                                 <div class="col-sm-4">
                                    
-                                <?php echo $this->Form->control('date_from',['label' => false,'class' => 'form-control  datepickers','type'=>'text','placeholder'=>'dd-mm-yy','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?> 
+                                <?php echo $this->Form->control('date_from',['label' => false,'class' => 'form-control  datepickers','type'=>'text','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?> 
                                 </div>
                             </div> 
                         </div>
@@ -44,8 +58,7 @@
                             <div class="col-md-12 ">
                                 <label class="control-label col-sm-4">Date to:</label>
                                 <div class="col-sm-4">
-                                   
-                                <?php echo $this->Form->control('date_to',['label' => false,'class' => 'form-control  datepickers','type'=>'text','placeholder'=>'dd-mm-yy','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?> 
+                                <?php echo $this->Form->control('date_to',['label' => false,'class' => 'form-control  datepickers','type'=>'text','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy']); ?> 
                                 </div>
                             </div> 
                     
@@ -69,9 +82,8 @@
         <?php 
             }
             else{ ?>
-            
-        <table class="table table-bordered table-striped">
-            <thead>
+                <table class="table table-bordered table-striped">
+                    <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sl.') ?></th> 
                             <th><?=  ('DS No .') ?></th> 
@@ -88,26 +100,23 @@
                     </thead>
                     <tbody>
                         <?php $page_no=0; foreach ($waveoffds as $city):
-                            
                         ?>  
                         <tr>
                             <td><?= h(++$page_no) ?></td> 
                             <td><?= h($city->id) ?></td> 
-                            <td><?= h($city->customer->name) ?></td> 
-                            <td><?= h($city->guest_name) ?></td>
-                            <td><?= h($city->service->name) ?></td>
-                            <td><?= h($city->car_type->name) ?></td>
-                            <td><?= h($city->car->name) ?></td>
-                            <td><?= h($city->opening_km)?></td>
-                            <td><?= h($city->closing_km)?></td>
-                            <td><?= h($city->reason) ?></td>
+                            <td><?= h(@$city->customer->name) ?></td> 
+                            <td><?= h(@$city->guest_name) ?></td>
+                            <td><?= h(@$city->service->name) ?></td>
+                            <td><?= h(@$city->car_type->name) ?></td>
+                            <td><?= h(@$city->car->name) ?></td>
+                            <td><?= h(@$city->opening_km)?></td>
+                            <td><?= h(@$city->closing_km)?></td>
+                            <td><?= h(@$city->reason) ?></td>
                         </tr>
                         <?php endforeach; ?>
-                    </tbody>
-                            
-                    
-            </table>
-        <?php
+                    </tbody>                                  
+                </table>
+            <?php
             }
             ?>
             </div> 
@@ -134,7 +143,7 @@ $(document).ready(function() {
             $('.lname').html('Employee Name');  
             $('.dmobile').html('Employee Mobile No');  
             $('.qualification').html('Employee Qualification:');  
-        }     
+        }
     });
          
     $.validator.addMethod("specialChars", function( value, element ) {
