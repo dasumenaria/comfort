@@ -90,7 +90,15 @@
                            <td colspan="4"></td>
                            <th>TOTAL AMOUNT</th>
                            <td>
-                            <?php echo $this->Form->control('tot_amnts',['label' => false,'class' => 'form-control total_amt firstupercase','autocomplete'=>'off','readonly']); ?> 
+                            <?php echo $this->Form->control('tot_amnt',['label' => false,'class' => 'form-control total_amt firstupercase','autocomplete'=>'off','placeholder'=>'Total Amount','readonly']); ?> 
+                           </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4"></td>
+                            <th>DISCOUNT</th>
+                            <td>
+                                <?php echo $this->Form->control('discount',['label' => false,'class' => 'form-control discount colamount firstupercase','autocomplete'=>'off','placeholder'=>'₹']); ?> 
                            </td>
                         </tr>
 
@@ -98,25 +106,18 @@
                             <td colspan="4"></td>
                             <td>
                                 <b style="float: left;">SERVICE TAX</b>
-                                <?php echo $this->Form->control('tax',['label' => false,'class' => 'form-control tax firstupercase','autocomplete'=>'off','style'=>'width:27%; float:right','placeholder'=>'%']); ?> 
+                                <?php echo $this->Form->control('tax',['label' => false,'class' => 'form-control tax colamount','autocomplete'=>'off','style'=>'width:27%; float:right','placeholder'=>'%']); ?> 
                             </td>
                             <td>
-                                <?php echo $this->Form->control('service_tax',['label' => false,'class' => 'form-control service_tax firstupercase','autocomplete'=>'off','readonly']); ?> 
+                                <?php echo $this->Form->control('service_tax',['label' => false,'class' => 'form-control service_tax firstupercase','autocomplete'=>'off','placeholder'=>'Service Tax','readonly']); ?> 
                            </td>    
                         </tr>
 
                         <tr>
                             <td colspan="4"></td>
-                            <th>DISCOUNT</th>
-                            <td>
-                                <?php echo $this->Form->control('discount',['label' => false,'class' => 'form-control  firstupercase','autocomplete'=>'off']); ?> 
-                           </td>
-                        </tr>
-                        <tr>
-                            <td colspan="4"></td>
                             <th>NET AMOUNT</th>
                             <td>
-                                <?php echo $this->Form->control('net_amnt',['label' => false,'class' => 'form-control  firstupercase','autocomplete'=>'off','readonly']); ?> 
+                                <?php echo $this->Form->control('net_amnt',['label' => false,'class' => 'form-control net_amnt colamount','autocomplete'=>'off','placeholder'=>'Net Amount','readonly']); ?> 
                            </td>
                             
                         </tr>
@@ -166,7 +167,7 @@
                         </td>
 
                         <td>
-                            <?php echo $this->Form->button('',['class'=>'btn btn-danger btn-xs fa fa-trash remove_row2','id'=>'submit_member','type'=>'button']); ?>
+                            <?php echo $this->Form->button('',['class'=>'btn btn-danger btn-xs fa fa-trash  remove_row2','id'=>'submit_member','type'=>'button']); ?>
                         </td>
                     </tr>
                  </tbody>
@@ -191,65 +192,75 @@
         });
 
         $(document).on("click", ".remove_row2", function(){
-        $(this).closest("#parant_table2 tr").remove();
-
-        });
-        $(document).on("keyup", ".colamount", function(){
-            var rate = $(this).closest("tr").find('.rate').val();
-            var nod = $(this).closest("tr").find('.nod').val();
-            var amt = rate * nod;
-            $(this).closest("tr").find('.amt').val(amt);
-
-            
-        }); 
-
-        $(document).on("keyup", ".colamount", function() {
-        var sum = 0;
-        $(".amt").each(function(){
-        sum += +$(this).val();
-        });
-
-         $(".total_amt").val(sum);
+            $(this).closest("#parant_table2 tr").remove();
         });
 
         $(document).on("keyup", ".colamount", function() {
-            var amount =  $(".total_amt").val();
-            var tax = $('.tax').val();
-            var percentage =  amount / tax;
-            alert(percentage);
-            var gta = +this.value / percentage;
-            if (gta == Number.POSITIVE_INFINITY || gta == Number.NEGATIVE_INFINITY || isNaN(gta))
-                gta = "N/A"; // OR 0
-                $('.service_tax').val(gta);
-
+            colAmountCalc();
         });
-
+        $(document).on("click", ".remove_row2", function() {
+            colAmountCalc();
+        });
+   
         $.validator.addMethod("specialChars", function( value, element ) {
-        var regex = new RegExp("^[a-zA-Z ]+$");
-        var key = value;
+            var regex = new RegExp("^[a-zA-Z ]+$");
+            var key = value;
 
-        if (!regex.test(key)) {
-        return false;
-        }
-        return true;
-        }, "please use only alphabetic characters");
-        $("#CityForm").validate({ 
-        rules: {
-        name: {
-        required: true, 
-        }, 
+            if (!regex.test(key)) {
+            return false;
+            }
+            return true;
+            }, "please use only alphabetic characters");
+            $("#CityForm").validate({ 
+            rules: {
+            name: {
+            required: true, 
+            }, 
 
 
-        },
+            },
 
-        submitHandler: function () {
-        $("#submit_member").attr('disabled','disabled');
-        $("#loader-1").show();
-        form.submit();
-        }
+            submitHandler: function () {
+            $("#submit_member").attr('disabled','disabled');
+            $("#loader-1").show();
+            form.submit();
+            }
         }); 
 
 
 
-        });
+});
+function colAmountCalc(){
+    var sum = 0; 
+    $('tbody.parant_table2 tr').each(function(){
+
+        var rate = $(this).closest("tr").find('.rate').val();
+        var nod = $(this).closest("tr").find('.nod').val();
+        var amt = rate * nod;
+        $(this).closest("tr").find('.amt').val(amt);
+        sum += amt;
+    });
+    $(".total_amt").val(sum);
+
+
+    var amount =  sum;
+    var discount = $('.discount').val();
+    var tax = $('#tax').val();
+
+    var total_amt = parseInt(sum);
+    var service_tax = parseInt($('.service_tax').val());
+    
+    var calc_discount = amount - discount;
+    
+    var percentage =  calc_discount*tax/100;
+
+    var net_amnt = calc_discount + percentage;
+    
+    if (percentage == Number.POSITIVE_INFINITY || percentage == Number.NEGATIVE_INFINITY || isNaN(percentage))
+        percentage = "N/A"; // OR 0
+        $('.service_tax').val(percentage);           
+        $('.net_amnt').val(net_amnt);
+
+    
+}
 </script>
