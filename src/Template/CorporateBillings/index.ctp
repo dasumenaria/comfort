@@ -61,7 +61,7 @@
                         </tr>
                     </thead>
                     <tbody>
-<?php $page_no=0;$i=0; foreach ($customerLists as $city): 
+                        <?php $page_no=0;$i=0; foreach ($customerLists as $city): 
                         ?>
                         <tr id="<?php echo ++$i; ?>" <?php if($city->billing_status=='yes'){ ?>  title="Billing have been Done" style="background-color:#DFF0D8;" <?php }
                             else if($city->waveoff_status==1) {?> title="This is Waveoff Corporate " style="background-color:#F2DEDE;" <?php } ?>>

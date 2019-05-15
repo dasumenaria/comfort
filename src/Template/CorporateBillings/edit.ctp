@@ -143,10 +143,7 @@
             <table id="sample2" style="display: none;">
                 <tbody>
                     <?php
-
                     foreach ($corporateBilling  as $data) {?>
-                        
-                    
                     <tr>
                         <td>
                         <?php echo $this->Form->control('service_date[]',['label' => false,'class' => 'form-control datepickers firstupercase','placeholder'=>'dd-mm-yy','type'=>'text','data-date-format'=>'dd-mm-yyyy','autocomplete'=>'off']); ?> 
