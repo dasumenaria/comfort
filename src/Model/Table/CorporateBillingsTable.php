@@ -79,7 +79,7 @@ class CorporateBillingsTable extends Table
             ->requirePresence('customer_name', 'create')
             ->allowEmptyString('customer_name', false);
 
-        $validator
+      /*  $validator
             ->scalar('guest_name')
             ->maxLength('guest_name', 120)
             ->requirePresence('guest_name', 'create')
@@ -124,7 +124,7 @@ class CorporateBillingsTable extends Table
             ->scalar('amount')
             ->maxLength('amount', 100)
             ->requirePresence('amount', 'create')
-            ->allowEmptyString('amount', false);
+            ->allowEmptyString('amount', false);*/
 
         return $validator;
     }

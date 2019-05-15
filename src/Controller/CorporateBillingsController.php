@@ -90,39 +90,44 @@ class CorporateBillingsController extends AppController
         $login_id = $this->Auth->User('id');
         $counter_id = $this->Auth->User('counter_id'); 
         if ($this->request->is('post')) {
-            
-            foreach ($corporateBilling as $data) {  
+                         
             $corporateBilling = $this->CorporateBillings->patchEntity($corporateBilling, $this->request->getData());
-            $corporateBilling->login_id = $login_id;
-            $corporateBilling->counter_id = $counter_id;
-            $date = $this->request->getData('date');
-            
-            if (!empty($date)) {
-                $corporateBilling->date = date('y-m-d',strtotime($this->request->getData('date')));
-            }
-            else
-            {
-                $corporateBilling->date = '0000-00-00';
-            }
-
-            $service_date = $this->request->getData('service_date');
-            if (!empty($service_date)) {
-                $corporateBilling->service_date = date('y-m-d',strtotime($this->request->getData('service_date')));
-
-            }
-            else
-            {
-                $corporateBilling->service_date = '0000-00-00';
-            }
+            $service_date = array_filter($this->request->getData('service_date'));
+            $service = array_filter($this->request->getData('service'));
+            $rate = array_filter($this->request->getData('rate'));
+            $no_of_days = array_filter($this->request->getData('no_of_days'));
+            $taxi_no = array_filter($this->request->getData('taxi_no'));
+            $amount = array_filter($this->request->getData('amount'));
+            $x=0;
+            $save=0;
              
-        }       
-          
-            if ($this->CorporateBillings->save($corporateBilling)) {
+            foreach($service_date as $val){
+                if(!empty($val)){
+                    $corporateBilling = $this->CorporateBillings->newEntity();
+                    $corporateBilling = $this->CorporateBillings->patchEntity($corporateBilling, $this->request->getData());
+                    $corporateBilling->service_date = date('Y-m-d',strtotime($val));
+                    $corporateBilling->date = date('Y-m-d',strtotime($this->request->getData('date')));
+                    $corporateBilling->invoice_no = 1; 
+                    $corporateBilling->service = $service[$x]; 
+                    $corporateBilling->customer_id = $this->request->getData('customer_name'); 
+                    $corporateBilling->rate = $rate[$x]; 
+                    $corporateBilling->no_of_days = $no_of_days[$x]; 
+                    $corporateBilling->taxi_no = $taxi_no[$x]; 
+                    $corporateBilling->amount = $amount[$x]; 
+                    $corporateBilling->login_id = $login_id;
+                    $corporateBilling->counter_id = $counter_id;
+                    
+                    if ($this->CorporateBillings->save($corporateBilling)) { 
+                        $save=1;
+                    }
+                    $x++;
+                }
+            } 
 
+            if($save == 1){
                 $this->Flash->success(__('The corporate billing has been saved.'));
                 return $this->redirect(['action' => 'add']);
             }
-           
             $this->Flash->error(__('The corporate billing could not be saved. Please, try again.'));
         }
         
@@ -143,47 +148,49 @@ class CorporateBillingsController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $login_id = $this->Auth->User('id');
-            $counter_id = $this->Auth->User('counter_id'); 
             $corporateBilling = $this->CorporateBillings->patchEntity($corporateBilling, $this->request->getData());
-            $corporateBilling = $this->CorporateBillings->patchEntity($corporateBilling, $this->request->getData());
-            $corporateBilling->login_id = $login_id;
-            $corporateBilling->counter_id = $counter_id;
+            $service_date = array_filter($this->request->getData('service_date'));
+            $service = array_filter($this->request->getData('service'));
+            $rate = array_filter($this->request->getData('rate'));
+            $no_of_days = array_filter($this->request->getData('no_of_days'));
+            $taxi_no = array_filter($this->request->getData('taxi_no'));
+            $amount = array_filter($this->request->getData('amount'));
+            $x=0;
+            $save=0;
 
-            $date = $this->request->getData('date');
-            
-            if (!empty($date)) {
-                $corporateBilling->date = date('y-m-d',strtotime($this->request->getData('date')));
-            }
-            else
-            {
-            
-                $corporateBilling->date = '0000-00-00';
-            }
+            foreach($service_date as $val){
+                if(!empty($val)){
+                    $corporateBilling = $this->CorporateBillings->newEntity();
+                    $corporateBilling = $this->CorporateBillings->patchEntity($corporateBilling, $this->request->getData());
+                    $corporateBilling->service_date = date('Y-m-d',strtotime($val));
+                    $corporateBilling->date = date('Y-m-d',strtotime($this->request->getData('date')));
+                    $corporateBilling->invoice_no = 1; 
+                    $corporateBilling->service = $service[$x]; 
+                    $corporateBilling->customer_id = $this->request->getData('customer_name'); 
+                    $corporateBilling->rate = $rate[$x]; 
+                    $corporateBilling->no_of_days = $no_of_days[$x]; 
+                    $corporateBilling->taxi_no = $taxi_no[$x]; 
+                    $corporateBilling->amount = $amount[$x]; 
+                    
+                    if ($this->CorporateBillings->save($corporateBilling)) { 
+                        $save=1;
+                    }
+                    $x++;
+                }
+            } 
 
-            $service_date = $this->request->getData('service_date');
-            if (!empty($service_date)) {
-                $corporateBilling->service_date = date('y-m-d',strtotime($this->request->getData('service_date')));
-            }
-            else
-            {
-                $corporateBilling->service_date = '0000-00-00';
-            }
-            
-            
-            if ($this->CorporateBillings->save($corporateBilling)) {
+
+
+            if($save == 1){
                 $this->Flash->success(__('The corporate billing has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'index','edt']);
             }
             $this->Flash->error(__('The corporate billing could not be saved. Please, try again.'));
         }
+        
         $customerList = $this->CorporateBillings->Customers->find('list');
-        
-        
-        $this->set(compact('corporateBilling', 'logins', 'counters', 'waveoffLogins', 'waveoffCounters','customerList'));
+        $this->set(compact('corporateBilling', 'logins', 'counters', 'waveoffLogins', 'waveoffCounters','customerList','CorporateEdit'));
     }
-
     /**
      * Delete method
      *

@@ -48,7 +48,7 @@ class CorporateBilling extends Entity
     protected $_accessible = [
         'invoice_no' => true,
         'date' => true,
-        'customer_name' => true,
+        'customer_id' => true,
         'guest_name' => true,
         'ref' => true,
         'service_date' => true,
