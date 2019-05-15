@@ -90,10 +90,11 @@ class CorporateBillingsController extends AppController
         $login_id = $this->Auth->User('id');
         $counter_id = $this->Auth->User('counter_id'); 
         if ($this->request->is('post')) {
+            
+            foreach ($corporateBilling as $data) {  
             $corporateBilling = $this->CorporateBillings->patchEntity($corporateBilling, $this->request->getData());
             $corporateBilling->login_id = $login_id;
             $corporateBilling->counter_id = $counter_id;
-
             $date = $this->request->getData('date');
             
             if (!empty($date)) {
@@ -101,27 +102,27 @@ class CorporateBillingsController extends AppController
             }
             else
             {
-            
                 $corporateBilling->date = '0000-00-00';
             }
 
             $service_date = $this->request->getData('service_date');
             if (!empty($service_date)) {
                 $corporateBilling->service_date = date('y-m-d',strtotime($this->request->getData('service_date')));
+
             }
             else
             {
                 $corporateBilling->service_date = '0000-00-00';
             }
-            
-            
+             
+        }       
+          
             if ($this->CorporateBillings->save($corporateBilling)) {
 
                 $this->Flash->success(__('The corporate billing has been saved.'));
-
                 return $this->redirect(['action' => 'add']);
             }
-            
+           
             $this->Flash->error(__('The corporate billing could not be saved. Please, try again.'));
         }
         
