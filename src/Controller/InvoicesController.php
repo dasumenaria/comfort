@@ -46,8 +46,13 @@ class InvoicesController extends AppController
     public function add()
     {
         $showRecord = 0;
+        $login_id = $this->Auth->User('id'); 
+        $counter_id = $this->Auth->User('counter_id'); 
+        $ldrview = $this->Auth->User('ldrview'); 
         $invoice = $this->Invoices->newEntity();
+        $financial_year_id = $this->activeFinancialYear();
         if ($this->request->is('post')) {
+            
             if(!empty($this->request->getData('searchDS'))){
                 $customer_id = $this->request->getData('customer_id');
                 $invoice_type_id = $this->request->getData('invoice_type_id');
@@ -67,8 +72,73 @@ class InvoicesController extends AppController
                 $invoiceTypeData = $this->Invoices->InvoiceTypes->get($invoice_type_id);
                 $dutySlipData = $this->Invoices->DutySlips->find()->where(['DutySlips.customer_id'=>$customer_id,'DutySlips.waveoff_status'=>0 ,'DutySlips.billing_status'=>'no'])->contain(['CarTypes','Services','Cars']); 
 
-                $this->set(compact('customer_id', 'invoice_type_id', 'payment_type','complimenatry_status','remarks','invoiceTypeData','customerData','dutySlipData'));
-                   
+                //pr($dutySlipData->toArray());exit;
+                $gstData = $this->Invoices->GstFigures->get(3);
+
+                $this->set(compact('customer_id', 'invoice_type_id', 'payment_type','complimenatry_status','remarks','invoiceTypeData','customerData','dutySlipData','tax_type','gstData'));      
+            }
+            if(!empty($this->request->getData('invoiceReg'))){
+                //pr($this->request->getData());exit;
+
+                $count=$this->request->getData('count');  
+                $payment_type=$this->request->getData('payment_type');
+                $remarks=$this->request->getData('remarks');
+                $customer_id=$this->request->getData('customer_id');
+                $invoice_type_id=$this->request->getData('invoice_type_id');
+                $total=$this->request->getData('total');
+                $discount=$this->request->getData('discout_final');
+                $tax_type=$this->request->getData('tax_type'); 
+
+                for($i=1;$i<=$count;$i++)
+                {
+                    $dutyslip_id[]=$this->request->getData('ds_idd'.$i); 
+                }
+                $tax=0;
+                if($tax_type==0){
+                    $tax+=$this->request->getData('taxation1');
+                    $tax+=$this->request->getData('taxation2');
+                }
+                else{
+                    $tax+=$this->request->getData('taxation1');
+                }
+
+                $grand_total=$this->request->getData('grand_total');
+                $complimenatry_status=$this->request->getData('complimenatry_status');
+                $invoice_date= $this->request->getData('invoice_date');
+                //--
+                $findCount = $this->Invoices->InvoiceDetails->find()->where(['InvoiceDetails.duty_slip_id IN'=>$dutyslip_id])->count();
+                if($findCount==0){
+                     
+                    $CheckInvoiceNo = $this->Invoices->find()->where(['financial_year_id'=>$financial_year_id])->order(['id'=>'DESC'])->limit(1);
+                    $financialYearsData = $this->Invoices->FinancialYears->get($financial_year_id); 
+                    $str = $financialYearsData->alias_name;
+
+                    if(!empty($CheckInvoiceNo->toArray())){
+                        $max_invoice_no = $CheckInvoiceNo->invoice_no; 
+                        $old_invoice_no = str_replace($str,"",$max_invoice_no);
+                        $old_invoice_no = $old_invoice_no + 1;  
+                        $invoice_no = $str.'/'.$old_invoice_no;
+                    }
+                    else{
+                        $invoice_no = $str.'/1';
+                    }
+                }
+                $invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());
+                $invoice->invoice_no = $invoice_no;
+                $invoice->date = $invoice_date;
+                $invoice->payment_status = 'no';
+                $invoice->tax = $tax;
+                $invoice->remarks = $remarks;
+                $invoice->login_id = $login_id;
+                $invoice->counter_id = $counter_id;
+                $invoice->financial_year_id = $financial_year_id;
+                $invoice->current_date = date("Y-m-d");
+                pr($invoice); exit; 
+                if ($this->Invoices->save($invoice)) {
+                    $this->Flash->success(__('The invoice has been saved.'));
+                    return $this->redirect(['action' => 'add']);
+                }
+                $this->Flash->error(__('The invoice could not be saved. Please, try again.')); 
             }
             
             /*$invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());

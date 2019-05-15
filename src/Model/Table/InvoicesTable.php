@@ -92,12 +92,7 @@ class InvoicesTable extends Table
             ->maxLength('invoice_no', 15)
             ->requirePresence('invoice_no', 'create')
             ->allowEmptyString('invoice_no', false);
-
-        $validator
-            ->scalar('authorized_person')
-            ->maxLength('authorized_person', 30)
-            ->requirePresence('authorized_person', 'create')
-            ->allowEmptyString('authorized_person', false);
+ 
 
         $validator
             ->date('date')
@@ -149,32 +144,13 @@ class InvoicesTable extends Table
         $validator
             ->integer('complimenatry_status')
             ->requirePresence('complimenatry_status', 'create')
-            ->allowEmptyString('complimenatry_status', false);
-
-        $validator
-            ->integer('waveoff_status')
-            ->requirePresence('waveoff_status', 'create')
-            ->allowEmptyString('waveoff_status', false);
-
-        $validator
-            ->scalar('waveoff_reason')
-            ->requirePresence('waveoff_reason', 'create')
-            ->allowEmptyString('waveoff_reason', false);
-
-        $validator
-            ->dateTime('waveoff_date')
-            ->allowEmptyDateTime('waveoff_date', false);
+            ->allowEmptyString('complimenatry_status', false); 
 
         $validator
             ->date('current_date')
             ->requirePresence('current_date', 'create')
             ->allowEmptyDate('current_date', false);
-
-        $validator
-            ->scalar('invoice_gst')
-            ->maxLength('invoice_gst', 50)
-            ->requirePresence('invoice_gst', 'create')
-            ->allowEmptyString('invoice_gst', false);
+ 
 
         return $validator;
     }

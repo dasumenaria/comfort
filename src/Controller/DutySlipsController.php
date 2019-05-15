@@ -152,6 +152,7 @@ class DutySlipsController extends AppController
             $dutySlip->counter_id = $counter_id;
             $dutySlip->login_id = $login_id;
             $dutySlip->financial_year_id = $financial_year_id;
+            $dutySlip->billing_status = 'no';
             $dutySlip->date = date("Y-m-d");
             if(!empty($this->request->getData('date_from')))
             {
@@ -279,7 +280,8 @@ class DutySlipsController extends AppController
             {
                 $tot_amnt=$cop_amounts;
             }
-  
+            $dutySlip->tot_amnt= $tot_amnt;
+            $dutySlip->extra_amnt= $extra_amnt;
             if ($this->DutySlips->save($dutySlip)) {
                 $employee_id = $dutySlip->employee_id;
                 $car_id = $dutySlip->car_id;
