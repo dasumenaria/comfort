@@ -167,11 +167,9 @@ class InvoicesTable extends Table
         $rules->add($rules->existsIn(['invoice_type_id'], 'InvoiceTypes'));
         $rules->add($rules->existsIn(['customer_id'], 'Customers'));
         $rules->add($rules->existsIn(['login_id'], 'Logins'));
-        $rules->add($rules->existsIn(['counter_id'], 'Counters'));
-        $rules->add($rules->existsIn(['waveoff_login_id'], 'WaveoffLogins'));
-        $rules->add($rules->existsIn(['waveoff_counter_id'], 'WaveoffCounters'));
+        $rules->add($rules->existsIn(['counter_id'], 'Counters')); 
         $rules->add($rules->existsIn(['financial_year_id'], 'FinancialYears'));
-        $rules->add($rules->existsIn(['gst_figure_id'], 'GstFigures'));
+        //$rules->add($rules->existsIn(['gst_figure_id'], 'GstFigures'));
 
         return $rules;
     }
