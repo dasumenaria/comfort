@@ -33,7 +33,7 @@ label{
                             <label class="control-label"> Customer Name</label>
                         </div>
                         <div class="col-md-4">
-                            <?php echo $this->Form->control('customer_id',['label' => false,'class' => 'form-control select2','empty'=>'Select Customer...','options'=>$customers,'autocomplete'=>'off']); ?>
+                            <?php echo $this->Form->control('customer_id',['label' => false,'class' => 'form-control select2','empty'=>'Select Customer...','options'=>$customers,'autocomplete'=>'off','required']); ?>
                         </div>
                     </div>
                     <span class="help-block"></span>
@@ -295,11 +295,11 @@ label{
                                 <?php 
                                 }   
                             }
-                            else 
+                            else
                             {
-                              echo $this->Form->control('taxation1',['label' => false,'class' => 'form-control','autocomplete'=>'off','type'=>'text','value'=>0,'id'=>'taxation1','readonly']);
-                              echo $this->Form->control('taxation2',['label' => false,'class' => 'form-control','autocomplete'=>'off','type'=>'text','value'=>0,'id'=>'taxation2','readonly']);
-                              echo $this->Form->control('taxation3',['label' => false,'class' => 'form-control','autocomplete'=>'off','type'=>'text','value'=>0,'id'=>'taxation3','readonly']);   
+                              echo $this->Form->control('taxation1',['label' => false,'class' => 'form-control','autocomplete'=>'off','type'=>'hidden','value'=>0,'id'=>'taxation1','readonly']);
+                              echo $this->Form->control('taxation2',['label' => false,'class' => 'form-control','autocomplete'=>'off','type'=>'hidden','value'=>0,'id'=>'taxation2','readonly']);
+                              echo $this->Form->control('taxation3',['label' => false,'class' => 'form-control','autocomplete'=>'off','type'=>'hidden','value'=>0,'id'=>'taxation3','readonly']);   
                             }
                             ?>
                             <tr>

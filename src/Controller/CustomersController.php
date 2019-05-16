@@ -52,6 +52,7 @@ class CustomersController extends AppController
             $accounting_group_id = $accountGroup->id;
             //pr($this->request->getData());exit;
             $customer = $this->Customers->patchEntity($customer, $this->request->getData());
+            //pr($customer);exit;
             if ($this->Customers->save($customer)) {
                 //-- Copy Tariff
                 $cop_custtariff=$this->request->getData('cop_custtariff');
@@ -111,8 +112,8 @@ class CustomersController extends AppController
             }
             $this->Flash->error(__('The customer could not be saved. Please, try again.'));
         }
-        $customersList = $this->Customers->find('list', ['limit' => 200]);
-        $statesList = $this->Customers->States->find('list', ['limit' => 200]);
+        $customersList = $this->Customers->find('list');
+        $statesList = $this->Customers->States->find('list'); 
         $this->set(compact('customer', 'customersList','statesList'));
     }
 

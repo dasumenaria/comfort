@@ -87,17 +87,26 @@
                     </thead>
                     <tbody>
                         <?php $page_no=0;$i=0; foreach ($customerList as $city): 
+                        //pr($city);
+                        $dutySlipArray=array();
+                        $guestName=array(); 
+                        foreach ($city->invoice_details as $value) {
+                            $dutySlipArray[]=$value->duty_slip_id;
+                            $guestName[]=$value->duty_slip->guest_name;
+                        }
+                        $dsIds = implode(',',$dutySlipArray);
+                        $showName = implode(',',$guestName);
                         ?>
                         <tr id="<?php echo ++$i; ?>" <?php if($city->payment_status=='yes'){ ?>  title="Billing have been Done" style="background-color:#DFF0D8;" <?php }
                             else if($city->waveoff_status==1) {?> title="This is waveoff Bill" style="background-color:#F2DEDE;" <?php } ?>>
                             <td><?= h(++$page_no) ?></td> 
                             <td><?= h(@$city->invoice_no) ?></td>
-                            <td></td>
-                            <td></td>
+                            <td><span class="label label-info popovers" data-placement="right" data-title="<?php if($city->waveoff_status=='1'){ ?> Waveoff invoice <?php } else if($city->payment_status=='yes'){ ?> Payment have been Done <?php } ?>"  data-trigger="hover"  data-content="<?php echo $dsIds; ?>">dutyslip id</span></td>
+                            <td><?= $showName ;?></td>
                             <td><?= h(@$city->customer->name) ?></td> 
                             <td><?= h(date('d-M-Y',strtotime($city->current_date))) ?></td>
                             <td><?= h(@$city->grand_total) ?></td> 
-                            
+
                             <td  class="actions text-center hide_print">
                             <?php if($type == 'edt') { ?>
                                 <?php echo $this->Html->link('<i class="fa fa-pencil-square-o"></i>',['action' => 'edit', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-danger','target'=>'_blank')); ?>
@@ -105,9 +114,9 @@
                                 <a class=" btn btn-danger btn-xs" data-target="#deletemodal<?php echo $city->id; ?>" data-toggle=modal><i class="fa fa-gavel"></i></a>
                                 
                             <?php } if($type == 'ser') {
-                                echo $this->Html->link('<i class="fa fa-search"></i>',['action' => 'viewDutyslip', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info','target'=>'_blank'));
+                                $this->Html->link('<i class="fa fa-search"></i>',['action' => 'viewDutyslip', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info','target'=>'_blank'));
                                 echo "&nbsp;";
-                                echo $this->Html->link('<i class="fa fa-download"></i>',['action' => 'pdf', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-success','target'=>'_blank'));
+                                $this->Html->link('<i class="fa fa-download"></i>',['action' => 'pdf', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-success','target'=>'_blank'));
                                 if($city->waveoff_status==0) {
                                 ?>
                                     <a class=" btn btn-danger btn-xs" data-target="#deletemodal<?php echo $city->id; ?>" data-toggle=modal><i class="fa fa-gavel"></i></a>

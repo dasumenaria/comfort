@@ -36,11 +36,14 @@ class CustomersTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id'); 
 
-        $this->BelongsTo('States');
+        $this->BelongsTo('States',[
+            'propertyName'=>'state_name',
+        ]);
         $this->BelongsTo('Ledgers');
         $this->BelongsTo('AccountingGroups');
         $this->BelongsTo('AccountingEntries');
         $this->BelongsTo('ReferenceDetails');
+
     }
 
     /**

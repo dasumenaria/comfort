@@ -206,6 +206,8 @@ class DutySlipsController extends AppController
             $extra_km_charge=0;
             $extra_km=0;
             $extra_per_km=0;
+            $extra_amnt=0;
+            $extra_details='';
             if(!empty($service_id)) {
                 $serviceCheck = $this->DutySlips->Services->get($service_id);
                 if($serviceCheck->type == 'intercity'){
@@ -417,6 +419,8 @@ class DutySlipsController extends AppController
             $extra_km_charge=0;
             $extra_km=0;
             $extra_per_km=0;
+            $extra_amnt=0;
+            $extra_details='';
             if(!empty($service_id)) {
                 $serviceCheck = $this->DutySlips->Services->get($service_id);
                 if($serviceCheck->type == 'intercity'){
@@ -533,10 +537,10 @@ class DutySlipsController extends AppController
         }
         else if($identity == 'opening_km'){
             $car_id = $this->request->getQuery('car_id');
-            $CloseingKM = $this->DutySlips->find()->select(['closing_km'])->where(['car_id'=>$car_id,'waveoff_status !='=>1])->order(['id'=>'DESC']);
-            $Count = $CloseingKM->count();
+            $CloseingKM = $this->DutySlips->find()->select(['closing_km'])->where(['car_id'=>$car_id,'waveoff_status !='=>1])->order(['id'=>'DESC'])->first();
+          
             $closing_km=0;
-            if($Count>0){
+            if(!empty($CloseingKM)){
                 $closing_km=$CloseingKM->closing_km;
             }
             echo $closing_km;

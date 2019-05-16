@@ -72,7 +72,12 @@ class InvoicesTable extends Table
         $this->hasMany('InvoiceDetails', [
             'foreignKey' => 'invoice_id'
         ]);
-         $this->belongsTo('DutySlips');
+        
+        $this->belongsTo('DutySlips');
+        $this->BelongsTo('Ledgers');
+        $this->BelongsTo('AccountingGroups');
+        $this->BelongsTo('AccountingEntries');
+        $this->BelongsTo('ReferenceDetails');
     }
 
     /**

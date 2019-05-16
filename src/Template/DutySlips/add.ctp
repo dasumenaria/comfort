@@ -48,6 +48,7 @@ label{
                     </div>
                     <div class="col-md-4">
                         <?php echo $this->Form->control('customer_id' , ['label' => false,'class' => 'select2  getGST','empty'=>'Select...','options'=>$customers,'autocomplete'=>'off']); ?>
+                        <label id="customer-id-error" class=" " for="customer-id"> </label>
                     </div>
                 </div>
                 <span class="help-block"></span>  
@@ -65,7 +66,7 @@ label{
                         <label class="control-label">Mobile Number </label>
                     </div>
                     <div class="col-md-4">
-                        <?php echo $this->Form->control('mobile_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Mobile Number','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')"]); ?> 
+                        <?php echo $this->Form->control('mobile_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Mobile Number','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')",'maxlength'=>'10','minlength'=>'10']); ?> 
                     </div>
                 </div>
                 <span class="help-block"></span> 
@@ -192,7 +193,7 @@ label{
                         <label class="control-label">Rate </label>
                     </div>
                     <div class="col-md-4">
-                        <?php echo $this->Form->control('rate',['label' => false,'class' => 'form-control  calculateamount','placeholder'=>'Rate','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')",'onMouseDown'=>"fetch_rate('get_rate');"]); ?> 
+                        <?php echo $this->Form->control('rate',['label' => false,'class' => 'form-control  calculateamount','placeholder'=>'Rate','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')",'onMouseDown'=>"fetch_rate('get_rate');fetch_rate('get_km');"]); ?> 
                     </div>
                 </div>
                 <div class="CorporateBilling">
@@ -232,7 +233,7 @@ label{
                             <label class="control-label">Opening KM </label>
                         </div>
                         <div class="col-md-4">
-                            <?php echo $this->Form->control('opening_km',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Opening KM','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')",'onMouseDown'=>"fetch_rate('get_km');",'onClick'=>"dutyslip_openclose();"]); ?> 
+                            <?php echo $this->Form->control('opening_km',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Opening KM','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')",'onClick'=>"dutyslip_openclose();"]); ?> 
                         </div>
                     </div>
 
@@ -322,7 +323,7 @@ label{
                             <label class="control-label">Travel Date From </label>
                         </div>
                         <div class="col-md-4">
-                            <?php echo $this->Form->control('date_from',['label' => false,'class' => 'form-control date-picker','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','type'=>'text']); ?> 
+                            <?php echo $this->Form->control('date_from',['label' => false,'class' => 'form-control date-pickers','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','type'=>'text']); ?> 
                         </div>
                     </div>
 
@@ -332,7 +333,7 @@ label{
                             <label class="control-label">Travel Date To</label>
                         </div>
                         <div class="col-md-4">
-                            <?php echo $this->Form->control('date_to',['label' => false,'class' => 'form-control date-picker','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','type'=>'text']); ?> 
+                            <?php echo $this->Form->control('date_to',['label' => false,'class' => 'form-control date-pickers','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','type'=>'text']); ?> 
                         </div>
                     </div>
                     <div class="NormalBilling">
@@ -581,23 +582,24 @@ function HideShowSection(values)
 function fetch_rate(value){
     if(value=='get_km')
     {    
-        var car_id=$('option:selected #car-id').val();
+        var car_id=$('#car-id option:selected').val(); 
         var query="?car_id=" + car_id + "&identity=" + "opening_km";
     }
     else 
     {
-         var customer_id=$('#customer-id option:selected ').val(); 
-         var service_id=$('#service-id option:selected ').val(); 
-         var car_type_id=$('#car-type-id option:selected ').val(); 
+         var customer_id=$('#customer-id option:selected').val(); 
+         var service_id=$('#service-id option:selected').val(); 
+         var car_type_id=$('#car-type-id option:selected').val(); 
          
          var query="?customer_id=" + customer_id + "&service_id=" + service_id + "&car_type_id=" +car_type_id + "&identity=" + "ratefix";    
     }
     var url='<?php echo $this->Url->build(['controller'=>'DutySlips','action'=>'getRate']) ?>';
-    url=url+query;  
+    url=url+query;   
     $.ajax({
         url: url,
     }).done(function(response) {
-         if(value=='get_km')
+        
+        if(value=='get_km')
             $('#opening-km').val(response); 
         else 
             $('#rate').val(response); 
