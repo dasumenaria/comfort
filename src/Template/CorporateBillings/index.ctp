@@ -70,7 +70,7 @@
                             <td><?= h(@$city->invoice_no) ?></td>
                             <td><?= h(@$city->customer->name) ?></td>
                             <td><?= h(@$city->guest_name) ?></td>
-                            <td></td>
+                            <td><?= h(@$city->net_amnt) ?></td>
                             <td  class="actions text-center">
                             <?php if($type == 'edt') { ?>
                                 <?php echo $this->Html->link('<i class="fa fa-pencil-square-o"></i>',['action' => 'edit', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-danger','target'=>'_blank')); ?>

@@ -98,16 +98,26 @@ class CorporateBillingsController extends AppController
             $no_of_days = array_filter($this->request->getData('no_of_days'));
             $taxi_no = array_filter($this->request->getData('taxi_no'));
             $amount = array_filter($this->request->getData('amount'));
+            $invoice_no = $this->request->getData('invoice_no');
             $x=0;
             $save=0;
-             
+            $findCount = $this->CorporateBillings->find()->where(['invoice_no'=>$invoice_no])->count();
+
+                if($findCount==0){
+                     
+                    $CheckInvoiceNo = $this->CorporateBillings->find()->where(['invoice_no'])->order(['id'=>'DESC'])->limit(1);
+                    pr($CheckInvoiceNo); die();
+                    
+                    $InvoiceData = $this->CorporateBillings->get($invoice_no); 
+
+                } 
             foreach($service_date as $val){
                 if(!empty($val)){
                     $corporateBilling = $this->CorporateBillings->newEntity();
                     $corporateBilling = $this->CorporateBillings->patchEntity($corporateBilling, $this->request->getData());
                     $corporateBilling->service_date = date('Y-m-d',strtotime($val));
                     $corporateBilling->date = date('Y-m-d',strtotime($this->request->getData('date')));
-                    $corporateBilling->invoice_no = 1; 
+                    $corporateBilling->invoice_no = $invoice_no; 
                     $corporateBilling->service = $service[$x]; 
                     $corporateBilling->customer_id = $this->request->getData('customer_name'); 
                     $corporateBilling->rate = $rate[$x]; 

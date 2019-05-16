@@ -705,4 +705,40 @@ class DutySlipsController extends AppController
         $this->set(compact('recordList','type'));    
     }
 
+    public function pendingdues()
+    {
+     $RecordShow = 0;
+        $where=array();
+        $customer_id='';
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $customer_id = $this->request->getData('customer_id');
+            foreach ($this->request->getData() as $key => $value) {
+                if(!empty($value))
+                { 
+                     $where['DutySlips.'.$key] = $value;
+                }
+            }
+            
+            $RecordShow = 1;
+        } 
+        $customerList = $this->DutySlips->Customers->find('list'); 
+
+     $this->set(compact('RecordShow','customerList','type'));   
+    }
+
+    public function salereg()
+    {
+        $RecordShow = 0;
+        $where=array();
+        
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $customer_id = $this->request->getData('customer_id');
+            $recordList = array();
+            $RecordShow = 1;
+        } 
+        $customerList = $this->DutySlips->Customers->find('list'); 
+
+     $this->set(compact('RecordShow','customerList','type','recordList'));   
+    }
+
 }
