@@ -43,28 +43,8 @@
             <td><?= $this->Number->format($accountingEntry->company_id) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Purchase Voucher Id') ?></th>
-            <td><?= $this->Number->format($accountingEntry->purchase_voucher_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Purchase Voucher Row Id') ?></th>
-            <td><?= $this->Number->format($accountingEntry->purchase_voucher_row_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Sales Invoice Id') ?></th>
-            <td><?= $this->Number->format($accountingEntry->sales_invoice_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Sale Return Id') ?></th>
-            <td><?= $this->Number->format($accountingEntry->sale_return_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Purchase Invoice Id') ?></th>
-            <td><?= $this->Number->format($accountingEntry->purchase_invoice_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Purchase Return Id') ?></th>
-            <td><?= $this->Number->format($accountingEntry->purchase_return_id) ?></td>
+            <th scope="row"><?= __('Invoice Id') ?></th>
+            <td><?= $this->Number->format($accountingEntry->invoice_id) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Receipt Id') ?></th>
@@ -83,44 +63,12 @@
             <td><?= $this->Number->format($accountingEntry->payment_row_id) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Credit Note Id') ?></th>
-            <td><?= $this->Number->format($accountingEntry->credit_note_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Credit Note Row Id') ?></th>
-            <td><?= $this->Number->format($accountingEntry->credit_note_row_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Debit Note Id') ?></th>
-            <td><?= $this->Number->format($accountingEntry->debit_note_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Debit Note Row Id') ?></th>
-            <td><?= $this->Number->format($accountingEntry->debit_note_row_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Sales Voucher Id') ?></th>
-            <td><?= $this->Number->format($accountingEntry->sales_voucher_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Sales Voucher Row Id') ?></th>
-            <td><?= $this->Number->format($accountingEntry->sales_voucher_row_id) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Journal Voucher Id') ?></th>
             <td><?= $this->Number->format($accountingEntry->journal_voucher_id) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Journal Voucher Row Id') ?></th>
             <td><?= $this->Number->format($accountingEntry->journal_voucher_row_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Contra Voucher Id') ?></th>
-            <td><?= $this->Number->format($accountingEntry->contra_voucher_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Contra Voucher Row Id') ?></th>
-            <td><?= $this->Number->format($accountingEntry->contra_voucher_row_id) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Transaction Date') ?></th>

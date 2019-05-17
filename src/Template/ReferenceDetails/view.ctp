@@ -13,6 +13,8 @@
         <li><?= $this->Html->link(__('New Reference Detail'), ['action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Customers'), ['controller' => 'Customers', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Customer'), ['controller' => 'Customers', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Suppliers'), ['controller' => 'Suppliers', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Supplier'), ['controller' => 'Suppliers', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Ledgers'), ['controller' => 'Ledgers', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Ledger'), ['controller' => 'Ledgers', 'action' => 'add']) ?> </li>
     </ul>
@@ -23,6 +25,10 @@
         <tr>
             <th scope="row"><?= __('Customer') ?></th>
             <td><?= $referenceDetail->has('customer') ? $this->Html->link($referenceDetail->customer->name, ['controller' => 'Customers', 'action' => 'view', $referenceDetail->customer->id]) : '' ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Supplier') ?></th>
+            <td><?= $referenceDetail->has('supplier') ? $this->Html->link($referenceDetail->supplier->name, ['controller' => 'Suppliers', 'action' => 'view', $referenceDetail->supplier->id]) : '' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Ledger') ?></th>
@@ -43,10 +49,6 @@
         <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($referenceDetail->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Supplier Id') ?></th>
-            <td><?= $this->Number->format($referenceDetail->supplier_id) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Company Id') ?></th>
@@ -73,48 +75,12 @@
             <td><?= $this->Number->format($referenceDetail->payment_row_id) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Credit Note Id') ?></th>
-            <td><?= $this->Number->format($referenceDetail->credit_note_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Credit Note Row Id') ?></th>
-            <td><?= $this->Number->format($referenceDetail->credit_note_row_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Debit Note Id') ?></th>
-            <td><?= $this->Number->format($referenceDetail->debit_note_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Debit Note Row Id') ?></th>
-            <td><?= $this->Number->format($referenceDetail->debit_note_row_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Sales Voucher Row Id') ?></th>
-            <td><?= $this->Number->format($referenceDetail->sales_voucher_row_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Purchase Voucher Row Id') ?></th>
-            <td><?= $this->Number->format($referenceDetail->purchase_voucher_row_id) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Journal Voucher Row Id') ?></th>
             <td><?= $this->Number->format($referenceDetail->journal_voucher_row_id) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Sale Return Id') ?></th>
-            <td><?= $this->Number->format($referenceDetail->sale_return_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Purchase Invoice Id') ?></th>
-            <td><?= $this->Number->format($referenceDetail->purchase_invoice_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Purchase Return Id') ?></th>
-            <td><?= $this->Number->format($referenceDetail->purchase_return_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Sales Invoice Id') ?></th>
-            <td><?= $this->Number->format($referenceDetail->sales_invoice_id) ?></td>
+            <th scope="row"><?= __('Invoice Id') ?></th>
+            <td><?= $this->Number->format($referenceDetail->invoice_id) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Due Days') ?></th>

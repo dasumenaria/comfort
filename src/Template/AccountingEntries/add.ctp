@@ -22,27 +22,14 @@
             echo $this->Form->control('credit');
             echo $this->Form->control('transaction_date');
             echo $this->Form->control('company_id');
-            echo $this->Form->control('purchase_voucher_id');
-            echo $this->Form->control('purchase_voucher_row_id');
             echo $this->Form->control('is_opening_balance');
-            echo $this->Form->control('sales_invoice_id');
-            echo $this->Form->control('sale_return_id');
-            echo $this->Form->control('purchase_invoice_id');
-            echo $this->Form->control('purchase_return_id');
+            echo $this->Form->control('invoice_id');
             echo $this->Form->control('receipt_id');
             echo $this->Form->control('receipt_row_id');
             echo $this->Form->control('payment_id');
             echo $this->Form->control('payment_row_id');
-            echo $this->Form->control('credit_note_id');
-            echo $this->Form->control('credit_note_row_id');
-            echo $this->Form->control('debit_note_id');
-            echo $this->Form->control('debit_note_row_id');
-            echo $this->Form->control('sales_voucher_id');
-            echo $this->Form->control('sales_voucher_row_id');
             echo $this->Form->control('journal_voucher_id');
             echo $this->Form->control('journal_voucher_row_id');
-            echo $this->Form->control('contra_voucher_id');
-            echo $this->Form->control('contra_voucher_row_id');
             echo $this->Form->control('reconciliation_date');
         ?>
     </fieldset>

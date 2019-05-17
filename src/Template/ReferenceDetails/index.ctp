@@ -10,6 +10,8 @@
         <li><?= $this->Html->link(__('New Reference Detail'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Customers'), ['controller' => 'Customers', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Customer'), ['controller' => 'Customers', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Suppliers'), ['controller' => 'Suppliers', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Supplier'), ['controller' => 'Suppliers', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Ledgers'), ['controller' => 'Ledgers', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Ledger'), ['controller' => 'Ledgers', 'action' => 'add']) ?></li>
     </ul>
@@ -32,17 +34,8 @@
                 <th scope="col"><?= $this->Paginator->sort('receipt_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('receipt_row_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('payment_row_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('credit_note_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('credit_note_row_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('debit_note_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('debit_note_row_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sales_voucher_row_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('purchase_voucher_row_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('journal_voucher_row_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sale_return_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('purchase_invoice_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('purchase_return_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sales_invoice_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('invoice_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('opening_balance') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('due_days') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -53,7 +46,7 @@
             <tr>
                 <td><?= $this->Number->format($referenceDetail->id) ?></td>
                 <td><?= $referenceDetail->has('customer') ? $this->Html->link($referenceDetail->customer->name, ['controller' => 'Customers', 'action' => 'view', $referenceDetail->customer->id]) : '' ?></td>
-                <td><?= $this->Number->format($referenceDetail->supplier_id) ?></td>
+                <td><?= $referenceDetail->has('supplier') ? $this->Html->link($referenceDetail->supplier->name, ['controller' => 'Suppliers', 'action' => 'view', $referenceDetail->supplier->id]) : '' ?></td>
                 <td><?= h($referenceDetail->transaction_date) ?></td>
                 <td><?= $this->Number->format($referenceDetail->company_id) ?></td>
                 <td><?= $referenceDetail->has('ledger') ? $this->Html->link($referenceDetail->ledger->name, ['controller' => 'Ledgers', 'action' => 'view', $referenceDetail->ledger->id]) : '' ?></td>
@@ -64,17 +57,8 @@
                 <td><?= $this->Number->format($referenceDetail->receipt_id) ?></td>
                 <td><?= $this->Number->format($referenceDetail->receipt_row_id) ?></td>
                 <td><?= $this->Number->format($referenceDetail->payment_row_id) ?></td>
-                <td><?= $this->Number->format($referenceDetail->credit_note_id) ?></td>
-                <td><?= $this->Number->format($referenceDetail->credit_note_row_id) ?></td>
-                <td><?= $this->Number->format($referenceDetail->debit_note_id) ?></td>
-                <td><?= $this->Number->format($referenceDetail->debit_note_row_id) ?></td>
-                <td><?= $this->Number->format($referenceDetail->sales_voucher_row_id) ?></td>
-                <td><?= $this->Number->format($referenceDetail->purchase_voucher_row_id) ?></td>
                 <td><?= $this->Number->format($referenceDetail->journal_voucher_row_id) ?></td>
-                <td><?= $this->Number->format($referenceDetail->sale_return_id) ?></td>
-                <td><?= $this->Number->format($referenceDetail->purchase_invoice_id) ?></td>
-                <td><?= $this->Number->format($referenceDetail->purchase_return_id) ?></td>
-                <td><?= $this->Number->format($referenceDetail->sales_invoice_id) ?></td>
+                <td><?= $this->Number->format($referenceDetail->invoice_id) ?></td>
                 <td><?= h($referenceDetail->opening_balance) ?></td>
                 <td><?= $this->Number->format($referenceDetail->due_days) ?></td>
                 <td class="actions">

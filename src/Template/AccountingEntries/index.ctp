@@ -23,27 +23,14 @@
                 <th scope="col"><?= $this->Paginator->sort('credit') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('transaction_date') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('company_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('purchase_voucher_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('purchase_voucher_row_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('is_opening_balance') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sales_invoice_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sale_return_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('purchase_invoice_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('purchase_return_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('invoice_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('receipt_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('receipt_row_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('payment_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('payment_row_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('credit_note_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('credit_note_row_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('debit_note_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('debit_note_row_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sales_voucher_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sales_voucher_row_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('journal_voucher_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('journal_voucher_row_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('contra_voucher_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('contra_voucher_row_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('reconciliation_date') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -57,27 +44,14 @@
                 <td><?= $this->Number->format($accountingEntry->credit) ?></td>
                 <td><?= h($accountingEntry->transaction_date) ?></td>
                 <td><?= $this->Number->format($accountingEntry->company_id) ?></td>
-                <td><?= $this->Number->format($accountingEntry->purchase_voucher_id) ?></td>
-                <td><?= $this->Number->format($accountingEntry->purchase_voucher_row_id) ?></td>
                 <td><?= h($accountingEntry->is_opening_balance) ?></td>
-                <td><?= $this->Number->format($accountingEntry->sales_invoice_id) ?></td>
-                <td><?= $this->Number->format($accountingEntry->sale_return_id) ?></td>
-                <td><?= $this->Number->format($accountingEntry->purchase_invoice_id) ?></td>
-                <td><?= $this->Number->format($accountingEntry->purchase_return_id) ?></td>
+                <td><?= $this->Number->format($accountingEntry->invoice_id) ?></td>
                 <td><?= $this->Number->format($accountingEntry->receipt_id) ?></td>
                 <td><?= $this->Number->format($accountingEntry->receipt_row_id) ?></td>
                 <td><?= $this->Number->format($accountingEntry->payment_id) ?></td>
                 <td><?= $this->Number->format($accountingEntry->payment_row_id) ?></td>
-                <td><?= $this->Number->format($accountingEntry->credit_note_id) ?></td>
-                <td><?= $this->Number->format($accountingEntry->credit_note_row_id) ?></td>
-                <td><?= $this->Number->format($accountingEntry->debit_note_id) ?></td>
-                <td><?= $this->Number->format($accountingEntry->debit_note_row_id) ?></td>
-                <td><?= $this->Number->format($accountingEntry->sales_voucher_id) ?></td>
-                <td><?= $this->Number->format($accountingEntry->sales_voucher_row_id) ?></td>
                 <td><?= $this->Number->format($accountingEntry->journal_voucher_id) ?></td>
                 <td><?= $this->Number->format($accountingEntry->journal_voucher_row_id) ?></td>
-                <td><?= $this->Number->format($accountingEntry->contra_voucher_id) ?></td>
-                <td><?= $this->Number->format($accountingEntry->contra_voucher_row_id) ?></td>
                 <td><?= h($accountingEntry->reconciliation_date) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $accountingEntry->id]) ?>

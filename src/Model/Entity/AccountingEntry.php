@@ -12,27 +12,14 @@ use Cake\ORM\Entity;
  * @property float|null $credit
  * @property \Cake\I18n\FrozenDate $transaction_date
  * @property int $company_id
- * @property int|null $purchase_voucher_id
- * @property int|null $purchase_voucher_row_id
  * @property string|null $is_opening_balance
- * @property int $sales_invoice_id
- * @property int|null $sale_return_id
- * @property int|null $purchase_invoice_id
- * @property int|null $purchase_return_id
+ * @property int $invoice_id
  * @property int|null $receipt_id
  * @property int|null $receipt_row_id
  * @property int|null $payment_id
  * @property int|null $payment_row_id
- * @property int|null $credit_note_id
- * @property int|null $credit_note_row_id
- * @property int|null $debit_note_id
- * @property int|null $debit_note_row_id
- * @property int|null $sales_voucher_id
- * @property int|null $sales_voucher_row_id
  * @property int|null $journal_voucher_id
  * @property int|null $journal_voucher_row_id
- * @property int|null $contra_voucher_id
- * @property int|null $contra_voucher_row_id
  * @property \Cake\I18n\FrozenDate $reconciliation_date
  *
  * @property \App\Model\Entity\Ledger $ledger
@@ -75,27 +62,14 @@ class AccountingEntry extends Entity
         'credit' => true,
         'transaction_date' => true,
         'company_id' => true,
-        'purchase_voucher_id' => true,
-        'purchase_voucher_row_id' => true,
         'is_opening_balance' => true,
-        'sales_invoice_id' => true,
-        'sale_return_id' => true,
-        'purchase_invoice_id' => true,
-        'purchase_return_id' => true,
+        'invoice_id' => true,
         'receipt_id' => true,
         'receipt_row_id' => true,
         'payment_id' => true,
         'payment_row_id' => true,
-        'credit_note_id' => true,
-        'credit_note_row_id' => true,
-        'debit_note_id' => true,
-        'debit_note_row_id' => true,
-        'sales_voucher_id' => true,
-        'sales_voucher_row_id' => true,
         'journal_voucher_id' => true,
         'journal_voucher_row_id' => true,
-        'contra_voucher_id' => true,
-        'contra_voucher_row_id' => true,
         'reconciliation_date' => true,
         'ledger' => true,
         'company' => true,

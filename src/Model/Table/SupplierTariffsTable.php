@@ -51,6 +51,7 @@ class SupplierTariffsTable extends Table
             'joinType' => 'INNER'
         ]);
     }
+   
 
     /**
      * Default validation rules.

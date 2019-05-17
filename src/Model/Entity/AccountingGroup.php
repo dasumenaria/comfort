@@ -39,9 +39,9 @@ use Cake\ORM\Entity;
  * @property bool|null $contra_voucher_ledger
  *
  * @property \App\Model\Entity\NatureOfGroup $nature_of_group
- * @property \App\Model\Entity\ParentAccountingGroup $parent_accounting_group
+ * @property \App\Model\Entity\AccountingGroup $parent_accounting_group
  * @property \App\Model\Entity\Company $company
- * @property \App\Model\Entity\ChildAccountingGroup[] $child_accounting_groups
+ * @property \App\Model\Entity\AccountingGroup[] $child_accounting_groups
  * @property \App\Model\Entity\Ledger[] $ledgers
  */
 class AccountingGroup extends Entity

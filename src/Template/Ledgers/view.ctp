@@ -13,6 +13,8 @@
         <li><?= $this->Html->link(__('New Ledger'), ['action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Accounting Groups'), ['controller' => 'AccountingGroups', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Accounting Group'), ['controller' => 'AccountingGroups', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Suppliers'), ['controller' => 'Suppliers', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Supplier'), ['controller' => 'Suppliers', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Customers'), ['controller' => 'Customers', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Customer'), ['controller' => 'Customers', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Gst Figures'), ['controller' => 'GstFigures', 'action' => 'index']) ?> </li>
@@ -33,6 +35,10 @@
         <tr>
             <th scope="row"><?= __('Accounting Group') ?></th>
             <td><?= $ledger->has('accounting_group') ? $this->Html->link($ledger->accounting_group->name, ['controller' => 'AccountingGroups', 'action' => 'view', $ledger->accounting_group->id]) : '' ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Supplier') ?></th>
+            <td><?= $ledger->has('supplier') ? $this->Html->link($ledger->supplier->name, ['controller' => 'Suppliers', 'action' => 'view', $ledger->supplier->id]) : '' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Customer') ?></th>
@@ -61,10 +67,6 @@
         <tr>
             <th scope="row"><?= __('Company Id') ?></th>
             <td><?= $this->Number->format($ledger->company_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Supplier Id') ?></th>
-            <td><?= $this->Number->format($ledger->supplier_id) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Tax Percentage') ?></th>
@@ -102,27 +104,14 @@
                 <th scope="col"><?= __('Credit') ?></th>
                 <th scope="col"><?= __('Transaction Date') ?></th>
                 <th scope="col"><?= __('Company Id') ?></th>
-                <th scope="col"><?= __('Purchase Voucher Id') ?></th>
-                <th scope="col"><?= __('Purchase Voucher Row Id') ?></th>
                 <th scope="col"><?= __('Is Opening Balance') ?></th>
-                <th scope="col"><?= __('Sales Invoice Id') ?></th>
-                <th scope="col"><?= __('Sale Return Id') ?></th>
-                <th scope="col"><?= __('Purchase Invoice Id') ?></th>
-                <th scope="col"><?= __('Purchase Return Id') ?></th>
+                <th scope="col"><?= __('Invoice Id') ?></th>
                 <th scope="col"><?= __('Receipt Id') ?></th>
                 <th scope="col"><?= __('Receipt Row Id') ?></th>
                 <th scope="col"><?= __('Payment Id') ?></th>
                 <th scope="col"><?= __('Payment Row Id') ?></th>
-                <th scope="col"><?= __('Credit Note Id') ?></th>
-                <th scope="col"><?= __('Credit Note Row Id') ?></th>
-                <th scope="col"><?= __('Debit Note Id') ?></th>
-                <th scope="col"><?= __('Debit Note Row Id') ?></th>
-                <th scope="col"><?= __('Sales Voucher Id') ?></th>
-                <th scope="col"><?= __('Sales Voucher Row Id') ?></th>
                 <th scope="col"><?= __('Journal Voucher Id') ?></th>
                 <th scope="col"><?= __('Journal Voucher Row Id') ?></th>
-                <th scope="col"><?= __('Contra Voucher Id') ?></th>
-                <th scope="col"><?= __('Contra Voucher Row Id') ?></th>
                 <th scope="col"><?= __('Reconciliation Date') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -134,27 +123,14 @@
                 <td><?= h($accountingEntries->credit) ?></td>
                 <td><?= h($accountingEntries->transaction_date) ?></td>
                 <td><?= h($accountingEntries->company_id) ?></td>
-                <td><?= h($accountingEntries->purchase_voucher_id) ?></td>
-                <td><?= h($accountingEntries->purchase_voucher_row_id) ?></td>
                 <td><?= h($accountingEntries->is_opening_balance) ?></td>
-                <td><?= h($accountingEntries->sales_invoice_id) ?></td>
-                <td><?= h($accountingEntries->sale_return_id) ?></td>
-                <td><?= h($accountingEntries->purchase_invoice_id) ?></td>
-                <td><?= h($accountingEntries->purchase_return_id) ?></td>
+                <td><?= h($accountingEntries->invoice_id) ?></td>
                 <td><?= h($accountingEntries->receipt_id) ?></td>
                 <td><?= h($accountingEntries->receipt_row_id) ?></td>
                 <td><?= h($accountingEntries->payment_id) ?></td>
                 <td><?= h($accountingEntries->payment_row_id) ?></td>
-                <td><?= h($accountingEntries->credit_note_id) ?></td>
-                <td><?= h($accountingEntries->credit_note_row_id) ?></td>
-                <td><?= h($accountingEntries->debit_note_id) ?></td>
-                <td><?= h($accountingEntries->debit_note_row_id) ?></td>
-                <td><?= h($accountingEntries->sales_voucher_id) ?></td>
-                <td><?= h($accountingEntries->sales_voucher_row_id) ?></td>
                 <td><?= h($accountingEntries->journal_voucher_id) ?></td>
                 <td><?= h($accountingEntries->journal_voucher_row_id) ?></td>
-                <td><?= h($accountingEntries->contra_voucher_id) ?></td>
-                <td><?= h($accountingEntries->contra_voucher_row_id) ?></td>
                 <td><?= h($accountingEntries->reconciliation_date) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'AccountingEntries', 'action' => 'view', $accountingEntries->id]) ?>
@@ -184,17 +160,8 @@
                 <th scope="col"><?= __('Receipt Id') ?></th>
                 <th scope="col"><?= __('Receipt Row Id') ?></th>
                 <th scope="col"><?= __('Payment Row Id') ?></th>
-                <th scope="col"><?= __('Credit Note Id') ?></th>
-                <th scope="col"><?= __('Credit Note Row Id') ?></th>
-                <th scope="col"><?= __('Debit Note Id') ?></th>
-                <th scope="col"><?= __('Debit Note Row Id') ?></th>
-                <th scope="col"><?= __('Sales Voucher Row Id') ?></th>
-                <th scope="col"><?= __('Purchase Voucher Row Id') ?></th>
                 <th scope="col"><?= __('Journal Voucher Row Id') ?></th>
-                <th scope="col"><?= __('Sale Return Id') ?></th>
-                <th scope="col"><?= __('Purchase Invoice Id') ?></th>
-                <th scope="col"><?= __('Purchase Return Id') ?></th>
-                <th scope="col"><?= __('Sales Invoice Id') ?></th>
+                <th scope="col"><?= __('Invoice Id') ?></th>
                 <th scope="col"><?= __('Opening Balance') ?></th>
                 <th scope="col"><?= __('Due Days') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -214,17 +181,8 @@
                 <td><?= h($referenceDetails->receipt_id) ?></td>
                 <td><?= h($referenceDetails->receipt_row_id) ?></td>
                 <td><?= h($referenceDetails->payment_row_id) ?></td>
-                <td><?= h($referenceDetails->credit_note_id) ?></td>
-                <td><?= h($referenceDetails->credit_note_row_id) ?></td>
-                <td><?= h($referenceDetails->debit_note_id) ?></td>
-                <td><?= h($referenceDetails->debit_note_row_id) ?></td>
-                <td><?= h($referenceDetails->sales_voucher_row_id) ?></td>
-                <td><?= h($referenceDetails->purchase_voucher_row_id) ?></td>
                 <td><?= h($referenceDetails->journal_voucher_row_id) ?></td>
-                <td><?= h($referenceDetails->sale_return_id) ?></td>
-                <td><?= h($referenceDetails->purchase_invoice_id) ?></td>
-                <td><?= h($referenceDetails->purchase_return_id) ?></td>
-                <td><?= h($referenceDetails->sales_invoice_id) ?></td>
+                <td><?= h($referenceDetails->invoice_id) ?></td>
                 <td><?= h($referenceDetails->opening_balance) ?></td>
                 <td><?= h($referenceDetails->due_days) ?></td>
                 <td class="actions">

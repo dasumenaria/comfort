@@ -57,23 +57,7 @@
                                 <div class="col-sm-8">
                                     <?php echo $this->Form->control('fax_no',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Customer Fax No.','autocomplete'=>'off']); ?> 
                                 </div>
-                            </div>
-                             
-                            <div class="col-md-6 ">
-                                <label class="control-label col-sm-4">Customer Opening Balance</label>
-                                <div class="col-sm-8">
-                                    <?php echo $this->Form->control('opening_bal',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Customer Opening Balance','autocomplete'=>'off']); ?> 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 space ">
-                            
-                            <div class="col-md-6 ">
-                                <label class="control-label col-sm-4">Customer Closing Balance:</label>
-                                <div class="col-sm-8">
-                                    <?php echo $this->Form->control('closing_bal',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Customer Closing Balance' , 'readonly']); ?> 
-                                </div>
-                            </div>
+                            </div> 
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4">Service Tax Reg Number</label>
                                 <div class="col-sm-8">
@@ -139,26 +123,6 @@
                                 </div>
                             </div>
                         </div> 
-                        <div class="col-md-12 space">
-                            <div class="col-md-6 ">
-                                <label class="control-label col-sm-4">Credit Debit</label>
-                                <div class="col-sm-8">
-                                    <?php 
-                                    $options['credit']='Credit';
-                                    $options['debit']='Debit';
-                                    echo $this->Form->control('credit_debit',['label' => false,'type'=>'select','class' => 'form-control','empty'=>'select...','options'=>$options]); ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6 ">
-                                <label class="control-label col-sm-4">Bill to Bill</label> 
-                                <div class="col-sm-8"> 
-                                <?php 
-                                 $statusArray['no']='No';
-                                 $statusArray['yes']='Yes';
-                                echo $this->Form->control('bill_to_bill',['label' => false,'type'=>'select','class' => 'form-control','options'=>$statusArray,'value'=>'no']); ?> 
-                                </div>                             
-                            </div>                             
-                        </div>
                     </div>
                 </div> 
             </div>

@@ -44,6 +44,10 @@ class CustomersTable extends Table
         $this->BelongsTo('AccountingEntries');
         $this->BelongsTo('ReferenceDetails');
 
+        $this->hasMany('CustomerTariffs', [ 
+            'foreignKey' => 'customer_id'
+        ]);
+
     }
 
     /**

@@ -47,6 +47,9 @@ class SuppliersTable extends Table
             'joinType' => 'INNER'
         ]);
 
+         $this->hasMany('SupplierTariffs', [ 
+            'foreignKey' => 'supplier_id'
+        ]);
         
         $this->BelongsTo('Ledgers');
         $this->BelongsTo('AccountingGroups');

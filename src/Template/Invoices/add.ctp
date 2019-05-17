@@ -104,6 +104,7 @@ label{
                 <?= $this->Form->hidden('complimenatry_status' , ['label' => false,'value'=>$complimenatry_status,'id'=>'comple']); ?>
                 <?= $this->Form->hidden('servicetax_status' , ['label' => false,'value'=>$customerData->servicetax_status,'id'=>'servicetax_status']); ?>
                 <?= $this->Form->hidden('invoice_date' , ['label' => false,'value'=>$DBdate]); ?> 
+                <?= $this->Form->hidden('isRoundofType' , ['label' => false,'value'=>0,'id'=>'isRoundofType']); ?> 
 
                 <div class="box-header with-border hide_print">
                     <i class="fa fa-plus"></i> Result of <?= $customerData->name;?>
@@ -303,6 +304,13 @@ label{
                             }
                             ?>
                             <tr>
+                                <th colspan="8" class="centerme">Round Off</th>
+                                <td>
+                                    <?php echo $this->Form->control('round_off',['label' => false,'class' => 'form-control','autocomplete'=>'off','type'=>'text','value'=>0,'id'=>'round_off','readonly']); ?>   
+                                </td>
+                            </tr>
+
+                            <tr>
                                 <th colspan="8" class="centerme">Grand Total</th>
                                 <td>
                                     <?php echo $this->Form->control('grand_total',['label' => false,'class' => 'form-control','autocomplete'=>'off','type'=>'text','value'=>0,'id'=>'grand_total','readonly']); ?>   
@@ -399,6 +407,24 @@ function amount_validation(check_id)
     }
 } 
 
+function round(value, exp) {
+    if (typeof exp === 'undefined' || +exp === 0)
+    return Math.round(value);
+
+    value = +value; 
+    exp = +exp;
+
+    if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+    return 0;
+
+    // Shift
+    value = value.toString().split('e');
+    value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
+    // Shift back
+    value = value.toString().split('e');
+    return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
+}
 function cal_amount()
 {
     var total=0;
@@ -476,9 +502,30 @@ function cal_amount()
             {
             var after_dis=total_amtt;
             }
+
+            var total = parseFloat(after_dis+total_other+total_tax_amnt);
+            var roundOff1 = round(total);
+            var isRoundofType =0;
+            if(total<roundOff1)
+            {
+                round_of=parseFloat(roundOff1)-parseFloat(total);
+                isRoundofType='0';
+            }
+            if(total>roundOff1)
+            {
+                round_of=parseFloat(roundOff1)-parseFloat(total);
+                isRoundofType='1';
+            }
+            if(total==roundOff1)
+            {
+                round_of=parseFloat(total)-parseFloat(roundOff1);
+                isRoundofType='0';
+            }
             
-        
-            $("#grand_total").val(Math.round((after_dis+total_other+total_tax_amnt)));
+             
+            $('#round_off').val(round_of.toFixed(2));
+            $('#isRoundofType').val(isRoundofType);
+            $("#grand_total").val(round(total));
             j=1;
         }
         else if(j==0)

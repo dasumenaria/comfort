@@ -86,11 +86,28 @@ class SuppliersController extends AppController
             
             if ($this->Suppliers->save($supplier)) {
 
-                //-- Copy Tariff
+                //-- Copy Tariff 
                 $cop_custtariff=$this->request->getData('cop_custtariff');
                 if(!empty($cop_custtariff))
                 {
+                    $customerTariffs = $this->Suppliers->SupplierTariffs->find()->where(['customer_id'=>$cop_custtariff]);   
+                    if(!empty($customerTariffs)){
+                        foreach ($customerTariffs as $value) {
+                            $customerTariffIns= $this->Suppliers->SupplierTariffs->newEntity();
+                            $customerTariffIns = $this->Suppliers->SupplierTariffs->patchEntity($customerTariffIns,$this->request->getData());
+                            $customerTariffIns->supplier_id = $supplier->id;
+                            $customerTariffIns->car_type_id = $value->car_type_id;
+                            $customerTariffIns->service_id = $value->service_id;
+                            $customerTariffIns->rate = $value->rate;
+                            $customerTariffIns->minimum_chg_km = $value->minimum_chg_km;
+                            $customerTariffIns->extra_km_rate = $value->extra_km_rate;
+                            $customerTariffIns->minimum_chg_hourly = $value->minimum_chg_hourly;
+                            $customerTariffIns->extra_hour_rate = $value->extra_hour_rate;
+                            $customerTariffIns->is_deleted = $value->is_deleted;
 
+                            $this->Suppliers->SupplierTariffs->save($customerTariffIns);   
+                        }
+                    }
                 }
                 //-- Entry In ledgers
                 $company_id=1;
@@ -175,6 +192,10 @@ class SuppliersController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $supplier = $this->Suppliers->patchEntity($supplier, $this->request->getData());
             if ($this->Suppliers->save($supplier)) {
+                $query = $this->Suppliers->Ledgers->query(); 
+                $query->update()->set(['name'=>$this->request->getData('name')])
+                    ->where(['supplier_id' => $id])
+                    ->execute();
                 $this->Flash->success(__('The supplier has been saved.'));
 
                 return $this->redirect(['action' => 'index','edt']);

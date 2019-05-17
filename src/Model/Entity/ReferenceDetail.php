@@ -19,17 +19,8 @@ use Cake\ORM\Entity;
  * @property int $receipt_id
  * @property int $receipt_row_id
  * @property int $payment_row_id
- * @property int|null $credit_note_id
- * @property int $credit_note_row_id
- * @property int|null $debit_note_id
- * @property int|null $debit_note_row_id
- * @property int|null $sales_voucher_row_id
- * @property int $purchase_voucher_row_id
  * @property int $journal_voucher_row_id
- * @property int|null $sale_return_id
- * @property int|null $purchase_invoice_id
- * @property int|null $purchase_return_id
- * @property int|null $sales_invoice_id
+ * @property int|null $invoice_id
  * @property string|null $opening_balance
  * @property int $due_days
  *
@@ -76,17 +67,8 @@ class ReferenceDetail extends Entity
         'receipt_id' => true,
         'receipt_row_id' => true,
         'payment_row_id' => true,
-        'credit_note_id' => true,
-        'credit_note_row_id' => true,
-        'debit_note_id' => true,
-        'debit_note_row_id' => true,
-        'sales_voucher_row_id' => true,
-        'purchase_voucher_row_id' => true,
         'journal_voucher_row_id' => true,
-        'sale_return_id' => true,
-        'purchase_invoice_id' => true,
-        'purchase_return_id' => true,
-        'sales_invoice_id' => true,
+        'invoice_id' => true,
         'opening_balance' => true,
         'due_days' => true,
         'customer' => true,

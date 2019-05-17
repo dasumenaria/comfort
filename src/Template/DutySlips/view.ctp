@@ -19,8 +19,8 @@ td{
                 $total_km = $closing_km-$opening_km;
 
                 $main1= strtotime($dutySlip->date_from);
-                $main2 = strtotime($dutySlip->date_from);
-                $days=(($main2-$main1)/86400);
+                $main2 = strtotime($dutySlip->date_to);
+                $days=(($main2-$main1)/86400); 
                 if($dutySlip->service->type == 'intercity'){
                     $days+=1;
                 }

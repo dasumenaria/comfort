@@ -16,17 +16,8 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\ReceiptsTable|\Cake\ORM\Association\BelongsTo $Receipts
  * @property \App\Model\Table\ReceiptRowsTable|\Cake\ORM\Association\BelongsTo $ReceiptRows
  * @property \App\Model\Table\PaymentRowsTable|\Cake\ORM\Association\BelongsTo $PaymentRows
- * @property \App\Model\Table\CreditNotesTable|\Cake\ORM\Association\BelongsTo $CreditNotes
- * @property \App\Model\Table\CreditNoteRowsTable|\Cake\ORM\Association\BelongsTo $CreditNoteRows
- * @property \App\Model\Table\DebitNotesTable|\Cake\ORM\Association\BelongsTo $DebitNotes
- * @property \App\Model\Table\DebitNoteRowsTable|\Cake\ORM\Association\BelongsTo $DebitNoteRows
- * @property \App\Model\Table\SalesVoucherRowsTable|\Cake\ORM\Association\BelongsTo $SalesVoucherRows
- * @property \App\Model\Table\PurchaseVoucherRowsTable|\Cake\ORM\Association\BelongsTo $PurchaseVoucherRows
  * @property \App\Model\Table\JournalVoucherRowsTable|\Cake\ORM\Association\BelongsTo $JournalVoucherRows
- * @property \App\Model\Table\SaleReturnsTable|\Cake\ORM\Association\BelongsTo $SaleReturns
- * @property \App\Model\Table\PurchaseInvoicesTable|\Cake\ORM\Association\BelongsTo $PurchaseInvoices
- * @property \App\Model\Table\PurchaseReturnsTable|\Cake\ORM\Association\BelongsTo $PurchaseReturns
- * @property \App\Model\Table\SalesInvoicesTable|\Cake\ORM\Association\BelongsTo $SalesInvoices
+ * @property |\Cake\ORM\Association\BelongsTo $Invoices
  *
  * @method \App\Model\Entity\ReferenceDetail get($primaryKey, $options = [])
  * @method \App\Model\Entity\ReferenceDetail newEntity($data = null, array $options = [])
@@ -79,41 +70,12 @@ class ReferenceDetailsTable extends Table
             'foreignKey' => 'payment_row_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('CreditNotes', [
-            'foreignKey' => 'credit_note_id'
-        ]);
-        $this->belongsTo('CreditNoteRows', [
-            'foreignKey' => 'credit_note_row_id',
-            'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('DebitNotes', [
-            'foreignKey' => 'debit_note_id'
-        ]);
-        $this->belongsTo('DebitNoteRows', [
-            'foreignKey' => 'debit_note_row_id'
-        ]);
-        $this->belongsTo('SalesVoucherRows', [
-            'foreignKey' => 'sales_voucher_row_id'
-        ]);
-        $this->belongsTo('PurchaseVoucherRows', [
-            'foreignKey' => 'purchase_voucher_row_id',
-            'joinType' => 'INNER'
-        ]);
         $this->belongsTo('JournalVoucherRows', [
             'foreignKey' => 'journal_voucher_row_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('SaleReturns', [
-            'foreignKey' => 'sale_return_id'
-        ]);
-        $this->belongsTo('PurchaseInvoices', [
-            'foreignKey' => 'purchase_invoice_id'
-        ]);
-        $this->belongsTo('PurchaseReturns', [
-            'foreignKey' => 'purchase_return_id'
-        ]);
-        $this->belongsTo('SalesInvoices', [
-            'foreignKey' => 'sales_invoice_id'
+        $this->belongsTo('Invoices', [
+            'foreignKey' => 'invoice_id'
         ]);
     }
 
@@ -129,7 +91,7 @@ class ReferenceDetailsTable extends Table
             ->integer('id')
             ->allowEmptyString('id', 'create');
 
-        /*$validator
+        $validator
             ->date('transaction_date')
             ->allowEmptyDate('transaction_date');
 
@@ -162,7 +124,7 @@ class ReferenceDetailsTable extends Table
 
         $validator
             ->integer('due_days')
-            ->allowEmptyString('due_days', false);*/
+            ->allowEmptyString('due_days', false);
 
         return $validator;
     }
@@ -176,24 +138,15 @@ class ReferenceDetailsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        /*$rules->add($rules->existsIn(['customer_id'], 'Customers'));
+        $rules->add($rules->existsIn(['customer_id'], 'Customers'));
         $rules->add($rules->existsIn(['supplier_id'], 'Suppliers'));
         $rules->add($rules->existsIn(['company_id'], 'Companies'));
         $rules->add($rules->existsIn(['ledger_id'], 'Ledgers'));
         $rules->add($rules->existsIn(['receipt_id'], 'Receipts'));
         $rules->add($rules->existsIn(['receipt_row_id'], 'ReceiptRows'));
         $rules->add($rules->existsIn(['payment_row_id'], 'PaymentRows'));
-        $rules->add($rules->existsIn(['credit_note_id'], 'CreditNotes'));
-        $rules->add($rules->existsIn(['credit_note_row_id'], 'CreditNoteRows'));
-        $rules->add($rules->existsIn(['debit_note_id'], 'DebitNotes'));
-        $rules->add($rules->existsIn(['debit_note_row_id'], 'DebitNoteRows'));
-        $rules->add($rules->existsIn(['sales_voucher_row_id'], 'SalesVoucherRows'));
-        $rules->add($rules->existsIn(['purchase_voucher_row_id'], 'PurchaseVoucherRows'));
         $rules->add($rules->existsIn(['journal_voucher_row_id'], 'JournalVoucherRows'));
-        $rules->add($rules->existsIn(['sale_return_id'], 'SaleReturns'));
-        $rules->add($rules->existsIn(['purchase_invoice_id'], 'PurchaseInvoices'));
-        $rules->add($rules->existsIn(['purchase_return_id'], 'PurchaseReturns'));
-        $rules->add($rules->existsIn(['sales_invoice_id'], 'SalesInvoices'));*/
+        $rules->add($rules->existsIn(['invoice_id'], 'Invoices'));
 
         return $rules;
     }

@@ -86,22 +86,7 @@
                                       <?php echo $this->Form->control('fax_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Fax No.','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')",'autocomplete'=>'off']); ?> 
                                     </div>
                                 </div>
-                            </div> 
-
-                            <div class="col-md-12 space">
-                                <div class="col-md-6 ">
-                                    <label class="control-label col-sm-4">Opening Balance:</label>
-                                    <div class="col-sm-8">
-                                        <?php echo $this->Form->control('opening_bal',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Opening Balance','autocomplete'=>'off']); ?>    
-                                    </div>
-                                </div> 
-                                <div class="col-md-6 ">
-                                    <label class="control-label col-sm-4">Closeing Balance:</label>
-                                    <div class="col-sm-8">
-                                      <?php echo $this->Form->control('close',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Closeing Balance','autocomplete'=>'off','disabled']); ?>
-                                    </div>
-                                </div>
-                            </div> 
+                            </div>   
 
                             <div class="col-md-12 space">
                                 <div class="col-md-6 ">
@@ -142,39 +127,8 @@
                                     $option['no']='No';
                                     echo $this->Form->control('servicetax_status' , ['label' => false,'class' => 'form-control firstupercase','empty'=>'Select...','options'=>$option,'autocomplete'=>'off']); ?> 
                                     </div>
-                                </div> 
-                                <div class="col-md-6 ">
-                                    <!-- <label class="control-label col-sm-4">Copy Tariff Rate From:</label>
-                                    <div class="col-sm-8">
-                                       <?php 
-                                   // echo $this->Form->control('cop_custtariff' , ['label' => false,'class' => 'select2  firstupercase','empty'=>'Select...','options'=>$copysupplier,'autocomplete'=>'off']); ?>    
-                                    </div> -->
-                                    <label class="control-label col-sm-4">Credit/Debit:</label>
-                                    <div class="col-sm-8">
-                                        <?php
-                                    $value['credit'] = 'Credit';
-                                    $value['debit']= 'Debit';
-                                    ?>
-                                    <?php echo $this->Form->control('credit_debit',['label' => false,'class' => 'form-control   firstupercase','empty'=>'Select...','options'=>$value,'autocomplete'=>'off']); ?> 
-                                    </div>
-                                </div>
+                                </div>  
                             </div> 
-
-                            <div class="col-md-12 space">
-                                <div class="col-md-6 ">
-                                    <label class="control-label col-sm-4">Bill to Bill:</label>
-                                    <div class="col-sm-8">
-                                      <?php
-                                    $values['no'] = 'No';
-                                    $values['yes']= 'Yes';
-                                    ?>
-                                    <?php echo $this->Form->control('bill_to_bill',['label' => false,'class' => 'form-control   firstupercase','options'=>$values,'autocomplete'=>'off']); ?> 
-                                    </div>
-                                </div> 
-                                <div class="col-md-6 ">
-                                    
-                                </div>
-                            </div>
                          </div>
                     </div> 
                 </div>

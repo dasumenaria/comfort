@@ -53,13 +53,31 @@ class CustomersController extends AppController
             //pr($this->request->getData());exit;
             $customer = $this->Customers->patchEntity($customer, $this->request->getData());
             //pr($customer);exit;
+
             if ($this->Customers->save($customer)) {
                 //-- Copy Tariff
                 $cop_custtariff=$this->request->getData('cop_custtariff');
                 if(!empty($cop_custtariff))
                 {
+                    $customerTariffs = $this->Customers->CustomerTariffs->find()->where(['customer_id'=>$cop_custtariff]);   
+                    if(!empty($customerTariffs)){
+                        foreach ($customerTariffs as $value) {
+                            $customerTariffIns= $this->Customers->CustomerTariffs->newEntity();
+                            $customerTariffIns = $this->Customers->CustomerTariffs->patchEntity($customerTariffIns,$this->request->getData());
+                            $customerTariffIns->customer_id = $customer->id;
+                            $customerTariffIns->car_type_id = $value->car_type_id;
+                            $customerTariffIns->service_id = $value->service_id;
+                            $customerTariffIns->rate = $value->rate;
+                            $customerTariffIns->minimum_chg_km = $value->minimum_chg_km;
+                            $customerTariffIns->extra_km_rate = $value->extra_km_rate;
+                            $customerTariffIns->minimum_chg_hourly = $value->minimum_chg_hourly;
+                            $customerTariffIns->extra_hour_rate = $value->extra_hour_rate;
+                            $customerTariffIns->is_deleted = $value->is_deleted;
 
-                }
+                            $this->Customers->CustomerTariffs->save($customerTariffIns);   
+                        }
+                    }
+                } 
                 //-- Entry In ledgers
                 $company_id=1;
                 $ledgers = $this->Customers->Ledgers->newEntity();
@@ -130,9 +148,14 @@ class CustomersController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            pr($this->request->getData());exit;
+            //pr($this->request->getData());exit;
             $customer = $this->Customers->patchEntity($customer, $this->request->getData());
             if ($this->Customers->save($customer)) {
+                $query = $this->Customers->Ledgers->query(); 
+                $query->update()->set(['name'=>$this->request->getData('name')])
+                    ->where(['customer_id' => $id])
+                    ->execute();
+
                 $this->Flash->success(__('The customer has been saved.'));
 
                 return $this->redirect(['action' => 'index','edt']);

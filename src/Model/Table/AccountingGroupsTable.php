@@ -75,7 +75,7 @@ class AccountingGroupsTable extends Table
         $validator
             ->integer('id')
             ->allowEmptyString('id', 'create');
-/*
+
         $validator
             ->scalar('name')
             ->maxLength('name', 255)
@@ -175,7 +175,7 @@ class AccountingGroupsTable extends Table
 
         $validator
             ->boolean('contra_voucher_ledger')
-            ->allowEmptyString('contra_voucher_ledger');*/
+            ->allowEmptyString('contra_voucher_ledger');
 
         return $validator;
     }
@@ -189,9 +189,9 @@ class AccountingGroupsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        /*$rules->add($rules->existsIn(['nature_of_group_id'], 'NatureOfGroups'));
+        $rules->add($rules->existsIn(['nature_of_group_id'], 'NatureOfGroups'));
         $rules->add($rules->existsIn(['parent_id'], 'ParentAccountingGroups'));
-        $rules->add($rules->existsIn(['company_id'], 'Companies'));*/
+        $rules->add($rules->existsIn(['company_id'], 'Companies'));
 
         return $rules;
     }

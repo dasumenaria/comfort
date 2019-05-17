@@ -19,7 +19,7 @@ td{
                 $total_km = $closing_km-$opening_km;
 
                 $main1= strtotime($dutySlip->date_from);
-                $main2 = strtotime($dutySlip->date_from);
+                $main2 = strtotime($dutySlip->date_to);
                 $days=(($main2-$main1)/86400);
                 if($dutySlip->service->type == 'intercity'){
                     $days+=1;
@@ -36,6 +36,7 @@ td{
                             <td> 
                                 <?php echo $this->Html->image('/img/logo.jpg', ['style'=>'float:left; border:2px solid #2E3192;']) ?>
                             </td>
+                            
                             <td style="float:right;color:#0872BA;">
                                 <span style="font-size:16px !important;"><b>Comfort Travels &amp; Tours</b></span>
                                 <br/><span>"Akruti", 4-New Fatehpura, Opp. Saheliyo ki Badi,</span><br/>
