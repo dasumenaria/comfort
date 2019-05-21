@@ -98,7 +98,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     
-                                        <?php echo $this->Form->control('extra_hour_rate',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Mobile Number','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')"]); ?>      
+                                        <?php echo $this->Form->control('extra_hour_rate',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Extra Hour Rate','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')"]); ?>      
                                 </div>
                             </div>
                         

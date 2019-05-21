@@ -47,7 +47,7 @@
                             <div class="col-md-6 ">
                                 <label class="control-label col-sm-4"> Customer Email Id</label>
                                 <div class="col-sm-8">
-                                    <?php echo $this->Form->control('email_id',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>' Customer Email Id','autocomplete'=>'off']); ?> 
+                                    <?php echo $this->Form->control('email_id',['label' => false,'type'=>'email','class' => 'form-control  firstupercase','placeholder'=>' Customer Email Id','autocomplete'=>'off']); ?>
                                 </div>
                             </div>
                         </div>
