@@ -201,8 +201,8 @@ class InvoicesController extends AppController
                             $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
                             $this->request->data['ledger_id'] = $ledger_id;
                             
-                            $this->request->data['credit'] = $discount;
-                            $this->request->data['debit'] = 0;
+                            $this->request->data['credit'] = 0;
+                            $this->request->data['debit'] = $discount;
                             $this->request->data['transaction_date'] = date("Y-m-d");
                             $this->request->data['company_id'] = $company_id; 
                             $this->request->data['invoice_id'] = $invoice->id; 
@@ -246,8 +246,8 @@ class InvoicesController extends AppController
                         //--Credit Taxi Services
                         $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
                         $this->request->data['ledger_id'] = $ledger_id;
-                        $amt = $this->request->getData('total') - $this->request->getData('discout_final');
-                        $this->request->data['credit'] = $amt;
+                        //$amt = $this->request->getData('total') - $this->request->getData('discout_final');
+                        $this->request->data['credit'] = $total;
                         $this->request->data['debit'] = 0;
                         $this->request->data['transaction_date'] = date("Y-m-d");
                         $this->request->data['company_id'] = $company_id; 
@@ -457,8 +457,8 @@ class InvoicesController extends AppController
                     $ledger_id = 34; 
                     $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
                     $this->request->data['ledger_id'] = $ledger_id;
-                    $this->request->data['credit'] = $discout_final;
-                    $this->request->data['debit'] = 0;
+                    $this->request->data['credit'] = 0;
+                    $this->request->data['debit'] = $discout_final;
                     $this->request->data['transaction_date'] =  $date;
                     $this->request->data['company_id'] = $company_id; 
                     $this->request->data['invoice_id'] = $invoice->id; 
@@ -502,7 +502,7 @@ class InvoicesController extends AppController
                 $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
                 $this->request->data['ledger_id'] = $ledger_id;
                 $amt = $this->request->getData('total') - $this->request->getData('discout_final');
-                $this->request->data['credit'] = $amt;
+                $this->request->data['credit'] = $this->request->getData('total');
                 $this->request->data['debit'] = 0;
                 $this->request->data['transaction_date'] =  $date;
                 $this->request->data['company_id'] = $company_id; 
