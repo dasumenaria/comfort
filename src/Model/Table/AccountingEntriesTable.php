@@ -88,7 +88,7 @@ class AccountingEntriesTable extends Table
             ->integer('id')
             ->allowEmptyString('id', 'create');
 
-        $validator
+        /*$validator
             ->decimal('debit')
             ->allowEmptyString('debit');
 
@@ -110,7 +110,7 @@ class AccountingEntriesTable extends Table
             ->date('reconciliation_date')
             ->requirePresence('reconciliation_date', 'create')
             ->allowEmptyDate('reconciliation_date', false);
-
+        */
         return $validator;
     }
 
@@ -123,15 +123,8 @@ class AccountingEntriesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['ledger_id'], 'Ledgers'));
-        $rules->add($rules->existsIn(['company_id'], 'Companies'));
-        $rules->add($rules->existsIn(['invoice_id'], 'Invoices'));
-        $rules->add($rules->existsIn(['receipt_id'], 'Receipts'));
-        $rules->add($rules->existsIn(['receipt_row_id'], 'ReceiptRows'));
-        $rules->add($rules->existsIn(['payment_id'], 'Payments'));
-        $rules->add($rules->existsIn(['payment_row_id'], 'PaymentRows'));
-        $rules->add($rules->existsIn(['journal_voucher_id'], 'JournalVouchers'));
-        $rules->add($rules->existsIn(['journal_voucher_row_id'], 'JournalVoucherRows'));
+        $rules->add($rules->existsIn(['ledger_id'], 'Ledgers')); 
+        $rules->add($rules->existsIn(['invoice_id'], 'Invoices'));  
 
         return $rules;
     }

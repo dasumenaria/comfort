@@ -337,12 +337,7 @@ jQuery(".loadingshow").submit(function(){
     jQuery("#loader-1").show();
 });   
 </script> 
-<script> 
-function GetExtraChargeKM(value,i)
-{
-
-    $('#extra_amnt'+i).val($('#extra'+i).val() * $('#extrarate'+i).val())
-} 
+<script>  
 function amount_validation(check_id)
 { 
     var total=0;

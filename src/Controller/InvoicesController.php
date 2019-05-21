@@ -67,10 +67,20 @@ class InvoicesController extends AppController
 
                 $id = $this->request->getData('dsid');
                 $reason = $this->request->getData('reason');
+                //-- INVOICE
                 $query = $this->Invoices->query(); 
                 $query->update()->set(['waveoff_reason'=>$reason,'waveoff_status'=>1,'waveoff_login_id'=>$login_id,'waveoff_counter_id'=>$counter_id,])
                     ->where(['id' => $id])
                     ->execute();
+                    //-- DutySlip
+                $detailsData = $this->Invoices->InvoiceDetails->find()->where(['InvoiceDetails.invoice_id'=>$id]);
+                foreach ($detailsData as $value) {
+                    $query = $this->Invoices->Dutyslips->query(); 
+                    $query->update()->set(['billing_status'=>'no'])
+                        ->where(['id' => $value->duty_slip_id])
+                        ->execute();  
+                }
+                 
                 $this->Flash->success(__('Invoice Waveoff Successfully'));
                 return $this->redirect(['action' => 'index',$type]);
             } 
@@ -82,21 +92,7 @@ class InvoicesController extends AppController
         $customers = $this->Invoices->Customers->find('list', ['limit' => 200]);
         $this->set(compact('customerList','displayName','type','RecordShow','customers'));  
     }
-
-     
-    /**
-     * View method
-     *
-     * @param string|null $id Invoice id.
-     * @return \Cake\Http\Response|void
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-
-    /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
-     */
+    
     public function add()
     {
         $showRecord = 0;
@@ -166,17 +162,24 @@ class InvoicesController extends AppController
                     $CheckInvoiceNo = $this->Invoices->find()->where(['financial_year_id'=>$financial_year_id])->order(['id'=>'DESC'])->first();
                     
                     $financialYearsData = $this->Invoices->FinancialYears->get($financial_year_id); 
-                   $str = $financialYearsData->alias_name.'/'; 
-                    if(!empty($CheckInvoiceNo)){
-                        $max_invoice_no = $CheckInvoiceNo->invoice_no; 
-                        $old_invoice_no = str_replace($str,"",$max_invoice_no);
-                        $old_invoice_no = $old_invoice_no + 1;  
-                        $invoice_no = $str.$old_invoice_no;
+                   $str = $financialYearsData->alias_name; 
+
+
+                   if(!empty($CheckInvoiceNo))
+                    {
+                        $max_invoice_no = $CheckInvoiceNo->invoice_no;
+                        $strs = 'A';
+                        $old_invoice_no_1 = str_replace($strs,"",$max_invoice_no);
+                        $old_invoice_no = str_replace('/'.$financialYearsData->alias_name,"",$old_invoice_no_1);
+                        $old_invoice_no = $old_invoice_no + 1;
+                        $invoice_no = 'A'. sprintf("%04s",$old_invoice_no).'/'.$financialYearsData->alias_name;
                     }
-                    else{
-                        $invoice_no = $str.'1';
+                    else 
+                    {
+                        $invoice_no = 'A0001/'.$financialYearsData->alias_name;
                         $old_invoice_no=1;
                     } 
+
                     $invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());
                     $invoice->invoice_no = $invoice_no;
                     $invoice->date = $invoice_date;
@@ -187,6 +190,7 @@ class InvoicesController extends AppController
                     $invoice->counter_id = $counter_id;
                     $invoice->financial_year_id = $financial_year_id;
                     $invoice->current_date = date("Y-m-d");
+                    $invoice->discount = $discount;
                     //pr($invoice); exit; 
                     if ($this->Invoices->save($invoice)) {
                         $company_id=1;
@@ -293,7 +297,7 @@ class InvoicesController extends AppController
                         $customer_id = $this->request->getData('customer_id');
                         $customerDetails = $this->Invoices->Customers->get($customer_id);
                         $bill_to_bill = $customerDetails->bill_to_bill;
-                        if($payment_type == 'Credit' && $bill_to_bill =='yes')
+                        if($bill_to_bill =='yes')
                         { 
                             //--Referance Details Entry
                             $referenceDetail = $this->Invoices->ReferenceDetails->newEntity();
@@ -303,6 +307,8 @@ class InvoicesController extends AppController
                             $this->request->data['transaction_date'] = date("Y-m-d");
                             $this->request->data['company_id'] = $company_id; 
                             $this->request->data['invoice_id'] = $invoice->id; 
+                            $this->request->data['customer_id'] = '';
+                            $this->request->data['type'] = 'New Ref'; 
                             $this->request->data['ref_name'] = 'IN'.$invoice->id; 
                             $referenceDetail = $this->Invoices->ReferenceDetails->patchEntity($referenceDetail, $this->request->getData());
                             $this->Invoices->ReferenceDetails->save($referenceDetail);
@@ -356,9 +362,13 @@ class InvoicesController extends AppController
     {
         $invoice = $this->Invoices->get($id, [
             'contain' => ['InvoiceTypes', 'Customers'=>['CustomerTariffs'],'InvoiceDetails'=>['DutySlips'=>['Cars','Services','CarTypes']]]
-        ]);
-        pr($invoice);exit;
+        ]); 
         $this->set('invoice', $invoice);
+    }
+
+    public function pdf()
+    {  
+        $this->set('pdfData', $this->request->getData('pdfData'));
     }
 
     public function edit($id = null)
@@ -367,18 +377,220 @@ class InvoicesController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());
-            if ($this->Invoices->save($invoice)) {
-                $this->Flash->success(__('The invoice has been saved.'));
+            //pr($this->request->getData());exit;
+            $guest_name=$this->request->getData('guest_name');
+            $count=$this->request->getData('count');
+            $total=$this->request->getData('total');
+            $tax_type=$this->request->getData('tax_type');
+            $invoice_gst=$this->request->getData('invoice_gst');
+            for($i=1;$i<=$count;$i++)
+            {
+                $dutyslip_id[]=$this->request->getData('ds_idd'.$i); 
+            }
+            $tax=0;
+            if($tax_type==0){
+                $tax+=$this->request->getData('taxation1');
+                $tax+=$this->request->getData('taxation2');
+            }
+            else{
+                $tax+=$this->request->getData('taxation1');
+            }
 
-                return $this->redirect(['action' => 'index']);
+            $discount=$this->request->getData('discount');
+            $discout_final=$this->request->getData('discout_final');
+            $grand_total=$this->request->getData('grand_total');
+            $invoice_id=$this->request->getData('invoice_id');
+            $customer_id=$this->request->getData('customer_id');
+            $date=date('Y-m-d',strtotime($this->request->getData('date')));
+            $current_date=date('Y-m-d',strtotime($this->request->getData('current_date')));
+            $remarks=$this->request->getData('remarks');
+
+            $invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());
+            $invoice->tax = $tax;
+            $invoice->date = $date;
+            $invoice->current_date = $current_date;
+            $invoice->discount = $discout_final; 
+            //pr($invoice);exit;
+            if ($this->Invoices->save($invoice)) {
+
+                $this->Invoices->AccountingEntries->deleteAll(['invoice_id' => $id]);
+                $this->Invoices->ReferenceDetails->deleteAll(['invoice_id' => $id]);
+
+                $company_id=1;
+                $LedgerData = $this->Invoices->Ledgers->find()->select(['id'])->where(['Ledgers.customer_id'=>$this->request->getData('customer_id')])->first();
+                $customer_ledger_id = $LedgerData->id;
+                //--Dabit Customer
+                $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
+                $this->request->data['ledger_id'] = $customer_ledger_id;
+                $this->request->data['credit'] = 0;
+                $this->request->data['debit'] = $this->request->getData('grand_total');
+                $this->request->data['transaction_date'] = $date;
+                $this->request->data['company_id'] = $company_id; 
+                $this->request->data['invoice_id'] = $invoice->id; 
+                $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
+                $this->Invoices->AccountingEntries->save($accountingEntries);
+                //pr($accountingEntries);exit;
+                //--Dabit Customer
+
+                $ledger_id = 33;
+                //--Credit Taxi Services
+                $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
+                $this->request->data['ledger_id'] = $ledger_id;
+                $amt = $this->request->getData('total') - $this->request->getData('discout_final');
+                $this->request->data['credit'] = $amt;
+                $this->request->data['debit'] = 0;
+                $this->request->data['transaction_date'] =  $date;
+                $this->request->data['company_id'] = $company_id; 
+                $this->request->data['invoice_id'] = $invoice->id; 
+                $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
+                $this->Invoices->AccountingEntries->save($accountingEntries);
+                //--Credit Taxi Services
+                
+                if($tax_type == 0 ){
+                    $ledger_id = 16;
+                    //--Credit CGST
+                    $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
+                    $this->request->data['ledger_id'] = $ledger_id; 
+                    $this->request->data['credit'] = $this->request->getData('taxation1');
+                    $this->request->data['debit'] = 0;
+                    $this->request->data['transaction_date'] =  $date;
+                    $this->request->data['company_id'] = $company_id; 
+                    $this->request->data['invoice_id'] = $invoice->id; 
+                    $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
+                    $this->Invoices->AccountingEntries->save($accountingEntries);
+                    //--Credit CGST
+
+                    $ledger_id = 17;
+                    //--Credit SGST
+                    $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
+                    $this->request->data['ledger_id'] = $ledger_id; 
+                    $this->request->data['credit'] = $this->request->getData('taxation2');
+                    $this->request->data['debit'] = 0;
+                    $this->request->data['transaction_date'] =  $date;;
+                    $this->request->data['company_id'] = $company_id; 
+                    $this->request->data['invoice_id'] = $invoice->id; 
+                    $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
+                    $this->Invoices->AccountingEntries->save($accountingEntries);
+                    //--Credit SGST
+                }
+                else
+                {
+                    $ledger_id = 18;
+                    //--Credit IGST
+                    $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
+                    $this->request->data['ledger_id'] = $ledger_id; 
+                    $this->request->data['credit'] = $this->request->getData('taxation1');
+                    $this->request->data['debit'] = 0;
+                    $this->request->data['transaction_date'] = $date;
+                    $this->request->data['company_id'] = $company_id; 
+                    $this->request->data['invoice_id'] = $invoice->id; 
+                    $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
+                    $this->Invoices->AccountingEntries->save($accountingEntries);
+                    //--Credit CGST
+                }
+                
+                //-- ROund Off 
+                if(str_replace('-',' ',$this->request->getData('round_off'))>0)
+                {
+                     
+                    if($this->request->getData('isRoundofType')=='0')
+                    {
+                        $debit=0;
+                        $credit=str_replace('-',' ',$this->request->getData('round_off'));
+                    }
+                    else if($this->request->getData('isRoundofType')=='1')
+                    {
+                        $credit=0;
+                        $debit=str_replace('-',' ',$this->request->getData('round_off'));
+                    }
+                    $ledger_id = 31; 
+                    $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
+                    $this->request->data['ledger_id'] = $ledger_id;  
+                    $this->request->data['credit'] = $credit;
+                    $this->request->data['debit'] = $debit;
+                    $this->request->data['transaction_date'] = $date;
+                    $this->request->data['company_id'] = $company_id; 
+                    $this->request->data['invoice_id'] = $invoice->id; 
+                    $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
+                    $this->Invoices->AccountingEntries->save($accountingEntries);
+                    
+                }
+                //-- ROund Off 
+                
+                //-- Referance Details Entry
+                $customer_id = $this->request->getData('customer_id');
+                $customerDetails = $this->Invoices->Customers->get($customer_id);
+                $bill_to_bill = $customerDetails->bill_to_bill;
+                if($bill_to_bill =='yes')
+                { 
+                    //--Referance Details Entry
+                    $referenceDetail = $this->Invoices->ReferenceDetails->newEntity();
+                    $this->request->data['ledger_id'] = $customer_ledger_id; 
+                    $this->request->data['credit'] = 0;
+                    $this->request->data['debit'] = $this->request->getData('grand_total');
+                    $this->request->data['transaction_date'] =  $date;
+                    $this->request->data['company_id'] = $company_id; 
+                    $this->request->data['invoice_id'] = $invoice->id; 
+                    $this->request->data['customer_id'] = '';
+                    $this->request->data['type'] = 'New Ref';
+                    $this->request->data['ref_name'] = 'IN'.$invoice->id; 
+                    $referenceDetail = $this->Invoices->ReferenceDetails->patchEntity($referenceDetail, $this->request->getData());
+                    $this->Invoices->ReferenceDetails->save($referenceDetail);
+                    //--Credit CGST   
+                }
+                for($k=1;$k<=$count;$k++)
+                {
+                    $main_amnt=$this->request->getData('main_amnt'.$k);
+                    $extra_amnt=$this->request->getData('extra_amnt'.$k);  
+                    $extra_chg=$this->request->getData('extra_chg'.$k);
+                    $permit_chg=$this->request->getData('permit_chg'.$k);
+                    $parking_chg=$this->request->getData('parking_chg'.$k);
+                    $otherstate_chg=$this->request->getData('otherstate_chg'.$k);
+                    $guide_chg=$this->request->getData('guide_chg'.$k);
+                    $misc_chg=$this->request->getData('misc_chg'.$k);
+                    $fuel_hike_chg=$this->request->getData('fuel_hike_chg'.$k);
+                    $duty_slip_id=$this->request->getData('duty_slip_id'.$k);
+                    $invoice_detail_id=$this->request->getData('invoice_detail_id'.$k);
+
+                    $tot_amnt=$main_amnt+$extra_chg+$permit_chg+$parking_chg+$otherstate_chg+$guide_chg+$misc_chg+$fuel_hike_chg;
+
+                    $amount=$main_amnt+$extra_chg+$permit_chg+$parking_chg+$otherstate_chg+$guide_chg+$misc_chg+$extra_amnt+$fuel_hike_chg;
+                    //-- DS UPDATE
+                    $query = $this->Invoices->Dutyslips->query(); 
+                    $query->update()->set([
+                        'guest_name'=>$guest_name,
+                        'extra_amnt'=>$extra_amnt,
+                        'extra_chg'=>$extra_chg,
+                        'permit_chg'=>$permit_chg,
+                        'parking_chg'=>$parking_chg,
+                        'otherstate_chg'=>$otherstate_chg,
+                        'guide_chg'=>$guide_chg,
+                        'misc_chg'=>$misc_chg,
+                        'tot_amnt'=>$tot_amnt,
+                        'fuel_hike_chg'=>$fuel_hike_chg
+                        ])
+                        ->where(['id' => $duty_slip_id])
+                        ->execute();
+
+                    //-- DETAILS UPDATE
+                    $query = $this->Invoices->InvoiceDetails->query(); 
+                    $query->update()->set(['amount'=>$amount])
+                        ->where(['id' => $invoice_detail_id])
+                        ->execute();
+                }
+
+                $this->Flash->success(__('The invoice has been saved.'));
+                return $this->redirect(['action' => 'index','edt']);
             }
             $this->Flash->error(__('The invoice could not be saved. Please, try again.'));
         }
         $invoiceTypes = $this->Invoices->InvoiceTypes->find('list', ['limit' => 200]);
         $customers = $this->Invoices->Customers->find('list', ['limit' => 200]); 
-
-        $this->set(compact('invoice', 'invoiceTypes', 'customers'));
+        $gstData = $this->Invoices->GstFigures->get(3);
+        $row_invoice = $this->Invoices->get($id, [
+            'contain' => ['Customers','InvoiceDetails'=>['DutySlips'=>['Cars','Services','CarTypes']]]
+        ]);
+        $this->set(compact('row_invoice', 'invoiceTypes', 'customers','gstData'));
     }
  
     public function delete($id = null)

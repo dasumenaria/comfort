@@ -91,7 +91,7 @@ class ReferenceDetailsTable extends Table
             ->integer('id')
             ->allowEmptyString('id', 'create');
 
-        $validator
+       /* $validator
             ->date('transaction_date')
             ->allowEmptyDate('transaction_date');
 
@@ -125,7 +125,7 @@ class ReferenceDetailsTable extends Table
         $validator
             ->integer('due_days')
             ->allowEmptyString('due_days', false);
-
+*/
         return $validator;
     }
 
@@ -138,7 +138,7 @@ class ReferenceDetailsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['customer_id'], 'Customers'));
+      /*  $rules->add($rules->existsIn(['customer_id'], 'Customers'));
         $rules->add($rules->existsIn(['supplier_id'], 'Suppliers'));
         $rules->add($rules->existsIn(['company_id'], 'Companies'));
         $rules->add($rules->existsIn(['ledger_id'], 'Ledgers'));
@@ -146,7 +146,7 @@ class ReferenceDetailsTable extends Table
         $rules->add($rules->existsIn(['receipt_row_id'], 'ReceiptRows'));
         $rules->add($rules->existsIn(['payment_row_id'], 'PaymentRows'));
         $rules->add($rules->existsIn(['journal_voucher_row_id'], 'JournalVoucherRows'));
-        $rules->add($rules->existsIn(['invoice_id'], 'Invoices'));
+        $rules->add($rules->existsIn(['invoice_id'], 'Invoices'));*/
 
         return $rules;
     }

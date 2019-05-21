@@ -3,6 +3,7 @@ namespace App\Controller\Component;
 use App\Controller\AppController;
 use Cake\Controller\Component;
 use Cake\Utility\Security;
+use Cake\ORM\TableRegistry;
 class DateComponent extends Component
 {
 	function encryptData($data=null){
@@ -34,6 +35,15 @@ class DateComponent extends Component
             $date_no=date("d-m-Y",strtotime($date));
         }
         return $date_no;
+    }
+
+    function tariffData($service_id,$customer_id,$car_type_id){
+        $this->CustomerTariffs = TableRegistry::get('CustomerTariffs'); 
+        return $this->CustomerTariffs->find()->where(['service_id'=>$service_id,'customer_id'=>$customer_id,'car_type_id'=>$car_type_id,'is_deleted'=>0])->first();
+    }
+    function taxData($invoice_id){
+        $this->AccountingEntries = TableRegistry::get('AccountingEntries'); 
+        return $this->AccountingEntries->find()->contain(['Ledgers'])->where(['AccountingEntries.invoice_id'=>$invoice_id,'AccountingEntries.ledger_id IN '=>array('16','17','18')]);
     }
 }
 ?>
