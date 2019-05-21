@@ -107,7 +107,7 @@
 <?php echo $this->Html->script('/assets/dist/js/demo.js'); ?> 
 <?php echo $this->Html->script('/assets/plugins/WYSIWYG/editor.js'); ?>
 <?php echo $this->Html->script('/assets/scroll/js/fixed_table_rc.js'); ?>
- 
+
 <script>
 $(window).load(function(){
     var menuSelect=$("a[href='<?php echo $this->request->getAttribute('here');  ?>']"); 
@@ -139,7 +139,26 @@ $(window).load(function(){
         'insert_img':false,
     }); 
     $("#example1").DataTable();
+    
+    function round(value, exp) {
+        if (typeof exp === 'undefined' || +exp === 0)
+        return Math.round(value);
 
-</script>   
+        value = +value; 
+        exp = +exp;
+
+        if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+        return 0;
+
+        // Shift
+        value = value.toString().split('e');
+        value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
+        // Shift back
+        value = value.toString().split('e');
+        return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
+    }
+</script> 
+<?= $this->fetch('scriptBottom'); ?>  
 </body>
 </html>

@@ -66,28 +66,7 @@ class PaymentsTable extends Table
         $validator
             ->integer('id')
             ->allowEmptyString('id', 'create');
-
-        $validator
-            ->integer('voucher_no')
-            ->requirePresence('voucher_no', 'create')
-            ->allowEmptyString('voucher_no', false);
-
-        $validator
-            ->date('transaction_date')
-            ->requirePresence('transaction_date', 'create')
-            ->allowEmptyDate('transaction_date', false);
-
-        $validator
-            ->scalar('narration')
-            ->requirePresence('narration', 'create')
-            ->allowEmptyString('narration', false);
-
-        $validator
-            ->scalar('status')
-            ->maxLength('status', 10)
-            ->requirePresence('status', 'create')
-            ->allowEmptyString('status', false);
-
+    
         return $validator;
     }
 
@@ -100,8 +79,7 @@ class PaymentsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['financial_year_id'], 'FinancialYears'));
-        $rules->add($rules->existsIn(['company_id'], 'Companies'));
+        $rules->add($rules->existsIn(['financial_year_id'], 'FinancialYears')); 
 
         return $rules;
     }
