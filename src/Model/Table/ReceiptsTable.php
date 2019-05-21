@@ -45,14 +45,7 @@ class ReceiptsTable extends Table
             'foreignKey' => 'financial_year_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('Companies', [
-            'foreignKey' => 'company_id',
-            'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('SalesInvoices', [
-            'foreignKey' => 'sales_invoice_id',
-            'joinType' => 'INNER'
-        ]);
+      
         $this->hasMany('AccountingEntries', [
             'foreignKey' => 'receipt_id'
         ]);
@@ -76,36 +69,7 @@ class ReceiptsTable extends Table
             ->integer('id')
             ->allowEmptyString('id', 'create');
 
-        $validator
-            ->integer('voucher_no')
-            ->requirePresence('voucher_no', 'create')
-            ->allowEmptyString('voucher_no', false);
-
-        $validator
-            ->date('transaction_date')
-            ->requirePresence('transaction_date', 'create')
-            ->allowEmptyDate('transaction_date', false);
-
-        $validator
-            ->scalar('narration')
-            ->requirePresence('narration', 'create')
-            ->allowEmptyString('narration', false);
-
-        $validator
-            ->decimal('voucher_amount')
-            ->requirePresence('voucher_amount', 'create')
-            ->allowEmptyString('voucher_amount', false);
-
-        $validator
-            ->decimal('amount')
-            ->requirePresence('amount', 'create')
-            ->allowEmptyString('amount', false);
-
-        $validator
-            ->scalar('status')
-            ->maxLength('status', 10)
-            ->requirePresence('status', 'create')
-            ->allowEmptyString('status', false);
+       
 
         return $validator;
     }
@@ -120,8 +84,8 @@ class ReceiptsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['financial_year_id'], 'FinancialYears'));
-        $rules->add($rules->existsIn(['company_id'], 'Companies'));
-        $rules->add($rules->existsIn(['sales_invoice_id'], 'SalesInvoices'));
+        //$rules->add($rules->existsIn(['company_id'], 'Companies'));
+     //   $rules->add($rules->existsIn(['sales_invoice_id'], 'SalesInvoices'));
 
         return $rules;
     }

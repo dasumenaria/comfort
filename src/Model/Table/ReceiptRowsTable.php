@@ -44,10 +44,7 @@ class ReceiptRowsTable extends Table
             'foreignKey' => 'receipt_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('Companies', [
-            'foreignKey' => 'company_id',
-            'joinType' => 'INNER'
-        ]);
+        
         $this->belongsTo('Ledgers', [
             'foreignKey' => 'ledger_id',
             'joinType' => 'INNER'
@@ -71,38 +68,8 @@ class ReceiptRowsTable extends Table
         $validator
             ->integer('id')
             ->allowEmptyString('id', 'create');
-
-        $validator
-            ->scalar('cr_dr')
-            ->maxLength('cr_dr', 10)
-            ->requirePresence('cr_dr', 'create')
-            ->allowEmptyString('cr_dr', false);
-
-        $validator
-            ->decimal('debit')
-            ->allowEmptyString('debit');
-
-        $validator
-            ->decimal('credit')
-            ->allowEmptyString('credit');
-
-        $validator
-            ->scalar('mode_of_payment')
-            ->maxLength('mode_of_payment', 30)
-            ->requirePresence('mode_of_payment', 'create')
-            ->allowEmptyString('mode_of_payment', false);
-
-        $validator
-            ->scalar('cheque_no')
-            ->maxLength('cheque_no', 255)
-            ->requirePresence('cheque_no', 'create')
-            ->allowEmptyString('cheque_no', false);
-
-        $validator
-            ->date('cheque_date')
-            ->allowEmptyDate('cheque_date');
-
-        return $validator;
+		
+		return $validator;
     }
 
     /**
@@ -115,7 +82,7 @@ class ReceiptRowsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['receipt_id'], 'Receipts'));
-        $rules->add($rules->existsIn(['company_id'], 'Companies'));
+      //  $rules->add($rules->existsIn(['company_id'], 'Companies'));
         $rules->add($rules->existsIn(['ledger_id'], 'Ledgers'));
 
         return $rules;

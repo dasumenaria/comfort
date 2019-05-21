@@ -1,209 +1,115 @@
+<style>
+
+@media print{
+	.maindiv{
+		width:100% !important;
+		margin:auto;
+	}	
+	.hidden-print{
+		display:none;
+	}
+}
+
+</style>
+<style type="text/css" media="print">
+@page {
+	width:100%;
+    size: auto;   /* auto is the initial value */
+    margin: 0px 0px 0px 0px;  /* this affects the margin in the printer settings */
+}
+.maindiv {
+border:solid 1px #c7c7c7;background-color: #FFF;padding: 10px;margin: auto;width: 100%;font-size: 12px;
+}
+</style>
+
+
 <?php
 /**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Receipt $receipt
+ * @Author: PHP Poets IT Solutions Pvt. Ltd.
  */
+$this->set('title', 'Receipt Voucher');
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Receipt'), ['action' => 'edit', $receipt->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Receipt'), ['action' => 'delete', $receipt->id], ['confirm' => __('Are you sure you want to delete # {0}?', $receipt->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Receipts'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Receipt'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Financial Years'), ['controller' => 'FinancialYears', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Financial Year'), ['controller' => 'FinancialYears', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Accounting Entries'), ['controller' => 'AccountingEntries', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Accounting Entry'), ['controller' => 'AccountingEntries', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Receipt Rows'), ['controller' => 'ReceiptRows', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Receipt Row'), ['controller' => 'ReceiptRows', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Reference Details'), ['controller' => 'ReferenceDetails', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Reference Detail'), ['controller' => 'ReferenceDetails', 'action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="receipts view large-9 medium-8 columns content">
-    <h3><?= h($receipt->id) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th scope="row"><?= __('Financial Year') ?></th>
-            <td><?= $receipt->has('financial_year') ? $this->Html->link($receipt->financial_year->id, ['controller' => 'FinancialYears', 'action' => 'view', $receipt->financial_year->id]) : '' ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Status') ?></th>
-            <td><?= h($receipt->status) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($receipt->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Voucher No') ?></th>
-            <td><?= $this->Number->format($receipt->voucher_no) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Company Id') ?></th>
-            <td><?= $this->Number->format($receipt->company_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Voucher Amount') ?></th>
-            <td><?= $this->Number->format($receipt->voucher_amount) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Amount') ?></th>
-            <td><?= $this->Number->format($receipt->amount) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Sales Invoice Id') ?></th>
-            <td><?= $this->Number->format($receipt->sales_invoice_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Transaction Date') ?></th>
-            <td><?= h($receipt->transaction_date) ?></td>
-        </tr>
-    </table>
-    <div class="row">
-        <h4><?= __('Narration') ?></h4>
-        <?= $this->Text->autoParagraph(h($receipt->narration)); ?>
-    </div>
-    <div class="related">
-        <h4><?= __('Related Accounting Entries') ?></h4>
-        <?php if (!empty($receipt->accounting_entries)): ?>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Ledger Id') ?></th>
-                <th scope="col"><?= __('Debit') ?></th>
-                <th scope="col"><?= __('Credit') ?></th>
-                <th scope="col"><?= __('Transaction Date') ?></th>
-                <th scope="col"><?= __('Company Id') ?></th>
-                <th scope="col"><?= __('Is Opening Balance') ?></th>
-                <th scope="col"><?= __('Invoice Id') ?></th>
-                <th scope="col"><?= __('Receipt Id') ?></th>
-                <th scope="col"><?= __('Receipt Row Id') ?></th>
-                <th scope="col"><?= __('Payment Id') ?></th>
-                <th scope="col"><?= __('Payment Row Id') ?></th>
-                <th scope="col"><?= __('Journal Voucher Id') ?></th>
-                <th scope="col"><?= __('Journal Voucher Row Id') ?></th>
-                <th scope="col"><?= __('Reconciliation Date') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($receipt->accounting_entries as $accountingEntries): ?>
-            <tr>
-                <td><?= h($accountingEntries->id) ?></td>
-                <td><?= h($accountingEntries->ledger_id) ?></td>
-                <td><?= h($accountingEntries->debit) ?></td>
-                <td><?= h($accountingEntries->credit) ?></td>
-                <td><?= h($accountingEntries->transaction_date) ?></td>
-                <td><?= h($accountingEntries->company_id) ?></td>
-                <td><?= h($accountingEntries->is_opening_balance) ?></td>
-                <td><?= h($accountingEntries->invoice_id) ?></td>
-                <td><?= h($accountingEntries->receipt_id) ?></td>
-                <td><?= h($accountingEntries->receipt_row_id) ?></td>
-                <td><?= h($accountingEntries->payment_id) ?></td>
-                <td><?= h($accountingEntries->payment_row_id) ?></td>
-                <td><?= h($accountingEntries->journal_voucher_id) ?></td>
-                <td><?= h($accountingEntries->journal_voucher_row_id) ?></td>
-                <td><?= h($accountingEntries->reconciliation_date) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'AccountingEntries', 'action' => 'view', $accountingEntries->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'AccountingEntries', 'action' => 'edit', $accountingEntries->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'AccountingEntries', 'action' => 'delete', $accountingEntries->id], ['confirm' => __('Are you sure you want to delete # {0}?', $accountingEntries->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-        <?php endif; ?>
-    </div>
-    <div class="related">
-        <h4><?= __('Related Receipt Rows') ?></h4>
-        <?php if (!empty($receipt->receipt_rows)): ?>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Receipt Id') ?></th>
-                <th scope="col"><?= __('Company Id') ?></th>
-                <th scope="col"><?= __('Cr Dr') ?></th>
-                <th scope="col"><?= __('Ledger Id') ?></th>
-                <th scope="col"><?= __('Debit') ?></th>
-                <th scope="col"><?= __('Credit') ?></th>
-                <th scope="col"><?= __('Mode Of Payment') ?></th>
-                <th scope="col"><?= __('Cheque No') ?></th>
-                <th scope="col"><?= __('Cheque Date') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($receipt->receipt_rows as $receiptRows): ?>
-            <tr>
-                <td><?= h($receiptRows->id) ?></td>
-                <td><?= h($receiptRows->receipt_id) ?></td>
-                <td><?= h($receiptRows->company_id) ?></td>
-                <td><?= h($receiptRows->cr_dr) ?></td>
-                <td><?= h($receiptRows->ledger_id) ?></td>
-                <td><?= h($receiptRows->debit) ?></td>
-                <td><?= h($receiptRows->credit) ?></td>
-                <td><?= h($receiptRows->mode_of_payment) ?></td>
-                <td><?= h($receiptRows->cheque_no) ?></td>
-                <td><?= h($receiptRows->cheque_date) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'ReceiptRows', 'action' => 'view', $receiptRows->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'ReceiptRows', 'action' => 'edit', $receiptRows->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'ReceiptRows', 'action' => 'delete', $receiptRows->id], ['confirm' => __('Are you sure you want to delete # {0}?', $receiptRows->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-        <?php endif; ?>
-    </div>
-    <div class="related">
-        <h4><?= __('Related Reference Details') ?></h4>
-        <?php if (!empty($receipt->reference_details)): ?>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Customer Id') ?></th>
-                <th scope="col"><?= __('Supplier Id') ?></th>
-                <th scope="col"><?= __('Transaction Date') ?></th>
-                <th scope="col"><?= __('Company Id') ?></th>
-                <th scope="col"><?= __('Ledger Id') ?></th>
-                <th scope="col"><?= __('Type') ?></th>
-                <th scope="col"><?= __('Ref Name') ?></th>
-                <th scope="col"><?= __('Debit') ?></th>
-                <th scope="col"><?= __('Credit') ?></th>
-                <th scope="col"><?= __('Receipt Id') ?></th>
-                <th scope="col"><?= __('Receipt Row Id') ?></th>
-                <th scope="col"><?= __('Payment Row Id') ?></th>
-                <th scope="col"><?= __('Journal Voucher Row Id') ?></th>
-                <th scope="col"><?= __('Invoice Id') ?></th>
-                <th scope="col"><?= __('Opening Balance') ?></th>
-                <th scope="col"><?= __('Due Days') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($receipt->reference_details as $referenceDetails): ?>
-            <tr>
-                <td><?= h($referenceDetails->id) ?></td>
-                <td><?= h($referenceDetails->customer_id) ?></td>
-                <td><?= h($referenceDetails->supplier_id) ?></td>
-                <td><?= h($referenceDetails->transaction_date) ?></td>
-                <td><?= h($referenceDetails->company_id) ?></td>
-                <td><?= h($referenceDetails->ledger_id) ?></td>
-                <td><?= h($referenceDetails->type) ?></td>
-                <td><?= h($referenceDetails->ref_name) ?></td>
-                <td><?= h($referenceDetails->debit) ?></td>
-                <td><?= h($referenceDetails->credit) ?></td>
-                <td><?= h($referenceDetails->receipt_id) ?></td>
-                <td><?= h($referenceDetails->receipt_row_id) ?></td>
-                <td><?= h($referenceDetails->payment_row_id) ?></td>
-                <td><?= h($referenceDetails->journal_voucher_row_id) ?></td>
-                <td><?= h($referenceDetails->invoice_id) ?></td>
-                <td><?= h($referenceDetails->opening_balance) ?></td>
-                <td><?= h($referenceDetails->due_days) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'ReferenceDetails', 'action' => 'view', $referenceDetails->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'ReferenceDetails', 'action' => 'edit', $referenceDetails->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'ReferenceDetails', 'action' => 'delete', $referenceDetails->id], ['confirm' => __('Are you sure you want to delete # {0}?', $referenceDetails->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-        <?php endif; ?>
-    </div>
-</div>
+<div  class="maindiv" style="border:solid 1px #c7c7c7;background-color: #FFF;padding: 10px;margin: auto;width:75%;font-size: 12px;">	
+	<table width="100%" class="divHeader">
+		<tbody><?php foreach($receipts as $data){?><tr>
+				<td width="30%"><?php if(!empty(@$data->company->logo)){ ?>
+				<?php echo $this->Html->image('/img/'.$data->company->logo, ['height' => '70px', 'width' => '70px']); ?>
+				<?php } ?></td>
+				<td align="center" width="40%" style="font-size: 12px;"><div align="center" style="font-size: 18px;font-weight: bold;color: #0685a8;">RECEIPT VOUCHER</div></td>
+				<td align="right" width="40%" style="font-size: 12px;">
+				<span style="font-size: 14px;font-weight: bold;"><?=@$data->company->name?></span><br/>
+				<span><?=@$data->company->address?>, <?=@$data->company->state->name?></span></br>
+				<span> <i class="fa fa-phone" aria-hidden="true"></i>  <?=@$data->company->phone_no ?> |  Mobile : <?=@$data->company->mobile ?><br> GSTIN NO:
+				<?=@$data->company->gstin ?></span></td>
+			</tr><?php }?>
+			<tr>
+				<td colspan="3">
+				<div style="border:solid 2px #0685a8;margin-bottom:5px;margin-top: 5px;"></div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+		<table width="100%">	<thead>
+		<?php foreach($receipts as $data){?>
+		<tr>
+			<td width="50%" valign="top" align="left">
+				<table>
+					<tr>
+						<td>Voucher No</td>
+						<td width="20" align="center">:</td>
+						<td><?= h(str_pad($data->voucher_no, 4, '0', STR_PAD_LEFT)) ?></td>
+					</tr>
+				</table>
+			</td>
+			<td width="50%" valign="top" align="right">
+				<table>
+					<tr>
+						<td>Transaction Date</td>
+						<td width="20" align="center">:</td>
+						<td><?= h(date("d-m-Y",strtotime($data->transaction_date))) ?></td>
+					</tr>
+				</table>
+			</td>
+		</tr><?php }?>
+	</table>
+	<?php foreach($receipts as $data){?>
+		Narration: <?php echo $data->narration;?><?php }?>
+		<br/><br/>
+		<table width="100%" class="table" style="font-size:12px">
+			<tr style="background-color:#F0EFED;">
+				<th colspan="3"><?= __('Ledger A/C') ?></th>
+				<th><?= __('Dr') ?></th>
+				<th><?= __('Cr') ?></th>
+			</tr>
+			<?php foreach($receipts->toArray() as $data){
+					
+					foreach($data->receipt_rows as $receiptRows)
+					{
+					@$total_debit+=$receiptRows->debit;
+					@$total_credit+=$receiptRows->credit; ?>
+					<tr>
+					<td colspan="3" style="text-align:left"><b><?=$receiptRows->ledger->name?></b>
+						<div class="window" style="margin:auto;"><table width="50%">
+							<?php foreach($receiptRows->reference_details as $refdata)
+							{?><tr>
+							<td style="text-align:left"><?=$refdata->type?></td>
+							<td style="text-align:left"><?=$refdata->ref_name?></td>
+							<?php if($refdata->debit){ ?>
+							<td class="rightAligntextClass"><?=$refdata->debit?> Dr</td><?php } else {?>
+							<td class="rightAligntextClass"><?=$refdata->credit?> Cr</td><?php } ?></tr>
+							<?php } ?></table>
+						</div>
+					</td>
+					<td ><?=$receiptRows->debit?></td>
+					<td><?=$receiptRows->credit?></td>
+					</tr>
+			<?php } } ?>
+			<tr>
+			
+			<td colspan="3" align="right"></td>
+			
+			<td> <?php echo $total_debit;?></td>
+			<td> <?php echo $total_credit;?></td>
+			</tr>
+		</table>
+	</div>
