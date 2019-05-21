@@ -138,6 +138,7 @@ class InvoicesController extends AppController
                 $total=$this->request->getData('total');
                 $discount=$this->request->getData('discout_final');
                 $tax_type=$this->request->getData('tax_type'); 
+                $other_charges=$this->request->getData('other_charges'); 
 
                 for($i=1;$i<=$count;$i++)
                 {
@@ -193,6 +194,39 @@ class InvoicesController extends AppController
                     $invoice->discount = $discount;
                     //pr($invoice); exit; 
                     if ($this->Invoices->save($invoice)) {
+
+                        //-- DISCOUNT ENTRY
+                        if($discount>0){
+                            $ledger_id = 34; 
+                            $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
+                            $this->request->data['ledger_id'] = $ledger_id;
+                            
+                            $this->request->data['credit'] = $discount;
+                            $this->request->data['debit'] = 0;
+                            $this->request->data['transaction_date'] = date("Y-m-d");
+                            $this->request->data['company_id'] = $company_id; 
+                            $this->request->data['invoice_id'] = $invoice->id; 
+                            $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
+                            $this->Invoices->AccountingEntries->save($accountingEntries);   
+                        }  
+                        //-- DISCOUNT ENTRY
+
+                        //-- Other Charges
+                        if($other_charges>0){
+                            $ledger_id = 35; 
+                            $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
+                            $this->request->data['ledger_id'] = $ledger_id;
+                            
+                            $this->request->data['credit'] = $other_charges;
+                            $this->request->data['debit'] = 0;
+                            $this->request->data['transaction_date'] = date("Y-m-d");
+                            $this->request->data['company_id'] = $company_id; 
+                            $this->request->data['invoice_id'] = $invoice->id; 
+                            $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
+                            $this->Invoices->AccountingEntries->save($accountingEntries);   
+                        }
+                        //--Other Charges
+                        
                         $company_id=1;
                         $LedgerData = $this->Invoices->Ledgers->find()->select(['id'])->where(['Ledgers.customer_id'=>$this->request->getData('customer_id')])->first();
                         $customer_ledger_id = $LedgerData->id;
@@ -404,6 +438,7 @@ class InvoicesController extends AppController
             $date=date('Y-m-d',strtotime($this->request->getData('date')));
             $current_date=date('Y-m-d',strtotime($this->request->getData('current_date')));
             $remarks=$this->request->getData('remarks');
+            $other_charges=$this->request->getData('other_charges');
 
             $invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());
             $invoice->tax = $tax;
@@ -417,6 +452,36 @@ class InvoicesController extends AppController
                 $this->Invoices->ReferenceDetails->deleteAll(['invoice_id' => $id]);
 
                 $company_id=1;
+                //-- DISCOUNT ENTRY
+                if($discout_final>0){
+                    $ledger_id = 34; 
+                    $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
+                    $this->request->data['ledger_id'] = $ledger_id;
+                    $this->request->data['credit'] = $discout_final;
+                    $this->request->data['debit'] = 0;
+                    $this->request->data['transaction_date'] =  $date;
+                    $this->request->data['company_id'] = $company_id; 
+                    $this->request->data['invoice_id'] = $invoice->id; 
+                    $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
+                    $this->Invoices->AccountingEntries->save($accountingEntries);   
+                }  
+                //-- DISCOUNT ENTRY
+
+                //-- Other Charges
+                if($other_charges>0){
+                    $ledger_id = 35; 
+                    $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
+                    $this->request->data['ledger_id'] = $ledger_id;
+                    $this->request->data['credit'] = $other_charges;
+                    $this->request->data['debit'] = 0;
+                    $this->request->data['transaction_date'] =  $date;
+                    $this->request->data['company_id'] = $company_id; 
+                    $this->request->data['invoice_id'] = $invoice->id; 
+                    $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
+                    $this->Invoices->AccountingEntries->save($accountingEntries);   
+                }
+                //--Other Charges
+
                 $LedgerData = $this->Invoices->Ledgers->find()->select(['id'])->where(['Ledgers.customer_id'=>$this->request->getData('customer_id')])->first();
                 $customer_ledger_id = $LedgerData->id;
                 //--Dabit Customer
