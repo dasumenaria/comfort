@@ -58,9 +58,9 @@ date_default_timezone_set('asia/kolkata');
 			<td><?php echo $car_number;?></td>
 			<td><?php echo date('d-M-Y',strtotime($city->date)) ?></td>
 			<td><?php echo $city->opening_km;?></td>
-			<td><?php echo $city->closing_km;?></td>
-			<td><?php echo $city->opening_time;?></td>
-			<td><?php echo $city->closing_time;?></td>
+			<td><?php echo $city->closing_km;?></td> 
+			<td><?php echo date('H:i:s',strtotime($city->opening_time));?></td>
+			<td><?php echo date('H:i:s',strtotime($city->closing_time));?></td>
 			<td><?php echo date('d-M-Y',strtotime($city->date_from));?></td>
 			<td><?php echo date('d-M-Y',strtotime($city->date_to));?></td>
 			<td><?php echo $city->extra_chg;?></td>

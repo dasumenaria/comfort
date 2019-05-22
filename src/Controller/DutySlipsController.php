@@ -104,8 +104,7 @@ class DutySlipsController extends AppController
         $this->viewBuilder()->setLayout(''); 
         $dutySlip = $this->DutySlips->get($id, [
             'contain' => ['Services', 'CarTypes', 'Cars', 'Customers', 'Employees', 'Logins', 'Counters']
-        ]);
-
+        ]); 
         $this->set('dutySlip', $dutySlip);
     }
     public function downloadexcel()
@@ -662,13 +661,17 @@ class DutySlipsController extends AppController
                             $where['DutySlips.'.$key] = $value;
                         }
                         else{
-                            $where['Billings.'.$key] = $value;
+                            $where['Invoices.'.$key] = $value;
                         }
                     }
                 }
             }
-            
-            $recordList = $this->DutySlips->find()->where($where);
+            if($type == '1'){ 
+                $recordList = $this->DutySlips->find()->where($where);
+            }
+            else{
+                $recordList = $this->DutySlips->Invoices->find()->where($where);
+            }
             $RecordShow = 1;
 
 
@@ -707,23 +710,40 @@ class DutySlipsController extends AppController
 
     public function pendingdues()
     {
-     $RecordShow = 0;
+        $RecordShow = 0;
         $where=array();
-        $customer_id='';
+        $billing_type='';
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $customer_id = $this->request->getData('customer_id');
-            foreach ($this->request->getData() as $key => $value) {
-                if(!empty($value))
-                { 
-                     $where['DutySlips.'.$key] = $value;
-                }
+            $billing_type = $this->request->getData('billing_type');
+            if($billing_type == 'Invoices'){
+                $recordList = $this->DutySlips->Invoices->find()->contain(['Customers'])->where(['Invoices.payment_status'=>'no']);
             }
-            
-            $RecordShow = 1;
+            else{
+                $recordList = $this->DutySlips->find()->contain(['Customers'])->where(['billing_status'=>'no']);
+            } 
+            $customer_id = $this->request->getData('customer_id');
+            if(!empty($customer_id)){
+                if($billing_type == 'Invoices'){
+                    $recordList->where(['Invoices.customer_id'=>$customer_id]);
+                }
+                else{
+                    $recordList->where(['DutySlips.customer_id'=>$customer_id]);
+                } 
+                
+            }
+            if(!empty($this->request->getData('date_from'))){
+                $date_from=date('Y-m-d',strtotime($this->request->getData('date_from'))); 
+                $date_to=date('Y-m-d',strtotime($this->request->getData('date_to')));  
+                $recordList->where(function($exp) use($date_from,$date_to) {
+                    return $exp->between('date', $date_from, $date_to, 'date');
+                });
+            }  
+            $RecordShow = 1; 
         } 
-        $customerList = $this->DutySlips->Customers->find('list'); 
+        
+        $customerList = $this->DutySlips->Customers->find('list');
 
-     $this->set(compact('RecordShow','customerList','type'));   
+     $this->set(compact('RecordShow','customerList','billing_type','recordList'));   
     }
 
     public function salereg()

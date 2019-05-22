@@ -83,6 +83,7 @@ class DutySlipsTable extends Table
         ]); 
         $this->belongsTo('ServiceCities'); 
         $this->belongsTo('CustomerTariffs'); 
+        $this->belongsTo('Invoices'); 
     }
 
     /**

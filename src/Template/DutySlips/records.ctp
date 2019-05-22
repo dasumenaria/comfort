@@ -104,7 +104,7 @@ if($RecordShow == 1)
                             <th><?=  ('Waveoff Status') ?></th>
                             <th><?=  ('Billing Status') ?></th>
                             <th><?=  ('View') ?></th>
-                            <th><?=  ('Pdf') ?></th>
+                            <th  class="actions text-center hide_print"><?=  ('Pdf') ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -115,7 +115,7 @@ if($RecordShow == 1)
                             <td><?= h(++$page_no) ?></td> 
                             <td><?= h($city->id) ?></td> 
                             <td><?php 
-                                    if ($city->waveoff_status=='0') {?>
+                                    if ($city->waveoff_status=='1') {?>
                                     <span class="badge bg-green">Yes</span>
                                  <?php   
                                     }
@@ -143,7 +143,7 @@ if($RecordShow == 1)
                                  echo $this->Html->link('<i class="fa fa-search"></i>',['action' => 'viewDutyslip', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info','target'=>'_blank'));
                                 ?>
                             </td>
-                            <td>
+                            <td  class="actions text-center hide_print">
                                 <?php
                                     echo $this->Html->link('<i class="fa fa-download"></i>',['action' => 'pdf', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-success','target'=>'_blank'));
 
@@ -167,8 +167,7 @@ if($RecordShow == 1)
                             <th><?=  ('Invoice No.') ?></th> 
                             <th><?=  ('Waveoff Status') ?></th>
                             <th><?=  ('Payment Status') ?></th>
-                            <th><?=  ('View') ?></th>
-                            <th><?=  ('Pdf') ?></th>
+                            <th  class="actions text-center hide_print"><?=  ('View | Pdf') ?></th> 
                         </tr>
                     </thead>
                     <tbody>
@@ -177,23 +176,34 @@ if($RecordShow == 1)
                         ?>  
                         <tr>
                             <td><?= h(++$page_no) ?></td> 
-                            <td>0</td> 
+                            <td><?= $city->invoice_no; ?></td> 
                             <td>
                                 <?php 
-                                    if ($city->waveoff_status=='0') {?>
+                                if ($city->waveoff_status=='1') {?>
                                     <span class="badge bg-green">Yes</span>
-                                 <?php   
-                                    }
-                                    else
-                                    {?>
-                                        <span class="badge bg-red">No</span>
-                                    <?php    
-                                    }
-                            ?>
+                                <?php   
+                                }
+                                else
+                                {?>
+                                    <span class="badge bg-red">No</span>
+                                <?php    
+                                }
+                                ?>
                             </td> 
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>
+                                <?php 
+                                if ($city->payment_status=='yes') {?>
+                                    <span class="badge bg-green">Yes</span>
+                                <?php   
+                                }
+                                else
+                                {?>
+                                    <span class="badge bg-red">No</span>
+                                <?php    
+                                }
+                                ?>
+                            </td>
+                            <td  class="actions text-center hide_print"><?= $this->Html->link('<i class="fa fa-search"></i>',['controller'=>'Invoices','action' => 'view', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info','target'=>'_blank'));?></td> 
                             
                         </tr>
                         <?php endforeach; ?>

@@ -111,7 +111,7 @@
                             <td><?= h(@$city->car->name) ?></td>
                             <td><?= h(@$city->opening_km)?></td>
                             <td><?= h(@$city->closing_km)?></td>
-                            <td><?= h(@$city->reason) ?></td>
+                            <td><?= h(@$city->waveoff_reason) ?></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>                                  

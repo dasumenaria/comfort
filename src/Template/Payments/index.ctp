@@ -68,7 +68,7 @@
                                     <td class="actions">
                                         <?php echo $this->Html->link('<i class="fa fa-search"></i> View',['action' => 'view', $payment->id],array('escape'=>false,'class'=>'btn btn-xs btn-info','target'=>'_blank')); ?>
                                         <?php if ($payment->status!='cancel'){?>
-                                        <?php echo $this->Html->link('<i class="fa fa-pencil-square-o"></i> Edit',['action' => 'edit', $payment->id],array('escape'=>false,'class'=>'btn btn-xs btn-success','target'=>'_blank')); ?>
+                                        <?php  $this->Html->link('<i class="fa fa-pencil-square-o"></i> Edit',['action' => 'edit', $payment->id],array('escape'=>false,'class'=>'btn btn-xs btn-success','target'=>'_blank')); ?>
   
                                         <?= $this->Form->postLink(__('Cancel'), ['action' => 'cancel', $payment->id],['class'=>'btn btn-xs btn-danger'], ['confirm' => __('Are you sure you want to cancel # {0}?',h(str_pad($payment->voucher_no, 3, '0', STR_PAD_LEFT)))]) ?>&nbsp;&nbsp;
                                     <?php }?> 

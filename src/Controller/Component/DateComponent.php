@@ -45,5 +45,9 @@ class DateComponent extends Component
         $this->AccountingEntries = TableRegistry::get('AccountingEntries'); 
         return $this->AccountingEntries->find()->contain(['Ledgers'])->where(['AccountingEntries.invoice_id'=>$invoice_id,'AccountingEntries.ledger_id IN '=>array('16','17','18')]);
     }
+    function refDetails($invoice_id){
+        $this->ReferenceDetails = TableRegistry::get('ReferenceDetails'); 
+        return $this->ReferenceDetails->find()->contain(['Ledgers'])->where(['AccountingEntries.invoice_id'=>$invoice_id,'AccountingEntries.ledger_id IN '=>array('16','17','18')]);
+    }
 }
 ?>
