@@ -104,9 +104,10 @@ class DutySlipsController extends AppController
         $this->viewBuilder()->setLayout(''); 
         $dutySlip = $this->DutySlips->get($id, [
             'contain' => ['Services', 'CarTypes', 'Cars', 'Customers', 'Employees', 'Logins', 'Counters']
-        ]); 
+        ]);
         $this->set('dutySlip', $dutySlip);
     }
+
     public function downloadexcel()
     { 
         $this->viewBuilder()->setLayout('');
@@ -752,13 +753,30 @@ class DutySlipsController extends AppController
         $where=array();
         
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $customer_id = $this->request->getData('customer_id');
-            $recordList = array();
-            $RecordShow = 1;
+            $recordList = $this->DutySlips->Customers->find()->order(['Customers.name'=>'ASC']); 
+
+            $customer_id = $this->request->getData('customer_id'); 
+            if(!empty($customer_id)){ 
+                $recordList->where(['Customers.id'=>$customer_id]);    
+            }
+            if(!empty($this->request->getData('date_from'))){
+                $date_from=date('Y-m-d',strtotime($this->request->getData('date_from'))); 
+                $date_to=date('Y-m-d',strtotime($this->request->getData('date_to')));
+                $recordList->contain(['Invoices'=>function($q)use($date_from,$date_to){
+                    return $q->where(function($exp) use($date_from,$date_to) {
+                        return $exp->between('date', $date_from, $date_to, 'date');
+                        })->contain(['InvoiceDetails'=>['DutySlips']]);
+                }]); 
+            }
+            else{
+                $recordList->contain(['Invoices'=>['InvoiceDetails'=>['DutySlips']]]);
+            }
+            $RecordShow=1;  
+            //pr($recordList->toArray());exit;
         } 
         $customerList = $this->DutySlips->Customers->find('list'); 
 
-     $this->set(compact('RecordShow','customerList','type','recordList'));   
+        $this->set(compact('RecordShow','customerList','type','recordList'));   
     }
 
 }

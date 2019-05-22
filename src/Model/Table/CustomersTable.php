@@ -47,6 +47,9 @@ class CustomersTable extends Table
         $this->hasMany('CustomerTariffs', [ 
             'foreignKey' => 'customer_id'
         ]);
+        $this->hasMany('Invoices', [ 
+            'foreignKey' => 'customer_id'
+        ]);
 
     }
 

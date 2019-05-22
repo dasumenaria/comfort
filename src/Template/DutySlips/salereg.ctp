@@ -13,11 +13,11 @@ if($RecordShow == 1)
             </td>
             <td>
             <?= $this->Form->create(null, ['url' => [
-                    'controller' => 'DutySlips',
-                    'action' => 'pendingdues'
+                    'controller' => 'Invoices',
+                    'action' => 'excel'
                 ]]); ?>  
-           
-            &nbsp;<?php echo $this->Form->button('<i class="fa fa-download"></i>',['class'=>'btn btn-danger','title'=>'Click here to download Excel']); ?> 
+            <?php echo $this->Form->control('pdfData' , ['label' => false,'value' => '','type'=>'textarea','id'=>'pdfData','style'=>'display:none']); ?> &nbsp;
+            <?php echo $this->Form->button('<i class="fa fa-download"></i>',['class'=>'btn btn-danger','title'=>'Click here to download Excel']); ?> 
             <?= $this->Form->end() ?>
             </td>
         </tr>
@@ -53,10 +53,9 @@ if($RecordShow == 1)
                         <div class="col-md-12 space">
                             <div class="col-md-12 ">
                                 <label class="control-label col-sm-4">Date From:</label>
-                                <div class="col-sm-4">
-                                   
+                                <div class="col-sm-4"> 
                                 <?php 
-                                    echo $this->Form->control('date_from',['label' => false,'class' => 'form-control datepickers','type'=>'text','autocomplete'=>'off','data-date-format'=>'dd/mm/yyyy','placeholder'=>'dd/mm/yy']); ?>
+                                    echo $this->Form->control('date_from',['label' => false,'class' => 'form-control datepickers','type'=>'text','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','placeholder'=>'DD-MM-YYYY']); ?>
                                 </div>
                             </div> 
                     
@@ -67,7 +66,7 @@ if($RecordShow == 1)
                                 <div class="col-sm-4">
                                    
                                 <?php 
-                                    echo $this->Form->control('date_to',['label' => false,'class' => 'form-control datepickers','type'=>'text','autocomplete'=>'off','data-date-format'=>'dd/mm/yyyy','placeholder'=>'dd/mm/yy']); ?>
+                                    echo $this->Form->control('date_to',['label' => false,'class' => 'form-control datepickers','type'=>'text','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','placeholder'=>'DD-MM-YYYY']); ?>
                                 </div>
                             </div> 
                     
@@ -92,8 +91,8 @@ if($RecordShow == 1)
             }
             else{ ?>
                 
-                
-                   <table class="table table-bordered table-striped">
+                <div id='main_data'>
+                   <table class="table table-bordered table-striped" border="1">
                     <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sl.') ?></th> 
@@ -109,28 +108,45 @@ if($RecordShow == 1)
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $page_no=0; foreach ($recordList as $city):
-                            
-                        ?>  
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                
-                            </td>
-                            <td>
-                                
-                            </td>
-                            <td>
-                                
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                            
-                    
+                        <?php $page_no=0; foreach ($recordList as $city): 
+                        if($city->invoices){
+                            ?> 
+                            <tr style="background-color:#eee;">
+                                <th style="text-align:center" colspan="10">Customer: <?= $city->name?></th>
+                            </tr>
+                            <?php $x=0;
+                            foreach ($city->invoices as $value) {
+                                $otherCharge= 0;
+                                foreach ($value->invoice_details as $daataa) {
+
+                                   $otherCharge+=$daataa->duty_slip->extra_chg;
+                                   $otherCharge+=$daataa->duty_slip->permit_chg;
+                                   $otherCharge+=$daataa->duty_slip->parking_chg;
+                                   $otherCharge+=$daataa->duty_slip->otherstate_chg;
+                                   $otherCharge+=$daataa->duty_slip->guide_chg ;
+                                   $otherCharge+=$daataa->duty_slip->misc_chg ;
+                                   $otherCharge+=$daataa->duty_slip->fuel_hike_chg ;
+                                } 
+                                ?>
+                                <tr>
+                                    <td><?= ++$x?></td>
+                                    <td><?= $city->name;?></td>
+                                    <td><?= date('d-M-Y',strtotime($value->date));?></td>
+                                    <td><?= $value->invoice_no;?></td>
+                                    <td><?= $otherCharge;?></td>
+                                    <td><?= $value->total;?></td>
+                                    <td><?= $value->discount;?></td>
+                                    <td><?= $value->tax;?></td>
+                                    <td><?= $value->grand_total;?></td>  
+                                </tr>
+                            <?php
+                            }
+                        }
+                        ?> 
+                        <?php endforeach; ?> 
+                    </tbody>  
             </table>
+             </div> 
             <?php
                 }
                 ?>
@@ -147,47 +163,7 @@ jQuery(".loadingshow").submit(function(){
     jQuery("#loader-1").show();
 }); 
 $(document).ready(function() {
-    
-    $(document).on('change','.hello',function(){
-        var selected = $('option:selected', this).val();
-
-        if(selected == 'driver'){
-            $('.lname').html('Driver Name');
-            $('.dmobile').html('Driver Mobile No.:');
-            $('.qualification').html('Driver Qualification:');
-        }
-        else{
-            $('.lname').html('Employee Name');  
-            $('.dmobile').html('Employee Mobile No');  
-            $('.qualification').html('Employee Qualification:');  
-        }     
-    });
-         
-    $.validator.addMethod("specialChars", function( value, element ) {
-        var regex = new RegExp("^[a-zA-Z ]+$");
-        var key = value;
-
-        if (!regex.test(key)) {
-           return false;
-        }
-        return true;
-    }, "please use only alphabetic characters");
-     $("#CityForm").validate({ 
-        rules: {
-            name: {
-                required: true, 
-            }, 
-             
-             
-        },
-        
-        submitHandler: function () {
-            $("#submit_member").attr('disabled','disabled');
-            $("#loader-1").show();
-            form.submit();
-        }
-    }); 
-
+    $('#pdfData').html($('#main_data').html());
 });
 </script>
 
