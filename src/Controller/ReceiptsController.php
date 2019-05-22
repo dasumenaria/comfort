@@ -109,6 +109,7 @@ class ReceiptsController extends AppController
 					foreach($receipt_row->reference_details as $reference_detail)
 					{
 						$reference_detail->transaction_date = $receipt->transaction_date;
+						$reference_detail->company_id = 1;
 					}
 				}
 			}
@@ -193,7 +194,7 @@ class ReceiptsController extends AppController
 	
 		$partyLedgers = $this->Receipts->ReceiptRows->Ledgers->find()
 		->where(['Ledgers.accounting_group_id IN' =>$partyGroups,'Ledgers.company_id'=>$company_id]);
-		
+		//pr($partyLedgers->toArray());exit;
 		//$ledgers = $this->Payments->PaymentRows->Ledgers->find()->where(['company_id'=>$company_id]);
 		foreach($partyLedgers as $ledger){
 			if(in_array($ledger->accounting_group_id,$bankGroups)){

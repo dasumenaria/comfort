@@ -316,6 +316,9 @@ function round(value, exp) {
 				var SelectedTr=$(this).closest('tr.MainTr');
 				renameRefRows(SelectedTr);
 			});
+			
+			
+			
 			$(document).on('change','.refType',function(){
 			 
 				var type=$(this).val();
@@ -323,13 +326,15 @@ function round(value, exp) {
 				
 				var ledger_id=$(this).closest('tr.MainTr').find('select.ledger option:selected').val();
 				var due_days=$(this).closest('tr.MainTr').find('select.ledger option:selected').attr('default_days');
+				
 				if(type=='Against'){
 					$(this).closest('tr').find('td:nth-child(2)').html('Loading Ref List...');
-					var url='"<?php echo $this->Url->build(['controller'=>'ReferenceDetails','action'=>'listRef']) ?>"';
+					var url='<?php echo $this->Url->build(['controller'=>'ReferenceDetails','action'=>'listRef']) ?>';
 					url=url+'/'+ledger_id;
+				//	alert(url);
 					$.ajax({
 						url: url,
-					}).done(function(response) { 
+					}).done(function(response) {// alert(response);
 						currentRefRow.find('td:nth-child(2)').html(response);
 						currentRefRow.find('td:nth-child(5)').html('');
 					});
@@ -350,7 +355,7 @@ function round(value, exp) {
 				var openWindow=$(this).find('option:selected').attr('open_window');
 				
 				
-				if(openWindow=='party'){alert(openWindow);
+				if(openWindow=='party'){
 					var SelectedTr=$(this).closest('tr.MainTr');
 					var windowContainer=$(this).closest('td').find('div.window');
 					windowContainer.html('');

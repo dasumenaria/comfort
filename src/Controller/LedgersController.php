@@ -27,6 +27,11 @@ class LedgersController extends AppController
         $this->set(compact('ledgers'));
     }
 
+	function checkBillToBillAccountingStatus($received_from_id){
+		$Ledger=$this->Ledgers->get($received_from_id);
+		echo $Ledger->bill_to_bill_accounting;
+		exit;
+	}
     /**
      * View method
      *
