@@ -19,12 +19,51 @@ class ReceiptsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['FinancialYears', 'Companies', 'SalesInvoices']
+		 $company_id=1;
+        $financialYear_id=$this->activeFinancialYear();
+        $search=$this->request->query('search');
+        $voucher_no=$this->request->query('voucher_no');
+        $From=$this->request->query('From');
+        $To=$this->request->query('To');
+		
+		$this->paginate = [
+            'contain' => ['ReceiptRows'=>['Ledgers']]
         ];
-        $receipts = $this->paginate($this->Receipts);
-
-        $this->set(compact('receipts'));
+		
+		 if(!empty($voucher_no))
+        {
+            $where['Receipts.voucher_no']=$voucher_no;
+        }
+        if(!empty($From))
+        {
+            $From=date("Y-m-d",strtotime($From));
+            $where['Receipts.transaction_date >='] = $From;             
+        }            
+        
+        if(!empty($To))
+        {
+            $To=date("Y-m-d",strtotime($To));
+            $where['Receipts.transaction_date <='] = $To;               
+        }    
+	
+				
+        $where['Receipts.company_id']=$company_id;
+        $where['Receipts.financial_year_id']=$financialYear_id;
+        if($search){
+            $receipts = $this->paginate($this->Receipts->find()->where(['Receipts.company_id'=>$company_id,'Receipts.financial_year_id'=>$financialYear_id])->where([
+            'OR' => [
+                'Receipts.voucher_no' => $search,
+                //....
+                'Receipts.transaction_date ' => date('Y-m-d',strtotime($search))
+                //...
+             ]]));
+        } else {
+         $receipts = $this->paginate($this->Receipts->find()->where($where));
+        }
+	
+		$this->set(compact('receipts','search','voucher_no'));
+        $this->set('_serialize', ['receipts']);
+     
     }
 
     /**
@@ -36,11 +75,13 @@ class ReceiptsController extends AppController
      */
     public function view($id = null)
     {
-        $receipt = $this->Receipts->get($id, [
-            'contain' => ['FinancialYears', 'Companies', 'SalesInvoices', 'AccountingEntries', 'ReceiptRows', 'ReferenceDetails']
+        $company_id=1;
+        $receipts = $this->Receipts->get($id, [
+            'contain' => ['ReceiptRows'=>['ReferenceDetails', 'Ledgers']]
         ]);
 
-        $this->set('receipt', $receipt);
+        $this->set('receipts', $receipts);
+        $this->set('_serialize', ['receipts']);
     }
 
     /**
@@ -181,6 +222,38 @@ class ReceiptsController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+	 
+	 public function cancel($id = null)
+    {
+        $Receipts = $this->Receipts->get($id, [
+            'contain' => ['ReceiptRows'=>['ReferenceDetails']]
+        ]);
+        $company_id=1;
+        $Receipts->status='cancel';
+        $receipt_row_ids=[];
+        foreach($Receipts->receipt_rows as $receipt_row){
+            $receipt_row_ids[]=$receipt_row->id;
+        }
+        
+        if ($this->Receipts->save($Receipts)) {
+            $deleteRefDetails = $this->Receipts->ReceiptRows->ReferenceDetails->query();
+                $deleteRef = $deleteRefDetails->delete()
+                    ->where(['ReferenceDetails.receipt_row_id IN' => $receipt_row_ids])
+                    ->execute();
+                $deleteAccountEntries = $this->Receipts->AccountingEntries->query();
+                $result = $deleteAccountEntries->delete()
+                ->where(['AccountingEntries.payment_id' => $Receipts->id])
+                ->execute();
+                
+            $this->Flash->success(__('The Receipts has been cancelled.'));
+        } else {
+            $this->Flash->error(__('The Receipts could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'index']);
+    }
+
+	
     public function edit($id = null)
     {
         $receipt = $this->Receipts->get($id, [

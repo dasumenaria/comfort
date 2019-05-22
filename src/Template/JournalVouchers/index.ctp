@@ -1,4 +1,9 @@
- 
+<?php
+/**
+ * @Author: PHP Poets IT Solutions Pvt. Ltd.
+ */
+$this->set('title', 'Journal Vouchers List');
+?>
 <style>
 .noBorder{
     border:none;
@@ -12,7 +17,7 @@
     <div class="col-md-12">
         <div class="box box-primary"> 
             <div class="box-header with-border">
-                <i class="fa fa-plus"></i>Reciept Voucher
+                <i class="fa fa-plus"></i>Journal Voucher
             </div>
             <div class="box-body">
                 <form method="GET" id="">
@@ -34,47 +39,54 @@
                                 <span class="help-block"></span>
                             </div>
                         </div>
+						<div class='col-md-2'>
+						 		<?php echo $this->Form->input('reference_no',['class'=>'form-control','label'=>false, 'placeholder'=>'Reference.No','value'=> @$reference_no]);
+								?>
+					
+						</div>
                         <div class="col-md-1">
                             <button type="submit" class="go btn blue-madison input-sm">Go</button>
                         </div> 
                     </div>
-                </form> 
+						
+					</form> 
 
                 <div class="table-responsive">
-                    <?php $page_no=$this->Paginator->current('Receipts');
-                     $page_no=($page_no-1)*20; ?>
-                    <table class="table table-bordered table-hover table-condensed">
-                        <thead>
-                            <tr>
-                                <th scope="col"><?= __('Sr') ?></th>
-                                <th scope="col"><?= $this->Paginator->sort('voucher_no') ?></th>
-                                <th scope="col"><?= $this->Paginator->sort('Party') ?></th>
-                                <th scope="col"><?= $this->Paginator->sort('transaction_date') ?></th>
-                                <th scope="col"><?= $this->Paginator->sort('Amount') ?></th>
-                                <th scope="col" class="actions"><?= __('Actions') ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($receipts as $receipt): 
-                            if($receipt->status == 'cancel') { ?>
-                             <tr style="background-color:#F3BCBC ;">
-                            <?php } else { ?>
-                            <tr> <?php } ?>
-                                    <td><?= h(++$page_no) ?></td>
-                                    <td><?= h(str_pad($receipt->voucher_no, 4, '0', STR_PAD_LEFT)) ?></td>
-                                    <td><?= h($receipt->receipt_rows[0]->ledger->name) ?></td>
-                                    <td><?= h(date("d-m-Y",strtotime($receipt->transaction_date))) ?></td>
-                                    <td class=""><?= h($receipt->receipt_rows[0]->credit) ?></td>
-                                    <td class="actions">
-                                        <?php echo $this->Html->link('<i class="fa fa-search"></i> View',['action' => 'view', $receipt->id],array('escape'=>false,'class'=>'btn btn-xs btn-info','target'=>'_blank')); ?>
-                                        <?php if ($receipt->status!='cancel'){?>
+					<?php $page_no=$this->Paginator->current('Journalvouchers');
+					 $page_no=($page_no-1)*100; ?>
+					<table class="table table-bordered table-hover table-condensed">
+						<thead>
+							<tr>
+								<th scope="col"><?= __('Sr') ?></th>
+								<th scope="col"><?= $this->Paginator->sort('voucher_no') ?></th>
+									<th scope="col"><?= $this->Paginator->sort('party') ?></th>
+								<th scope="col"><?= $this->Paginator->sort('transaction_date') ?></th>
+								<th scope="col"><?= $this->Paginator->sort('reference_no') ?></th>
+								<th scope="col"><?= $this->Paginator->sort('Amount') ?></th>
+								<th scope="col" class="actions"><?= __('Actions') ?></th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($journalVouchers as $journalVoucher): if($journalVoucher->status == 'cancel') { ?>
+							 <tr style="background-color:#FE5E5E ;">
+							<?php } else { ?>
+							<tr> <?php } ?>
+									<td><?= h(++$page_no) ?></td>
+									<td><?= h(str_pad($journalVoucher->voucher_no, 4, '0', STR_PAD_LEFT)) ?></td>
+									<td><?= h($journalVoucher->journal_voucher_rows[0]->ledger->name) ?></td>
+									<td><?= h(date("d-m-Y",strtotime($journalVoucher->transaction_date))) ?></td>
+									<td><?= h($journalVoucher->reference_no) ?></td>
+									<td class=""><?= h($journalVoucher->journal_voucher_rows[0]->credit) ?></td>
+									<td class="actions">
+                                        <?php echo $this->Html->link('<i class="fa fa-search"></i> View',['action' => 'view', $journalVoucher->id],array('escape'=>false,'class'=>'btn btn-xs btn-info','target'=>'_blank')); ?>
+                                        <?php if ($journalVoucher->status!='cancel'){?>
                                        
   
-                                        <?= $this->Form->postLink(__('Cancel'), ['action' => 'cancel', $receipt->id],['class'=>'btn btn-xs btn-danger'], ['confirm' => __('Are you sure you want to cancel # {0}?',h(str_pad($receipt->voucher_no, 3, '0', STR_PAD_LEFT)))]) ?>&nbsp;&nbsp;
+                                        <?= $this->Form->postLink(__('Cancel'), ['action' => 'cancel', $journalVoucher->id],['class'=>'btn btn-xs btn-danger'], ['confirm' => __('Are you sure you want to cancel # {0}?',h(str_pad($journalVoucher->voucher_no, 3, '0', STR_PAD_LEFT)))]) ?>&nbsp;&nbsp;
                                     <?php }?> 
                                     </td>
-                                </tr>
-                            <?php endforeach; ?>
+								</tr>
+							 <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>

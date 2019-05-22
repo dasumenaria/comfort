@@ -4,9 +4,10 @@
  */
 $this->set('title', 'Receipt Voucher');
 ?>
+
 <style>
 .noBorder{
-	border:none;
+    border:none;
 }
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
      vertical-align: top !important; 
@@ -14,17 +15,12 @@ $this->set('title', 'Receipt Voucher');
 </style>
 <section class="content">
 <div class="row">
-	<div class="col-md-12">
-		<div class="portlet light ">
-			<div class="portlet-title">
-				<div class="caption">
-					<i class="icon-bar-chart font-green-sharp hide"></i>
-					<span class="caption-subject font-green-sharp bold ">Receipt Voucher</span>
-				</div>
-				<div class="actions">
-				</div>
-			</div>
-			<div class="portlet-body">
+    <div class="col-md-12">
+        <div class="box box-primary"> 
+            <div class="box-header with-border">
+                <i class="fa fa-plus"></i>Create Receipt Voucher
+            </div>
+            <div class="box-body">
 				<?= $this->Form->create($receipt,['id'=>'form_sample_2']) ?>
 				<div class="row">
 					<div class="col-md-3">
@@ -43,7 +39,7 @@ $this->set('title', 'Receipt Voucher');
 					</div>
 				</div>
 				<div class="row">
-						<div class="table-responsive">
+						<div class="table-responsive col-md-12">
 							<table id="MainTable" class="table table-condensed table-striped" width="100%">
 								<thead>
 									<tr>
@@ -91,20 +87,30 @@ $this->set('title', 'Receipt Voucher');
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-5">
+						<div class="col-md-12">
 							<div class="form-group">
 								<label>Narration </label>
 								<?php echo $this->Form->control('narration',['class'=>'form-control input-sm','label'=>false,'placeholder'=>'Narration','rows'=>'4']); ?>
 							</div>
 						</div>
 					</div>
-				<?= $this->Form->button(__('Submit'),['class'=>'btn btn-success submit'])  ?>
+				 <div class="box-footer">
+                        <div class="row">
+                            <center>
+                                <div class="col-md-12">
+                                    <div class="col-md-offset-3 col-md-6">  
+                                        <?= $this->Form->button(__('Submit'),['class'=>'btn btn-success submit'])  ?>
+                                    </div>
+                                </div>
+                            </center>       
+                        </div>
+                    </div> 
 				<?= $this->Form->end() ?>
-			</div>
-		</div>
-	</div>
-</div>
-</div>
+			 </div>
+        </div>
+    </div>
+</div> 
+</section>
 <?php
 $option_ref[]= ['value'=>'New Ref','text'=>'New Ref'];
 $option_ref[]= ['value'=>'Against','text'=>'Against'];
@@ -319,7 +325,7 @@ function round(value, exp) {
 				var due_days=$(this).closest('tr.MainTr').find('select.ledger option:selected').attr('default_days');
 				if(type=='Against'){
 					$(this).closest('tr').find('td:nth-child(2)').html('Loading Ref List...');
-					var url='"<?php $this->Url->build(['controller'=>'ReferenceDetails','action'=>'listRef']) ?>"';
+					var url='"<?php echo $this->Url->build(['controller'=>'ReferenceDetails','action'=>'listRef']) ?>"';
 					url=url+'/'+ledger_id;
 					$.ajax({
 						url: url,
