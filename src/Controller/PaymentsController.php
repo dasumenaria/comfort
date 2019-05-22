@@ -39,7 +39,8 @@ class PaymentsController extends AppController
         {
             $To=date("Y-m-d",strtotime($To));
             $where['Payments.transaction_date <='] = $To;               
-        }    
+        }  
+		
         $where['Payments.company_id']=$company_id;
         $where['Payments.financial_year_id']=$financialYear_id;
         if($search){
@@ -113,6 +114,7 @@ class PaymentsController extends AppController
                     foreach($payment_row->reference_details as $reference_detail)
                     {
                         $reference_detail->transaction_date = $payment->transaction_date;
+                        $reference_detail->company_id = $company_id;
                     }
                 }
                 if(!empty($payment_row->cheque_date))
