@@ -78,6 +78,8 @@ class InvoicesTable extends Table
         $this->BelongsTo('AccountingGroups');
         $this->BelongsTo('AccountingEntries');
         $this->BelongsTo('ReferenceDetails');
+        $this->BelongsTo('SupplierTariffs');
+        $this->BelongsTo('Services');
     }
 
     /**

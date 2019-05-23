@@ -49,5 +49,9 @@ class DateComponent extends Component
         $this->ReferenceDetails = TableRegistry::get('ReferenceDetails'); 
         return $this->ReferenceDetails->find()->contain(['Ledgers'])->where(['AccountingEntries.invoice_id'=>$invoice_id,'AccountingEntries.ledger_id IN '=>array('16','17','18')]);
     }
+    function dsDetails($id){
+        $this->DutySlips = TableRegistry::get('DutySlips'); 
+        return $this->DutySlips->find()->where(['DutySlips.id'=>$id]);
+    }
 }
 ?>
