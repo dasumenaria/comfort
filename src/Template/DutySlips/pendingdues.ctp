@@ -1,4 +1,8 @@
-
+<style type="text/css">
+.test label {
+    padding:10px;
+}
+</style>
 <section class="content">
 <?php
 if($RecordShow == 1)
@@ -13,11 +17,11 @@ if($RecordShow == 1)
             </td>
             <td>
             <?= $this->Form->create(null, ['url' => [
-                    'controller' => 'DutySlips',
-                    'action' => 'pendingdues'
+                    'controller' => 'Invoices',
+                    'action' => 'excel'
                 ]]); ?>  
-           
-            &nbsp;<?php echo $this->Form->button('<i class="fa fa-download"></i>',['class'=>'btn btn-danger','title'=>'Click here to download Excel']); ?> 
+            <?php echo $this->Form->control('pdfData' , ['label' => false,'value' => '','type'=>'textarea','id'=>'pdfData','style'=>'display:none']); ?> &nbsp;
+            <?php echo $this->Form->button('<i class="fa fa-download"></i>',['class'=>'btn btn-danger','title'=>'Click here to download Excel']); ?> 
             <?= $this->Form->end() ?>
             </td>
         </tr>
@@ -42,13 +46,13 @@ if($RecordShow == 1)
                         <div class="col-md-12 space">
                             <div class="col-md-12 ">
                                 <label class="control-label col-sm-4">Type:</label>
-                                <div class="col-sm-4">   
+                                <div class="col-sm-4 test">   
                                 <?php
                                     echo $this->Form->radio(
                                     'billing_type',
                                     [
-                                        ['value' => 'Invoice', 'text' => 'Invoice ','checked','onClick'=>'HideShowSection(this.value)'],
-                                     ['value' => 'Duty Slip', 'text' => 'Duty Slip','onClick'=>'HideShowSection(this.value)'],   
+                                        ['value' => 'Invoices', 'text' => ' Invoice ','checked'],
+                                     ['value' => 'DutySlips', 'text' => ' Duty Slip '],   
                                     ],
                                  ['class'=>'']
                                 ); ?>
@@ -72,7 +76,7 @@ if($RecordShow == 1)
                                 <div class="col-sm-4">
                                    
                                 <?php 
-                                    echo $this->Form->control('date_from',['label' => false,'class' => 'form-control datepickers','type'=>'text','autocomplete'=>'off','data-date-format'=>'dd/mm/yyyy','placeholder'=>'dd/mm/yy']); ?>
+                                    echo $this->Form->control('date_from',['label' => false,'class' => 'form-control datepickers','type'=>'text','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','placeholder'=>'DD-MM-YYYY']); ?>
                                 </div>
                             </div> 
                     
@@ -83,7 +87,7 @@ if($RecordShow == 1)
                                 <div class="col-sm-4">
                                    
                                 <?php 
-                                    echo $this->Form->control('date_to',['label' => false,'class' => 'form-control datepickers','type'=>'text','autocomplete'=>'off','data-date-format'=>'dd/mm/yyyy','placeholder'=>'dd/mm/yy']); ?>
+                                    echo $this->Form->control('date_to',['label' => false,'class' => 'form-control datepickers','type'=>'text','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','placeholder'=>'DD-MM-YYYY']); ?>
                                 </div>
                             </div> 
                     
@@ -107,9 +111,9 @@ if($RecordShow == 1)
         <?php 
             }
             else{ 
-                
-                if ($type == 1) {?>
-                   <table class="table table-bordered table-striped">
+            echo"<div id='main_data'>";   
+            if ($billing_type == 'DutySlips') {?>
+               <table class="table table-bordered table-striped" border="1">
                     <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sl.') ?></th> 
@@ -121,60 +125,23 @@ if($RecordShow == 1)
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $page_no=0; foreach ($recordList as $city):
-                            
-                        ?>  
+                        <?php $page_no=0; foreach ($recordList as $city): ?>  
                         <tr>
                             <td><?= h(++$page_no) ?></td> 
-                            <td><?= h($city->id) ?></td> 
-                            <td><?php 
-                                    if ($city->waveoff_status=='0') {?>
-                                    <span class="badge bg-green">Yes</span>
-                                 <?php   
-                                    }
-                                    else
-                                    {?>
-                                        <span class="badge bg-red">No</span>
-                                    <?php    
-                                    }
-                            ?></td> 
-                            <td>
-                                    <?php 
-                                    if ($city->billing_status=='yes') {?>
-                                     <span class="badge bg-green">Yes</span>
-                                    <?php   
-                                    }
-                                    else
-                                    {?>
-                                        <span class="badge bg-red">No</span>
-                                     <?php    
-                                     }
-                            ?>
-                            </td>
-                            <td>
-                                <?php
-                                 echo $this->Html->link('<i class="fa fa-search"></i>',['action' => 'viewDutyslip', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info','target'=>'_blank'));
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                    echo $this->Html->link('<i class="fa fa-download"></i>',['action' => 'pdf', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-success','target'=>'_blank'));
-
-                                ?>
-                            </td>
-                            
+                            <td><?php echo $this->Html->link('&nbsp;'.$city->id.'&nbsp;',['action' => 'viewDutyslip', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-success','target'=>'_blank','title'=>'View Duty Slip')); ?></td> 
+                            <td><?= $city->customer->name?></td> 
+                            <td><?= date('d-M-Y',strtotime($city->date));?></td>
+                            <td><?= $city->tot_amnt;?></td> 
                         </tr>
                         <?php endforeach; ?>
-                    </tbody>
-                            
-                    
-            </table>
-            <?php
-                }
-                else{?>
+                    </tbody>  
+                </table>
+                <?php
+            }
+            else{?>
 
-                    <table class="table table-bordered table-striped">
-                        <thead>
+                <table class="table table-bordered table-striped"  border="1">
+                    <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sl.') ?></th> 
                             <th><?=  ('Invoice No.') ?></th> 
@@ -187,39 +154,26 @@ if($RecordShow == 1)
                     </thead>
                     <tbody>
                         <?php $page_no=0; foreach ($recordList as $city):
-                            
+                        $refDetails = $DateConvert->refDetails($city->id);     
                         ?>  
                         <tr>
                             <td><?= h(++$page_no) ?></td> 
-                            <td>0</td> 
-                            <td>
-                                <?php 
-                                    if ($city->waveoff_status=='0') {?>
-                                    <span class="badge bg-green">Yes</span>
-                                 <?php   
-                                    }
-                                    else
-                                    {?>
-                                        <span class="badge bg-red">No</span>
-                                    <?php    
-                                    }
-                            ?>
-                            </td> 
+                            <td><?php echo $this->Html->link('&nbsp;'.$city->invoice_no.'&nbsp;',['controller'=>'Invoices','action' => 'view', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-success','target'=>'_blank','title'=>'View Invoice')); ?></td> 
+                            <td><?= $city->customer->name?></td> 
+                            <td><?= date('d-M-Y',strtotime($city->date));?></td>
+                            <td><?= $city->grand_total;?></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
-                            
+                            <td></td> 
                         </tr>
                         <?php endforeach; ?>
-                    </tbody>
-                            
-                    
+                    </tbody>    
             </table>
         <?php
                 }
             
             }
             ?>
+            </div> 
             </div> 
         </div>  
     </div>
@@ -231,47 +185,7 @@ jQuery(".loadingshow").submit(function(){
     jQuery("#loader-1").show();
 }); 
 $(document).ready(function() {
-    
-    $(document).on('change','.hello',function(){
-        var selected = $('option:selected', this).val();
-
-        if(selected == 'driver'){
-            $('.lname').html('Driver Name');
-            $('.dmobile').html('Driver Mobile No.:');
-            $('.qualification').html('Driver Qualification:');
-        }
-        else{
-            $('.lname').html('Employee Name');  
-            $('.dmobile').html('Employee Mobile No');  
-            $('.qualification').html('Employee Qualification:');  
-        }     
-    });
-         
-    $.validator.addMethod("specialChars", function( value, element ) {
-        var regex = new RegExp("^[a-zA-Z ]+$");
-        var key = value;
-
-        if (!regex.test(key)) {
-           return false;
-        }
-        return true;
-    }, "please use only alphabetic characters");
-     $("#CityForm").validate({ 
-        rules: {
-            name: {
-                required: true, 
-            }, 
-             
-             
-        },
-        
-        submitHandler: function () {
-            $("#submit_member").attr('disabled','disabled');
-            $("#loader-1").show();
-            form.submit();
-        }
-    }); 
-
+    $('#pdfData').html($('#main_data').html());
 });
 </script>
 

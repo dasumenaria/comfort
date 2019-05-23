@@ -495,7 +495,13 @@ class InvoicesController extends AppController
     }
 
     public function pdf()
+    {
+        $this->viewBuilder()->setLayout('');   
+        $this->set('pdfData', $this->request->getData('pdfData'));
+    }
+    public function excel()
     {  
+        $this->viewBuilder()->setLayout(''); 
         $this->set('pdfData', $this->request->getData('pdfData'));
     }
 

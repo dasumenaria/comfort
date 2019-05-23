@@ -1,3 +1,26 @@
+<style>
+    .tooltips {
+      position: relative;
+      display: inline-block;
+      border-bottom: 1px dotted black;
+    }
+
+    .tooltips .tooltiptexts {
+      visibility: hidden;
+      width: 100%;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 3px 8px; 
+      position: absolute;
+      z-index: 1;
+    }
+
+    .tooltips:hover .tooltiptexts {
+      visibility: visible;
+    }
+</style>
 <section class="content">
 <div class="row">
     <div class="col-md-12">
@@ -101,7 +124,11 @@
                             else if($city->waveoff_status==1) {?> title="This is waveoff Bill" style="background-color:#F2DEDE;" <?php } ?>>
                             <td><?= h(++$page_no) ?></td> 
                             <td><?= h(@$city->invoice_no) ?></td>
-                            <td><span class="label label-info popovers" data-placement="right" data-title="<?php if($city->waveoff_status=='1'){ ?> Waveoff invoice <?php } else if($city->payment_status=='yes'){ ?> Payment have been Done <?php } ?>"  data-trigger="hover"  data-content="<?php echo $dsIds; ?>">dutyslip id</span></td>
+                            <td >
+                                <div class="tooltips btn btn-xs btn-success">dutyslip id
+                                <span class="tooltiptexts" data-placement="right" data-title="<?php if($city->waveoff_status=='1'){ ?> Waveoff invoice <?php } else if($city->payment_status=='yes'){ ?> Payment have been Done <?php } ?>"  data-trigger="hover"  data-content="<?php echo $dsIds; ?>"><?php echo $dsIds; ?></span>
+                                </div>
+                            </td>
                             <td><?= $showName ;?></td>
                             <td><?= h(@$city->customer->name) ?></td> 
                             <td><?= h(date('d-M-Y',strtotime($city->current_date))) ?></td>
@@ -114,7 +141,7 @@
                                 <a class=" btn btn-danger btn-xs" data-target="#deletemodal<?php echo $city->id; ?>" data-toggle=modal><i class="fa fa-gavel"></i></a>
                                 
                             <?php } if($type == 'ser') {
-                                $this->Html->link('<i class="fa fa-search"></i>',['action' => 'viewDutyslip', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info','target'=>'_blank'));
+                               echo $this->Html->link('<i class="fa fa-search"></i>',['action' => 'view', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-info','target'=>'_blank'));
                                 echo "&nbsp;";
                                 $this->Html->link('<i class="fa fa-download"></i>',['action' => 'pdf', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-success','target'=>'_blank'));
                                 if($city->waveoff_status==0) {

@@ -89,13 +89,13 @@ if($RecordShow == 1)
                         ?>  
                         <tr>
                             <td><?= h(++$page_no) ?></td> 
-                            <td><?= h($city->id) ?></td> 
+                            <td><?php echo $this->Html->link('&nbsp;'.$city->id.'&nbsp;',['action' => 'edit', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-success','target'=>'_blank','title'=>'Edit Duty Slip')); ?></td> 
                             <td><?= h($city->car->name) ?></td>
                             <td><?= h($city->service->name) ?></td>
                             <td><?= h($city->customer->name) ?></td> 
                             <td><?php
                                if (!empty($city->date)) {?>
-                                   <?= h($city->date)?>
+                                   <?= h(date('d-M-Y',strtotime($city->date)))?>
                                 <?php
                                }
                                else

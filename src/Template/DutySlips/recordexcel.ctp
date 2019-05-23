@@ -24,15 +24,15 @@ if($type == 1){
             <td><?= h($city->id) ?></td> 
             <td>
             	<?php 
-                if ($city->waveoff_status=='0') {?>
-                    <span class="badge bg-green">Yes</span>
-	                 <?php   
-	                    }
-	                    else
-	                    {?>
-	                        <span class="badge bg-red">No</span>
-	                    <?php    
-	                    }
+                if ($city->waveoff_status=='1') {?>
+                	<span class="badge bg-green">Yes</span>
+                 <?php   
+                }
+                else
+                {?>
+                    <span class="badge bg-red">No</span>
+                <?php    
+                }
 	            ?>
 	        </td> 
             <td>
@@ -56,7 +56,7 @@ if($type == 1){
 else 
 {
 ?>
-	<table class="table table-bordered table-striped">
+	<table border ="1">
 	    <thead>
 		    <tr style="table-layout: fixed;">
 		        <th><?=  ('Sl.') ?></th> 
@@ -68,22 +68,35 @@ else
 		<tbody>
 		    <?php $page_no=0; foreach ($recordList as $city):
 		    ?>  
-		    <tr>
-		        <td><?= h(++$page_no) ?></td> 
-		        <td>0</td> 
-		        <td>
-		            <?php 
-		                if ($city->waveoff_status=='0') {?>
-		                <span class="badge bg-green">Yes</span>
-		             <?php   
-		                }
-		                else
-		                {?>
-		                    <span class="badge bg-red">No</span>
-		                <?php    
-		                }
-		        ?>
-		        </td>  
+		     <tr>
+                <td><?= h(++$page_no) ?></td> 
+                <td><?= $city->invoice_no; ?></td> 
+                <td>
+                    <?php 
+                    if ($city->waveoff_status=='1') {?>
+                        <span class="badge bg-green">Yes</span>
+                    <?php   
+                    }
+                    else
+                    {?>
+                        <span class="badge bg-red">No</span>
+                    <?php    
+                    }
+                    ?>
+                </td> 
+                <td>
+                    <?php 
+                    if ($city->payment_status=='yes') {?>
+                        <span class="badge bg-green">Yes</span>
+                    <?php   
+                    }
+                    else
+                    {?>
+                        <span class="badge bg-red">No</span>
+                    <?php    
+                    }
+                    ?>
+                </td> 
 		    </tr>
 		    <?php endforeach; ?>
 		</tbody>
