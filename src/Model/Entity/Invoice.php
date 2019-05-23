@@ -54,7 +54,7 @@ class Invoice extends Entity
      * @var array
      */
     protected $_accessible = [
-        'invoice_no' => true,
+        '*' => true,
         'invoice_type_id' => true,
         'authorized_person' => true,
         'customer_id' => true,

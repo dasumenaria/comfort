@@ -153,6 +153,9 @@ class InvoicesController extends AppController
                     $tax+=$this->request->getData('taxation1');
                 }
 
+
+
+
                 $grand_total=$this->request->getData('grand_total');
                 $complimenatry_status=$this->request->getData('complimenatry_status');
                 $invoice_date= $this->request->getData('invoice_date');
@@ -192,6 +195,11 @@ class InvoicesController extends AppController
                     $invoice->financial_year_id = $financial_year_id;
                     $invoice->current_date = date("Y-m-d");
                     $invoice->discount = $discount;
+                    $invoice->gst_figure_id = 3;
+
+                    $LedgerData = $this->Invoices->Ledgers->find()->select(['id'])->where(['Ledgers.customer_id'=>$this->request->getData('customer_id')])->first();
+                    $customer_ledger_id = $LedgerData->id;
+                    $invoice->ledger_id = $customer_ledger_id;
                     //pr($invoice); exit; 
                     if ($this->Invoices->save($invoice)) {
 
@@ -227,9 +235,9 @@ class InvoicesController extends AppController
                         }
                         //--Other Charges
                         
-                        $company_id=1;
-                        $LedgerData = $this->Invoices->Ledgers->find()->select(['id'])->where(['Ledgers.customer_id'=>$this->request->getData('customer_id')])->first();
-                        $customer_ledger_id = $LedgerData->id;
+                        $company_id=1; 
+
+                        
                         //--Dabit Customer
                         $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
                         $this->request->data['ledger_id'] = $customer_ledger_id;
@@ -241,7 +249,8 @@ class InvoicesController extends AppController
                         $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
                         $this->Invoices->AccountingEntries->save($accountingEntries);
                         //--Dabit Customer
- 
+
+
                         $ledger_id = 33;
                         //--Credit Taxi Services
                         $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
@@ -371,6 +380,15 @@ class InvoicesController extends AppController
 
                                 $this->Invoices->InvoiceDetails->save($invoiceDetails); 
                             }
+
+
+                            $service_id = $this->request->getData('service_id'); 
+                            $car_type_id = $this->request->getData('car_type_id');
+                            if(!empty($customer_id) &&  !empty($service_id) && !empty($car_type_id)){
+                                echo "in";exit;
+                            }
+
+                            echo "out";exit;
                         }
 
                         $this->Flash->success(__('The invoice has been saved.'));
@@ -451,6 +469,12 @@ class InvoicesController extends AppController
             $invoice->date = $date;
             $invoice->current_date = $current_date;
             $invoice->discount = $discout_final; 
+            $invoice->gst_figure_id = 3;
+
+            $LedgerData = $this->Invoices->Ledgers->find()->select(['id'])->where(['Ledgers.customer_id'=>$this->request->getData('customer_id')])->first();
+            $customer_ledger_id = $LedgerData->id;
+            $invoice->ledger_id = $customer_ledger_id;
+
             //pr($invoice);exit;
             if ($this->Invoices->save($invoice)) {
 
@@ -486,10 +510,8 @@ class InvoicesController extends AppController
                     $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
                     $this->Invoices->AccountingEntries->save($accountingEntries);   
                 }
-                //--Other Charges
+                //--Other Charges 
 
-                $LedgerData = $this->Invoices->Ledgers->find()->select(['id'])->where(['Ledgers.customer_id'=>$this->request->getData('customer_id')])->first();
-                $customer_ledger_id = $LedgerData->id;
                 //--Dabit Customer
                 $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
                 $this->request->data['ledger_id'] = $customer_ledger_id;
@@ -675,5 +697,26 @@ class InvoicesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function waveoffBilling()
+    {
+        $RecordShow = 0;
+        $where=array();
+        $date_from='';
+        $date_to='';
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $where['Invoices.waveoff_status']=1;
+            $waveoffds = $this->Invoices->find()->contain(['Customers','Logins','InvoiceDetails'])->where($where);
+            if(!empty($this->request->getData('date_from'))){
+                $date_from=date('Y-m-d',strtotime($this->request->getData('date_from'))); 
+                $date_to=date('Y-m-d',strtotime($this->request->getData('date_to')));  
+                $waveoffds->where(function($exp) use($date_from,$date_to) {
+                    return $exp->between('date', $date_from, $date_to, 'date');
+                });
+            } 
+            $RecordShow=1;
+        }
+        $this->set(compact('RecordShow','waveoffds','date_from','date_to'));
     }
 }

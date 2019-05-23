@@ -33,6 +33,7 @@ class EmployeesTable extends Table
         $this->setTable('employees');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
+        $this->belongsTo('Ledgers');
     }
 
     /**

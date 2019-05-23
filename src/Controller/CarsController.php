@@ -153,6 +153,15 @@ class CarsController extends AppController
 
             //pr($car); die();
             if ($this->Cars->save($car)) {
+
+                $company_id=1;
+                $ledgers = $this->Cars->Ledgers->newEntity();
+                $this->request->data['accounting_group_id'] = 14; // Staff Ac
+                $this->request->data['company_id'] = $company_id; 
+                $this->request->data['car_id'] = $car->id; 
+                $ledgers = $this->Cars->Ledgers->patchEntity($ledgers, $this->request->getData());
+                $this->Cars->Ledgers->save($ledgers);
+
                 $this->Flash->success(__('The car has been saved.'));
 
                 return $this->redirect(['action' => 'add']);
@@ -248,6 +257,12 @@ class CarsController extends AppController
                 $car->puc_date = '0000-00-00';
             }
             if ($this->Cars->save($car)) {
+
+                $query = $this->Cars->Ledgers->query(); 
+                $query->update()->set(['name'=>$this->request->getData('name')])
+                    ->where(['car_id' => $id])
+                    ->execute(); 
+                    
                 $this->Flash->success(__('The car has been saved.'));
 
                 return $this->redirect(['action' => 'index','edt']);

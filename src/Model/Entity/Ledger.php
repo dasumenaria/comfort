@@ -43,7 +43,7 @@ class Ledger extends Entity
      * @var array
      */
     protected $_accessible = [
-        'name' => true,
+        '*' => true,
         'accounting_group_id' => true,
         'freeze' => true,
         'company_id' => true,
