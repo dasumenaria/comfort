@@ -92,6 +92,100 @@ class InvoicesController extends AppController
         $customers = $this->Invoices->Customers->find('list', ['limit' => 200]);
         $this->set(compact('customerList','displayName','type','RecordShow','customers'));  
     }
+	
+	
+	public function gstReports(){
+		$status=$this->request->query('status'); 
+		
+		  $RecordShow = 0;
+		$company_id=1;
+		$url=$this->request->here();
+		$url=parse_url($url,PHP_URL_QUERY);
+	    $from=$this->request->query('from_date');
+		$to=$this->request->query('to_date');
+		
+		$where=[];
+		
+		if(!empty($from)){ 
+			$from=date('Y-m-d', strtotime($from));
+			$where['Invoices.date >=']= $from;
+		}else{
+			$from=date('Y-m-d');
+			$where['Invoices.date >=']= $from;
+		}
+		if(!empty($to)){
+			$to=date('Y-m-d', strtotime($to));
+			$where['Invoices.date <='] = $to;
+		}else{
+			$to=date('Y-m-d');
+			$where['Invoices.date <='] = $to;
+		}
+		
+		//$where['SalesInvoices.location_id'] = $location_id;
+		
+		if(!empty($where)){
+		$salesInvoicesDatas = $this->Invoices->find()
+			->contain(['Customers','GstFigures'])
+			->where(['Invoices.waveoff_status'=>'0'])
+			//->where($where)
+			->order(['invoice_no' => 'ASC']);
+		}
+	
+		//pr($salesInvoicesDatas->toArray()); exit;
+		
+		$i=0; 
+		$StateWiseTaxableAmt=[];
+		$StateWiseGst=[];
+		$TotalTaxable=0;
+		$TotalCGst=0;
+		$TotalSGst=0;
+		$TotalIGst=0;
+		$StateName=[];
+		foreach($salesInvoicesDatas as $salesInvoice){
+		
+			/* $TotalTaxable+=$salesInvoice->amount_before_tax;
+			$TotalCGst+=$salesInvoice->total_cgst;
+			$TotalSGst+=$salesInvoice->total_sgst;
+			$TotalIGst+=$salesInvoice->total_igst; */
+			@$StateWiseTaxableAmt[$salesInvoice->customer->state][$salesInvoice->gst_figure_id]+=@$salesInvoice->grand_total;
+			@$StateWiseGst[$salesInvoice->customer->state][$salesInvoice->gst_figure_id]+=@$salesInvoice->tax;
+			@$StateName[$salesInvoice->customer->state]=@$salesInvoice->customer->state;
+		
+			$RecordShow=1;
+		}
+		//pr($StateWiseTaxableAmt); exit; 
+		//ksort($SalesInvoices);
+		//pr($SalesInvoices);exit;
+		
+		//start state wise gst
+		/* $SalesInvoices=$this->AccountingEntries->SalesInvoices->find()->where(['SalesInvoices.company_id'=>$company_id,'SalesInvoices.transaction_date >='=>$from_date, 'SalesInvoices.transaction_date <='=>$to_date])->contain(['Customers'=>function($q){
+					return $q->select(['Customers.state_id'])->contain(['States']);
+				}]);
+		$StateWiseTaxableAmt=[];
+		$StateWiseGst=[];
+		$TotalTaxable=0;
+		$TotalCGst=0;
+		$TotalSGst=0;
+		$TotalIGst=0;
+		$StateName=[];
+		foreach($SalesInvoices as $data){ 
+			
+		}
+		
+		
+		//$States=$this->AccountingEntries->SalesInvoices->Customers->States->find();
+		$GstFigures=$this->AccountingEntries->Ledgers->GstFigures->find()->where(['company_id'=>$company_id]); */
+		//end state wise gst
+		$GstFigures=$this->Invoices->GstFigures->find()->where(['company_id'=>$company_id]);
+		$GstFiguresDatas=[];
+		foreach($GstFigures as $data1){
+			$GstFiguresDatas[$data1->id]=$data1->name;
+		}
+		//pr($GstFiguresDatas); exit;
+		//$companies=$this->Invoices->Companies->find()->contain(['States'])->where(['Companies.id'=>$company_id])->first();
+		$this->set(compact('companies','SalesInvoices', 'from', 'to','party_ids','invoice_no','url','status','salesInvoicesDatas','TotalTaxable','TotalCGst','TotalSGst','TotalIGst','StateWiseTaxableAmt','StateWiseGst','States','StateName','GstFiguresDatas','RecordShow'));
+        $this->set('_serialize', ['salesInvoices']);
+	}
     
     public function add()
     {

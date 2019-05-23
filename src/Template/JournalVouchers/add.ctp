@@ -356,7 +356,7 @@ function round(value, exp) {
 				var due_days=$(this).closest('tr.MainTr').find('select.ledger option:selected').attr('default_days');
 				if(type=='Against'){
 					$(this).closest('tr').find('td:nth-child(2)').html('Loading Ref List...');
-					var url='"<?php echo $this->Url->build(['controller'=>'ReferenceDetails','action'=>'listRef'])?> "';
+					var url='<?php echo $this->Url->build(['controller'=>'ReferenceDetails','action'=>'listRef'])?> ';
 					url=url+'/'+ledger_id;
 					$.ajax({
 						url: url,
