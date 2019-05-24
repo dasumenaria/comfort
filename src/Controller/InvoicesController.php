@@ -320,9 +320,11 @@ class InvoicesController extends AppController
 
                                 $this->Invoices->InvoiceDetails->save($invoiceDetails); 
                             }
-
+                            if($complimenatry_status==1){
+                                $this->Flash->success(__('The invoice has been saved.')); 
+                                return $this->redirect(['action' => 'view',$invoice->id]);
+                            }
                             $dsDetails = $this->Invoices->InvoiceDetails->DutySlips->find()->where(['Dutyslips.id'=>$ds_idd])->first();
-                            
 
                             $service_id = $dsDetails->service_id; 
                             $car_type_id = $dsDetails->car_type_id;  
@@ -335,75 +337,76 @@ class InvoicesController extends AppController
                             $closing_time = $dsDetails->closing_time; 
                             $DsCustomerId = $dsDetails->customer_id; 
 
-                            
+                            $company_id=1;
                             $main1= strtotime($date_from);
                             $main2 = strtotime($date_to);
                             $days=(($main2-$main1)/86400);  
 
-                            if(!empty($DsCustomerId) &&  !empty($service_id) && !empty($car_type_id)){
-                                $tariffRate = $this->Invoices->Customers->CustomerTariffs->find()->where(['customer_id'=>$DsCustomerId , 'service_id'=>$service_id,'car_type_id'=>$car_type_id])->first();  
-                                if(!empty($tariffRate)){
-                                    $rate = $tariffRate->rate;
+                            if(!empty($DsCustomerId) &&  !empty($service_id) && !empty($car_type_id)){ 
 
-                                    $carDetails = $this->Invoices->InvoiceDetails->DutySlips->Cars->find()->select(['supplier_id','car_type_id'])->where(['Cars.id'=>$car_id])->first();
-                                    if(!empty($carDetails)){
-                                        $cartypeid = $carDetails->car_type_id;
-                                        $supplier_id = $carDetails->supplier_id;
+                                $carDetails = $this->Invoices->InvoiceDetails->DutySlips->Cars->find()->select(['supplier_id','car_type_id'])->where(['Cars.id'=>$car_id])->first();
+                                if(!empty($carDetails)){
+                                    $cartypeid = $carDetails->car_type_id;
+                                    $supplier_id = $carDetails->supplier_id;
 
-                                        $suppTariff = $this->Invoices->SupplierTariffs->find()->where(['SupplierTariffs.supplier_id'=>$supplier_id,'SupplierTariffs.car_type_id'=>$cartypeid])->first();
-                                        if(!empty($suppTariff)){
-                                            $supplier_rate = $suppTariff->rate;
-                                            $minimum_chg_km = $suppTariff->minimum_chg_km;
-                                            $extra_km_rate = $suppTariff->extra_km_rate;
-                                            $extra_hour_rate = $suppTariff->extra_hour_rate;
-                                            $minimum_chg_hourly = $suppTariff->minimum_chg_hourly;
+                                    $suppTariff = $this->Invoices->SupplierTariffs->find()->where(['SupplierTariffs.supplier_id'=>$supplier_id,'SupplierTariffs.car_type_id'=>$cartypeid,'SupplierTariffs.service_id'=>$service_id])->first();
+                                    if(!empty($suppTariff)){
+                                        $supplier_rate = $suppTariff->rate;
+                                        $minimum_chg_km = $suppTariff->minimum_chg_km;
+                                        $extra_km_rate = $suppTariff->extra_km_rate;
+                                        $extra_hour_rate = $suppTariff->extra_hour_rate;
+                                        $minimum_chg_hourly = $suppTariff->minimum_chg_hourly;
 
-                                            $servicedata = $this->Invoices->Services->find()->where(['Services.id'=>$service_id])->first();
-                                            $extra_charge=0;
-                                            $supp_main_amnt=0;
-                                            if($servicedata->type == 'intercity')
-                                            {
-                                                $days+=1;
-                                                $total_freerun = $minimum_chg_km*$days;
-                                                $extra_km=$total_km-($total_freerun);
-                                                if($extra_km>0)
-                                                $extra_charge=$extra_km*$extra_km_rate;
-                                                $supp_main_amnt=$supplier_rate*$days;
-                                            }
-                                            else{
-                                                if($days==0)
-                                                $days++;
-                                                $var_first_stamp=($date_to)." ".$closing_time;
-                                                $var_second_stamp=($date_from)." ".$opening_time; 
-                                                $row_time_diff=timediff($var_first_stamp,$var_second_stamp);
-                                                $row_min_diff=time_to_sec($row_time_diff)/(60*60);
-                                                $total_time_of_car= round($row_min_diff);
-                                                $total_freerun = $minimum_chg_hourly*$days;
-                                                $extra_hours=$total_time_of_car-($total_freerun);
-                                                if($extra_hours>0)
-                                                $extra_charge=$extra_hours*$extra_hour_rate;
-                                                $supp_main_amnt=$supplier_rate*$days;
-                                            }
-                                            $amount_supplier = $supp_main_amnt+$extra_charge;
-                                            $amount_to_cars+=$amount_supplier;
+                                        $servicedata = $this->Invoices->Services->find()->where(['Services.id'=>$service_id])->first();
+                                        $extra_charge=0;
+                                        $supp_main_amnt=0;
+                                        if($servicedata->type == 'intercity')
+                                        {
+                                            $days+=1;
+                                            $total_freerun = $minimum_chg_km*$days;
+                                            $extra_km=$total_km-($total_freerun);
+                                            if($extra_km>0)
+                                            $extra_charge=$extra_km*$extra_km_rate;
+                                            $supp_main_amnt=$supplier_rate*$days;
+                                        }
+                                        else{
+                                            if($days==0)
+                                            $days++;
+                                            $var_first_stamp=($date_to)." ".$closing_time;
+                                            $var_second_stamp=($date_from)." ".$opening_time; 
+                                            $row_time_diff=timediff($var_first_stamp,$var_second_stamp);
+                                            $row_min_diff=time_to_sec($row_time_diff)/(60*60);
+                                            $total_time_of_car= round($row_min_diff);
+                                            $total_freerun = $minimum_chg_hourly*$days;
+                                            $extra_hours=$total_time_of_car-($total_freerun);
+                                            if($extra_hours>0)
+                                            $extra_charge=$extra_hours*$extra_hour_rate;
+                                            $supp_main_amnt=$supplier_rate*$days;
+                                        }
+                                        $amount_supplier = $supp_main_amnt+$extra_charge;
+                                        $amount_to_cars+=$amount_supplier;
 
-                                            $LedgerData = $this->Invoices->Ledgers->find()->select(['id'])->where(['Ledgers.car_id'=>$car_id])->first();
-                                            $car_ledger_id = $LedgerData->id;
+                                        $LedgerData = $this->Invoices->Ledgers->find()->select(['id'])->where(['Ledgers.car_id'=>$car_id])->first();
+                                        $car_ledger_id = $LedgerData->id;
 
-                                            $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
-                                            $this->request->data['ledger_id'] = $car_ledger_id;
-                                            
-                                            $this->request->data['credit'] = $amount_supplier;
-                                            $this->request->data['debit'] = 0;
-                                            $this->request->data['transaction_date'] = date("Y-m-d");
-                                            $this->request->data['company_id'] = $company_id; 
-                                            $this->request->data['invoice_id'] = $invoice->id; 
-                                            $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
-                                            $this->Invoices->AccountingEntries->save($accountingEntries);   
-                                        } 
+                                        $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
+                                        $this->request->data['ledger_id'] = $car_ledger_id;
+                                        
+                                        $this->request->data['credit'] = $amount_supplier;
+                                        $this->request->data['debit'] = 0;
+                                        $this->request->data['transaction_date'] = date("Y-m-d");
+                                        $this->request->data['company_id'] = $company_id; 
+                                        $this->request->data['invoice_id'] = $invoice->id; 
+                                        $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
+                                        $this->Invoices->AccountingEntries->save($accountingEntries);   
                                     } 
-                                }
+                                } 
+                                
                             }     
+                        }
+                        if($complimenatry_status==1){
+                            $this->Flash->success(__('The invoice has been saved.')); 
+                            return $this->redirect(['action' => 'view',$invoice->id]);
                         }
                         //-- DISCOUNT ENTRY
                         if($discount>0){
@@ -429,6 +432,7 @@ class InvoicesController extends AppController
                         {
                             $car_higher_service_amnt=($grand_total-($amount_to_cars+$tax));
                         }
+                        $car_higher_service_amnt = $car_higher_service_amnt - $other_charges;
                         //-- Car Hire Services
                         $ledger_id = 39; 
                         $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
@@ -568,7 +572,13 @@ class InvoicesController extends AppController
                         } 
 
                         $this->Flash->success(__('The invoice has been saved.'));
-                        return $this->redirect(['action' => 'ledgerView',$invoice->id]);
+                        if($ldrview == 'Yes'){
+                            return $this->redirect(['action' => 'ledgerView',$invoice->id]);  
+                        }
+                        else{
+                            return $this->redirect(['action' => 'view',$invoice->id]);
+                        }
+                        
                     } 
                     $this->Flash->error(__('The invoice could not be saved. Please, try again.')); 
                 }
@@ -654,24 +664,12 @@ class InvoicesController extends AppController
             //pr($invoice);exit;
             if ($this->Invoices->save($invoice)) {
 
+                 
                 $this->Invoices->AccountingEntries->deleteAll(['invoice_id' => $id]);
                 $this->Invoices->ReferenceDetails->deleteAll(['invoice_id' => $id]);
 
                 $company_id=1;
-                //-- DISCOUNT ENTRY
-                if($discout_final>0){
-                    $ledger_id = 34; 
-                    $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
-                    $this->request->data['ledger_id'] = $ledger_id;
-                    $this->request->data['credit'] = 0;
-                    $this->request->data['debit'] = $discout_final;
-                    $this->request->data['transaction_date'] =  $date;
-                    $this->request->data['company_id'] = $company_id; 
-                    $this->request->data['invoice_id'] = $invoice->id; 
-                    $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
-                    $this->Invoices->AccountingEntries->save($accountingEntries);   
-                } 
-                //-- DISCOUNT ENTRY
+
                 for($k=1;$k<=$count;$k++)
                 {
                     $main_amnt=$this->request->getData('main_amnt'.$k);
@@ -711,9 +709,12 @@ class InvoicesController extends AppController
                     $query->update()->set(['amount'=>$amount])
                         ->where(['id' => $invoice_detail_id])
                         ->execute();
-
+                    if($invoice->complimenatry_status==1){
+                        $this->Flash->success(__('The invoice has been saved.')); 
+                        return $this->redirect(['action' => 'view',$invoice->id]);
+                    }
                     $dsDetails = $this->Invoices->InvoiceDetails->DutySlips->find()->where(['Dutyslips.id'=>$duty_slip_id])->first();
-                            
+                    $company_id=1;
                     $service_id = $dsDetails->service_id; 
                     $car_type_id = $dsDetails->car_type_id;  
                     $DsCustomerId = $dsDetails->customer_id; 
@@ -725,83 +726,104 @@ class InvoicesController extends AppController
                     $closing_time = $dsDetails->closing_time; 
                     $DsCustomerId = $dsDetails->customer_id; 
 
-                    
+                    $company_id=1;
                     $main1= strtotime($date_from);
                     $main2 = strtotime($date_to);
                     $days=(($main2-$main1)/86400);  
 
-                    if(!empty($DsCustomerId) &&  !empty($service_id) && !empty($car_type_id)){
-                        $tariffRate = $this->Invoices->Customers->CustomerTariffs->find()->where(['customer_id'=>$DsCustomerId , 'service_id'=>$service_id,'car_type_id'=>$car_type_id])->first();  
-                        if(!empty($tariffRate)){
-                            $rate = $tariffRate->rate;
+                    $amount_to_cars = 0;
+                    if(!empty($DsCustomerId) &&  !empty($service_id) && !empty($car_type_id)){ 
 
-                            $carDetails = $this->Invoices->InvoiceDetails->DutySlips->Cars->find()->select(['supplier_id','car_type_id'])->where(['Cars.id'=>$car_id])->first();
-                            if(!empty($carDetails)){
-                                $cartypeid = $carDetails->car_type_id;
-                                $supplier_id = $carDetails->supplier_id;
+                        $carDetails = $this->Invoices->InvoiceDetails->DutySlips->Cars->find()->select(['supplier_id','car_type_id'])->where(['Cars.id'=>$car_id])->first();
+                        if(!empty($carDetails)){
+                            $cartypeid = $carDetails->car_type_id;
+                            $supplier_id = $carDetails->supplier_id;
 
-                                $suppTariff = $this->Invoices->SupplierTariffs->find()->where(['SupplierTariffs.supplier_id'=>$supplier_id,'SupplierTariffs.car_type_id'=>$cartypeid])->first();
-                                if(!empty($suppTariff)){
-                                    $supplier_rate = $suppTariff->rate;
-                                    $minimum_chg_km = $suppTariff->minimum_chg_km;
-                                    $extra_km_rate = $suppTariff->extra_km_rate;
-                                    $extra_hour_rate = $suppTariff->extra_hour_rate;
-                                    $minimum_chg_hourly = $suppTariff->minimum_chg_hourly;
+                            $suppTariff = $this->Invoices->SupplierTariffs->find()->where(['SupplierTariffs.supplier_id'=>$supplier_id,'SupplierTariffs.car_type_id'=>$cartypeid,'SupplierTariffs.service_id'=>$service_id])->first();
+                            if(!empty($suppTariff)){
+                                $supplier_rate = $suppTariff->rate;
+                                $minimum_chg_km = $suppTariff->minimum_chg_km;
+                                $extra_km_rate = $suppTariff->extra_km_rate;
+                                $extra_hour_rate = $suppTariff->extra_hour_rate;
+                                $minimum_chg_hourly = $suppTariff->minimum_chg_hourly;
 
-                                    $servicedata = $this->Invoices->Services->find()->where(['Services.id'=>$service_id])->first();
-                                    if($servicedata->type == 'intercity')
-                                    {
-                                        $days+=1;
-                                        $total_freerun = $minimum_chg_km*$days;
-                                        $extra_km=$total_km-($total_freerun);
-                                        if($extra_km>0)
-                                        $extra_charge=$extra_km*$extra_km_rate;
-                                        $supp_main_amnt=$supplier_rate*$days;
-                                    }
-                                    else{
-                                        if($days==0)
-                                        $days++;
-                                        $var_first_stamp=($date_to)." ".$closing_time;
-                                        $var_second_stamp=($date_from)." ".$opening_time; 
-                                        $row_time_diff=timediff($var_first_stamp,$var_second_stamp);
-                                        $row_min_diff=time_to_sec($row_time_diff)/(60*60);
-                                        $total_time_of_car= round($row_min_diff);
-                                        $total_freerun = $minimum_chg_hourly*$days;
-                                        $extra_hours=$total_time_of_car-($total_freerun);
-                                        if($extra_hours>0)
-                                        $extra_charge=$extra_hours*$extra_hour_rate;
-                                        $supp_main_amnt=$supplier_rate*$days;
-                                    }
-                                    $amount_supplier = $supp_main_amnt+$extra_charge;
-                                    $amount_to_cars+=$amount_supplier;
+                                $servicedata = $this->Invoices->Services->find()->where(['Services.id'=>$service_id])->first();
+                                $extra_charge=0;
+                                $supp_main_amnt=0;
+                                if($servicedata->type == 'intercity')
+                                {
+                                    $days+=1;
+                                    $total_freerun = $minimum_chg_km*$days;
+                                    $extra_km=$total_km-($total_freerun);
+                                    if($extra_km>0)
+                                    $extra_charge=$extra_km*$extra_km_rate;
+                                    $supp_main_amnt=$supplier_rate*$days;
+                                }
+                                else{
+                                    if($days==0)
+                                    $days++;
+                                    $var_first_stamp=($date_to)." ".$closing_time;
+                                    $var_second_stamp=($date_from)." ".$opening_time; 
+                                    $row_time_diff=timediff($var_first_stamp,$var_second_stamp);
+                                    $row_min_diff=time_to_sec($row_time_diff)/(60*60);
+                                    $total_time_of_car= round($row_min_diff);
+                                    $total_freerun = $minimum_chg_hourly*$days;
+                                    $extra_hours=$total_time_of_car-($total_freerun);
+                                    if($extra_hours>0)
+                                    $extra_charge=$extra_hours*$extra_hour_rate;
+                                    $supp_main_amnt=$supplier_rate*$days;
+                                }
+                                $amount_supplier = $supp_main_amnt+$extra_charge;
+                                $amount_to_cars+=$amount_supplier;
 
-                                    $LedgerData = $this->Invoices->Ledgers->find()->select(['id'])->where(['Ledgers.car_id'=>$car_id])->first();
-                                    $car_ledger_id = $LedgerData->id;
+                                $LedgerData = $this->Invoices->Ledgers->find()->select(['id'])->where(['Ledgers.car_id'=>$car_id])->first();
+                                $car_ledger_id = $LedgerData->id;
 
-                                    $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
-                                    $this->request->data['ledger_id'] = $car_ledger_id;
-                                    
-                                    $this->request->data['credit'] = $amount_supplier;
-                                    $this->request->data['debit'] = 0;
-                                    $this->request->data['transaction_date'] = date("Y-m-d");
-                                    $this->request->data['company_id'] = $company_id; 
-                                    $this->request->data['invoice_id'] = $invoice->id; 
-                                    $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
-                                    $this->Invoices->AccountingEntries->save($accountingEntries);   
-                                } 
+                                $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
+                                $this->request->data['ledger_id'] = $car_ledger_id;
+                                
+                                $this->request->data['credit'] = $amount_supplier;
+                                $this->request->data['debit'] = 0;
+                                $this->request->data['transaction_date'] = date("Y-m-d");
+                                $this->request->data['company_id'] = $company_id; 
+                                $this->request->data['invoice_id'] = $invoice->id; 
+                                $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
+                                $this->Invoices->AccountingEntries->save($accountingEntries);   
                             } 
-                        }
-                    }
+                        } 
+                        
+                    } 
                 }
-                if($discount>0)    
+
+                if($invoice->complimenatry_status==1){
+                    $this->Flash->success(__('The invoice has been saved.')); 
+                    return $this->redirect(['action' => 'view',$invoice->id]);
+                }
+                //-- DISCOUNT ENTRY
+                if($discout_final>0){
+                    $ledger_id = 34; 
+                    $accountingEntries = $this->Invoices->AccountingEntries->newEntity();
+                    $this->request->data['ledger_id'] = $ledger_id;
+                    $this->request->data['credit'] = 0;
+                    $this->request->data['debit'] = $discout_final;
+                    $this->request->data['transaction_date'] =  $date;
+                    $this->request->data['company_id'] = $company_id; 
+                    $this->request->data['invoice_id'] = $invoice->id; 
+                    $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
+                    $this->Invoices->AccountingEntries->save($accountingEntries);   
+                } 
+                //-- DISCOUNT ENTRY
+                
+                if($discout_final>0)    
                 {
-                    $new_grand_total=$grand_total+$discount;
+                    $new_grand_total=$grand_total+$discout_final;
                     $car_higher_service_amnt=($new_grand_total-($amount_to_cars+$tax));
                 }
                 else
                 {
                     $car_higher_service_amnt=($grand_total-($amount_to_cars+$tax));
                 }
+                $car_higher_service_amnt = $car_higher_service_amnt - $other_charges;
                 //-- Car Hire Services
                 $ledger_id = 39; 
                 $accountingEntries = $this->Invoices->AccountingEntries->newEntity();

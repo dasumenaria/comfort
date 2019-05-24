@@ -106,9 +106,7 @@ th {
                     foreach ($row_invoice->invoice_details as $invoiceData) 
                     { 
                         $x++;
-
-                        if($invoiceData->duty_slip->billing_type == 'Normal Billing')
-                        {
+  
                             if($x==1)
                             {
                                 ?>
@@ -120,20 +118,20 @@ th {
                             }
 
                             if(!empty($invoiceData->duty_slip->temp_car_no))
-                                $car_no=$invoiceData->duty_slip->temp_car_no;
+                                $car_no=@$invoiceData->duty_slip->temp_car_no;
                             else
-                                $car_no=$invoiceData->duty_slip->car->name;
+                                $car_no=@$invoiceData->duty_slip->car->name;
 
                             $main_amnt=($invoiceData->duty_slip->tot_amnt-($invoiceData->duty_slip->extra_chg+$invoiceData->duty_slip->permit_chg+$invoiceData->duty_slip->otherstate_chg+$invoiceData->duty_slip->guide_chg+$invoiceData->duty_slip->misc_chg+$invoiceData->duty_slip->parking_chg+$invoiceData->duty_slip->fuel_hike_chg));
                             $ctyName='Udaipur';
 
                             if(!empty($invoiceData->city)){$ctyName=$invoiceData->city;}
                             $tariffData = $DateConvert->tariffData($invoiceData->duty_slip->service_id,$invoiceData->duty_slip->customer_id,$invoiceData->duty_slip->car_type_id);
-                            $minimum_chg_hourly = $tariffData->minimum_chg_hourly;
-                            $minimum_chg_km = $tariffData->minimum_chg_km;
+                            $minimum_chg_hourly = @$tariffData->minimum_chg_hourly;
+                            $minimum_chg_km = @$tariffData->minimum_chg_km;
                             ?>
                             <tr class="ad">
-                                <td colspan="2" style="text-align:left"><?php echo "Duty Slip No. ".$invoiceData->id." dated on ".date('d-M-Y', strtotime($invoiceData->duty_slip->date))." "."towards the cost of transport used in ".$ctyName." for the Service ".$invoiceData->duty_slip->service->name." (".$minimum_chg_hourly." hrs / ".$minimum_chg_km." kms) by ".$invoiceData->duty_slip->car_type->name." ".$car_no ?></td>
+                                <td colspan="2" style="text-align:left"><?php echo "Duty Slip No. ".$invoiceData->id." dated on ".date('d-M-Y', strtotime($invoiceData->duty_slip->date))." "."towards the cost of transport used in ".$ctyName." for the Service ". @$invoiceData->duty_slip->service->name." (".$minimum_chg_hourly." hrs / ".$minimum_chg_km." kms) by ".@$invoiceData->duty_slip->car_type->name." ".$car_no ?></td>
                                 <td width="15%" align="center"> </td>
                                 <th colspan="2">
                                     <?php echo $this->Form->control('main_amnt'.$x,['label' => false,'class' => 'form-control ','autocomplete'=>'off','type'=>'text','value'=>$main_amnt,'id'=>'main_amnt'.$x,'onKeyUp'=>'cal_amount()']); ?>  
@@ -276,7 +274,7 @@ th {
                             echo $this->Form->hidden('duty_slip_id'.$x , ['label' => false,'value' => $invoiceData->duty_slip->id,'id'=>'extra_amnt'.$x]);
 
                             echo $this->Form->hidden('invoice_detail_id'.$x , ['label' => false,'value' => $invoiceData->id,'id'=>'invoice_detail_id'.$x]); 
-                        }
+                         
                     }   
                     ?>  
                     <tr>
@@ -414,9 +412,14 @@ jQuery(".loadingshow").submit(function(){
 });   
 </script> 
 <script>
+<?php
+if($row_invoice->billing_type == 'Normal Billing')
+{
+?>
 $(document).ready(function() {
     cal_amount();
 });
+<?php } ?>
 function round(value, exp) {
     if (typeof exp === 'undefined' || +exp === 0)
     return Math.round(value);
@@ -450,11 +453,10 @@ function cal_amount()
     var discount_rate=eval($('#discount').val()); 
     for(var i=1; i<=count; i++)
     {  
-               
+           
         var extra_amnt=eval($('#extra_amnt'+i).val());
         var main_amnt=eval($('#main_amnt'+i).val());
-        total+=extra_amnt+main_amnt;
-     
+        total+=extra_amnt+main_amnt; 
         var extra_chg=eval($('#extra_chg'+i).val());
         var permit_chg=eval($('#permit_chg'+i).val());
         var parking_chg=eval($('#parking_chg'+i).val());
@@ -464,7 +466,7 @@ function cal_amount()
         var fuel_hike_chg=eval($('#fuel_hike_chg'+i).val());
         total_other+=extra_chg+permit_chg+parking_chg+otherstate_chg+guide_chg+misc_chg+fuel_hike_chg; 
     }
-    //alert(total_other);
+    
     net_total=total+total_other;
     var discount_amnt = 0;
     if(discount_rate>0){
