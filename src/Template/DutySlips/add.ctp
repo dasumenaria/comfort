@@ -155,7 +155,7 @@ label{
                             <label class="control-label">Date </label>
                         </div>
                         <div class="col-md-4">
-                            <?php echo $this->Form->control('service_date',['label' => false,'class' => 'form-control date-picker','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','type'=>'text']); ?> 
+                            <?php echo $this->Form->control('service_date',['label' => false,'class' => 'form-control datepickers','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','type'=>'text']); ?> 
                         </div>
                     </div>
                 </div>
