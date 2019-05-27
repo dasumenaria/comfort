@@ -253,7 +253,7 @@ label{
                         </div>
                         <div class="col-md-4"> 
                             <?php
-                            for ($i=1; $i <= 23; $i++) { 
+                            for ($i=0; $i <= 23; $i++) { 
                                 if($i<10){
                                     $optionTimes['0'.$i]='0'.$i;  
                                 }
@@ -262,19 +262,22 @@ label{
                                 }
      
                             }
-                            for ($ix=1; $ix <= 60; $ix++) {   
+                            for ($ix=0; $ix <= 60; $ix++) {   
                                 if($ix<10)
                                     $optionTimeSeconds['0'.$ix]='0'.$ix; 
                                 else 
                                     $optionTimeSeconds[$ix]=$ix; 
-                            }                        ?>
+                            } 
+                            $hh=date('h',strtotime($dutySlip->opening_time));                
+                            $ii=date('i',strtotime($dutySlip->opening_time));                
+                            ?>
                             <table width="100%">
                                 <tr>
                                     <td>
-                                      <?php echo $this->Form->control('opening_time_hh',['label' => false,'class' => 'form-control input-small','autocomplete'=>'off','options'=>$optionTimes,'empty'=>'Select...']); ?>  
+                                      <?php echo $this->Form->control('opening_time_hh',['label' => false,'class' => 'form-control input-small','autocomplete'=>'off','options'=>$optionTimes,'value'=>$hh]); ?>  
                                     </td>
                                     <td>
-                                      <?php echo $this->Form->control('opening_time_mm',['label' => false,'class' => 'form-control input-small','autocomplete'=>'off','options'=>$optionTimeSeconds,'empty'=>'Select...']); ?>  
+                                      <?php echo $this->Form->control('opening_time_mm',['label' => false,'class' => 'form-control input-small','autocomplete'=>'off','options'=>$optionTimeSeconds,'value'=>$ii]); ?>  
                                     </td>
                                 </tr>
                             </table>
@@ -288,7 +291,7 @@ label{
                         </div>
                         <div class="col-md-4"> 
                             <?php
-                            for ($i=1; $i <= 23; $i++) { 
+                            for ($i=0; $i <= 23; $i++) { 
                                 if($i<10){
                                     $optionTimes['0'.$i]='0'.$i;  
                                 }
@@ -297,19 +300,24 @@ label{
                                 }
      
                             }
-                            for ($ix=1; $ix <= 60; $ix++) {   
+                            for ($ix=0; $ix <= 60; $ix++) {   
                                 if($ix<10)
                                     $optionTimeSeconds['0'.$ix]='0'.$ix; 
                                 else 
                                     $optionTimeSeconds[$ix]=$ix; 
-                            }                        ?>
+                            } 
+                            $hhs=date('h',strtotime($dutySlip->closing_time));                
+                            $iis=date('i',strtotime($dutySlip->closing_time));
+
+                            ?>
                             <table width="100%">
                                 <tr>
                                     <td>
-                                      <?php echo $this->Form->control('closing_time_hh',['label' => false,'class' => 'form-control input-small','placeholder'=>'GST Number','autocomplete'=>'off','options'=>$optionTimes,'empty'=>'Select...']); ?>  
+                                      <?php echo $this->Form->control('closing_time_hh',['label' => false,'class' => 'form-control input-small','placeholder'=>'GST Number','autocomplete'=>'off','options'=>$optionTimes,'value'=>$hhs]); ?>  
                                     </td>
                                     <td>
-                                      <?php echo $this->Form->control('closing_time_mm',['label' => false,'class' => 'form-control input-small','placeholder'=>'GST Number','autocomplete'=>'off','options'=>$optionTimeSeconds,'empty'=>'Select...']); ?>  
+                                    <?php echo $this->Form->control('closing_time_mm',['label' => false,'class' => 'form-control input-small','placeholder'=>'GST Number','autocomplete'=>'off','options'=>$optionTimeSeconds,'value'=>$iis]); 
+                                    ?>  
                                     </td>
                                 </tr>
                             </table>

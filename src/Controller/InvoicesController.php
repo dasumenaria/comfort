@@ -374,9 +374,11 @@ class InvoicesController extends AppController
                                             $days++;
                                             $var_first_stamp=($date_to)." ".$closing_time;
                                             $var_second_stamp=($date_from)." ".$opening_time; 
-                                            $row_time_diff=timediff($var_first_stamp,$var_second_stamp);
-                                            $row_min_diff=time_to_sec($row_time_diff)/(60*60);
-                                            $total_time_of_car= round($row_min_diff);
+ 
+                                            $row_time_diff=$this->timeDifference($var_first_stamp,$var_second_stamp); 
+                                            $row_min_diff=$this->timetosec($row_time_diff)/(60*60);
+                                            $total_time_of_car=round($row_time_diff);
+
                                             $total_freerun = $minimum_chg_hourly*$days;
                                             $extra_hours=$total_time_of_car-($total_freerun);
                                             if($extra_hours>0)
@@ -764,9 +766,11 @@ class InvoicesController extends AppController
                                     $days++;
                                     $var_first_stamp=($date_to)." ".$closing_time;
                                     $var_second_stamp=($date_from)." ".$opening_time; 
-                                    $row_time_diff=timediff($var_first_stamp,$var_second_stamp);
-                                    $row_min_diff=time_to_sec($row_time_diff)/(60*60);
-                                    $total_time_of_car= round($row_min_diff);
+ 
+                                    $row_time_diff=$this->timeDifference($var_first_stamp,$var_second_stamp); 
+                                    $row_min_diff=$this->timetosec($row_time_diff)/(60*60);
+                                    $total_time_of_car=round($row_time_diff);
+
                                     $total_freerun = $minimum_chg_hourly*$days;
                                     $extra_hours=$total_time_of_car-($total_freerun);
                                     if($extra_hours>0)
@@ -1004,5 +1008,73 @@ class InvoicesController extends AppController
             $RecordShow=1;
         }
         $this->set(compact('RecordShow','waveoffds','date_from','date_to'));
+    }
+
+    function timeDifference($time_1, $time_2, $limit = null)
+    {
+        $val_1 = new DateTime($time_1);
+        $val_2 = new DateTime($time_2);
+
+        $interval = $val_1->diff($val_2);
+
+        $output = array(
+            "year" => $interval->y,
+            "month" => $interval->m,
+            "day" => $interval->d,
+            "hour" => $interval->h,
+            "minute" => $interval->i,
+            "second" => $interval->s
+        );
+        $totalHH ="00";
+        $totalMM ="00";
+        $totalSS ="00";
+        if($output['day']>0){
+           $dayintohours = $interval->d*24;
+           $totalHH+=$dayintohours;
+        }
+        if($output['hour']>0){
+           $hours = $interval->h;
+           $totalHH+=$hours;
+        }
+        
+        if($output['minute']>0){
+            $minit = $interval->i;
+
+            if($minit<10){
+                $minit ="0".$minit;
+            }
+            $totalMM=$minit;
+        }
+        if($output['second']>0){
+            $sec = $interval->s;
+            if($sec<10){
+                $sec ="0".$sec;
+            } 
+            $totalSS=$sec;
+        }  
+        return $totalHH.':'.$totalMM.':'.$totalSS; 
+    }
+    
+    function timetosec($datetime)
+    {
+       $timeArray = explode(':',$datetime);
+       $hours = $timeArray[0]; 
+       $minit = $timeArray[1];
+       $sec = $timeArray[2];
+
+        $totalTIme =0;
+        if($hours>0){
+           $dayintohours = $hours*(60*60);
+           $totalTIme+=$dayintohours;
+        }
+        if($minit>0){
+           $hours = $minit*60;
+           $totalTIme+=$hours;
+        }
+        if($sec>0){
+           $secs = $sec;
+           $totalTIme+=$secs;
+        }
+        return $totalTIme;
     }
 }

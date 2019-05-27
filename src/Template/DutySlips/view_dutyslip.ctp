@@ -90,17 +90,64 @@ td{
                            <td><strong>Opening Time</strong></td>
                            <td><?php echo date('H:i:s',strtotime($dutySlip->opening_time)); ?></td>
                            <td><strong>Closing Time</strong></td>
-                           <td><?php echo date('H:i:s',strtotime($dutySlip->closing_time)); ?></td>
+                           <td>
+                              <?php if($dutySlip->closing_time != '00:00:00') 
+                              { 
+                                echo date('H:i:s',strtotime($dutySlip->closing_time));
+                              } 
+                              else { 
+                                  echo '-'; 
+                              } ?>
+                          </td>
                            <td><strong>Total Hours</strong></td>
-                           <td><?php echo $time_duration; ?></td>
+                           <td><?php if($dutySlip->closing_time != '00:00:00')
+                              { 
+                                echo $time_duration; 
+                              }
+                              else 
+                              { 
+                                echo '-';  
+                              }
+                             ?>
+                           </td>
                         </tr>
                         <tr>
                            <td><strong>Opening KM</strong></td>
-                           <td><?php echo $dutySlip->opening_km; ?></td>
+                           <td>
+                            <?php if($dutySlip->opening_km != 0)
+                              { 
+                                echo $dutySlip->opening_km; 
+                              }
+                              else 
+                              { 
+                                echo '-';  
+                              }
+                            ?>
+                           </td>
                            <td><strong>Closing KM</strong></td>
-                           <td><?php echo $dutySlip->closing_km; ?></td>
+                           <td> 
+                            <?php if($dutySlip->closing_km != 0)
+                              { 
+                                echo $dutySlip->closing_km; 
+                              }
+                              else 
+                              { 
+                                echo '-';  
+                              }
+                            ?>
+                           </td>
                            <td><strong>Total Run</strong></td>
-                           <td><?php echo $total_km; ?></td>
+                           <td> 
+                            <?php if($dutySlip->closing_km != 0)
+                              { 
+                                echo $total_km; 
+                              }
+                              else 
+                              { 
+                                echo '-';  
+                              }
+                            ?>
+                           </td>
                         </tr>
                         <tr>
                            <td><strong>Guest Comment</strong></td>
