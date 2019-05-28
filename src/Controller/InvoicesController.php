@@ -101,8 +101,8 @@ class InvoicesController extends AppController
 		$company_id=1;
 		$url=$this->request->here();
 		$url=parse_url($url,PHP_URL_QUERY);
-	    $from=$this->request->query('from_date');
-		$to=$this->request->query('to_date');
+	    $from=$this->request->getQuery('from_date');
+		$to=$this->request->getQuery('to_date');
 		
 		$where=[];
 		

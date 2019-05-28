@@ -45,10 +45,10 @@ table td {
 				<form method="get">
 						<div class="row">
 							<div class="col-md-3">
-								<?php echo $this->Form->control('from_date',['autocomplete'=>'off','class'=>'form-control input-sm date-picker from_date','data-date-format'=>'dd-mm-yyyy', 'label'=>false,'placeholder'=>'DD-MM-YYYY','type'=>'text','value'=>date('d-m-Y',strtotime($from)),'required'=>'required']); ?>
+								<?php echo $this->Form->control('from_date',['autocomplete'=>'off','class'=>'form-control input-sm datepickers from_date','data-date-format'=>'dd-mm-yyyy', 'label'=>false,'placeholder'=>'DD-MM-YYYY','type'=>'text','value'=>date('d-m-Y',strtotime($from)),'required'=>'required']); ?>
 							</div>
 							<div class="col-md-3">
-								<?php echo $this->Form->control('to_date',['autocomplete'=>'off','class'=>'form-control input-sm date-picker to_date','data-date-format'=>'dd-mm-yyyy', 'label'=>false,'placeholder'=>'DD-MM-YYYY','type'=>'text','value'=>date('d-m-Y',strtotime($to)),'required'=>'required']); ?>
+								<?php echo $this->Form->control('to_date',['autocomplete'=>'off','class'=>'form-control input-sm datepickers to_date','data-date-format'=>'dd-mm-yyyy', 'label'=>false,'placeholder'=>'DD-MM-YYYY','type'=>'text','value'=>date('d-m-Y',strtotime($to)),'required'=>'required']); ?>
 							</div>
 							<div class="col-md-3">
 								<span class="input-group-btn">
