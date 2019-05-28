@@ -1012,8 +1012,8 @@ class InvoicesController extends AppController
 
     function timeDifference($time_1, $time_2, $limit = null)
     {
-        $val_1 = new DateTime($time_1);
-        $val_2 = new DateTime($time_2);
+        $val_1 = new \DateTime($time_1);
+        $val_2 = new \DateTime($time_2);
 
         $interval = $val_1->diff($val_2);
 

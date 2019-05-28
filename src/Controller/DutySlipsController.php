@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use App\Controller\DateTime;
+//use App\Controller\DateTime;
 
 /**
  * DutySlips Controller
@@ -96,7 +96,6 @@ class DutySlipsController extends AppController
         $dutySlip = $this->DutySlips->get($id, [
             'contain' => ['Services', 'CarTypes', 'Cars', 'Customers', 'Employees', 'Logins', 'Counters']
         ]);
-        //pr($dutySlip);exit;
 
         $this->set('dutySlip', $dutySlip);
     }
@@ -143,8 +142,8 @@ class DutySlipsController extends AppController
      */
     function timeDifference($time_1, $time_2, $limit = null)
     {
-        $val_1 = new DateTime($time_1);
-        $val_2 = new DateTime($time_2);
+        $val_1 = new \DateTime($time_1);
+        $val_2 = new \DateTime($time_2);
 
         $interval = $val_1->diff($val_2);
 
@@ -525,6 +524,7 @@ class DutySlipsController extends AppController
                         $var_second_stamp=$dutySlip->date_from." ".$opening_time;
 
                         $row_time_diff=$this->timeDifference($var_first_stamp,$var_second_stamp); 
+                        
                         $row_min_diff=$this->timetosec($row_time_diff)/(60*60);
                         $total_time_of_car=round($row_time_diff);
                         
