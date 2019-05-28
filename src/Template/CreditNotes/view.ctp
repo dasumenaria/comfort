@@ -1,89 +1,104 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\CreditNote $creditNote
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Credit Note'), ['action' => 'edit', $creditNote->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Credit Note'), ['action' => 'delete', $creditNote->id], ['confirm' => __('Are you sure you want to delete # {0}?', $creditNote->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Credit Notes'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Credit Note'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Financial Years'), ['controller' => 'FinancialYears', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Financial Year'), ['controller' => 'FinancialYears', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Credit Note Rows'), ['controller' => 'CreditNoteRows', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Credit Note Row'), ['controller' => 'CreditNoteRows', 'action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="creditNotes view large-9 medium-8 columns content">
-    <h3><?= h($creditNote->id) ?></h3>
-    <table class="vertical-table">
+<style>
+
+@media print{
+    .maindiv{
+        width:100% !important;
+        margin:auto;
+    }   
+    .hidden-print{
+        display:none;
+    }
+}
+
+</style>
+<style type="text/css" media="print">
+@page {
+    width:100%;
+    size: auto;   /* auto is the initial value */
+    margin: 0px 0px 0px 0px;  /* this affects the margin in the printer settings */
+}
+.maindiv {
+border:solid 1px #c7c7c7;background-color: #FFF;padding: 10px;margin: auto;width: 100%;font-size: 12px;
+}
+</style>
+ 
+<div  class="maindiv" style="border:solid 1px #c7c7c7;background-color: #FFF;padding: 10px;margin: auto;width:75%;font-size: 12px;">    
+    <table width="100%"  cellpadding="0" cellspacing="0"  style="border-collapse:collapse;">
         <tr>
-            <th scope="row"><?= __('Financial Year') ?></th>
-            <td><?= $creditNote->has('financial_year') ? $this->Html->link($creditNote->financial_year->id, ['controller' => 'FinancialYears', 'action' => 'view', $creditNote->financial_year->id]) : '' ?></td>
+            <td> 
+                <?php echo $this->Html->image('/img/logo.jpg', ['style'=>'float:left; border:2px solid #2E3192;']) ?>
+            </td>
+            <th>CREDIT NOTE VOUCHER</th>
+            <td style="float:right;color:#0872BA;">
+                <span style="font-size:16px !important;"><b>Comfort Travels &amp; Tours</b></span>
+                <br/><span>"Akruti", 4-New Fatehpura, Opp. Saheliyo ki Badi,</span><br/>
+                <span>UDAIPUR-313004 Fax: +91-294-2422131</span><br/>
+                <span><i class="icon-phone"></i> +91-294-2411661/62</span> 
+            </td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Status') ?></th>
-            <td><?= h($creditNote->status) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($creditNote->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Voucher No') ?></th>
-            <td><?= $this->Number->format($creditNote->voucher_no) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Company Id') ?></th>
-            <td><?= $this->Number->format($creditNote->company_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Transaction Date') ?></th>
-            <td><?= h($creditNote->transaction_date) ?></td>
+            <td height="35px" colspan="3">
+            <div style="border:solid 2px #0685a8;margin-bottom:5px;margin-top: 5px;"></div>
+            </td>
         </tr>
     </table>
-    <div class="row">
-        <h4><?= __('Narration') ?></h4>
-        <?= $this->Text->autoParagraph(h($creditNote->narration)); ?>
-    </div>
-    <div class="related">
-        <h4><?= __('Related Credit Note Rows') ?></h4>
-        <?php if (!empty($creditNote->credit_note_rows)): ?>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Credit Note Id') ?></th>
-                <th scope="col"><?= __('Cr Dr') ?></th>
-                <th scope="col"><?= __('Ledger Id') ?></th>
-                <th scope="col"><?= __('Debit') ?></th>
-                <th scope="col"><?= __('Credit') ?></th>
-                <th scope="col"><?= __('Mode Of Payment') ?></th>
-                <th scope="col"><?= __('Cheque No') ?></th>
-                <th scope="col"><?= __('Cheque Date') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
+    <table width="100%">
+        <tr>
+            <td width="50%" valign="top" align="left">
+                <table>
+                    <tr>
+                        <td>Voucher No</td>
+                        <td width="20" align="center">:</td>
+                        <td><?= h(str_pad($creditNotes->voucher_no, 4, '0', STR_PAD_LEFT)) ?></td>
+                    </tr>
+                </table>
+            </td>
+            <td width="50%" valign="top" align="right">
+                <table>
+                    <tr>
+                        <td>Transaction Date</td>
+                        <td width="20" align="center">:</td>
+                        <td><?= h(date("d-m-Y",strtotime($creditNotes->transaction_date))) ?></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+        Narration: <?php echo $creditNotes->narration;?>
+        <br/><br/>
+        <table width="100%" class="table" style="font-size:12px">
+            <tr style="background-color:#F0EFED;">
+                <th colspan="3"><?= __('Ledger A/C') ?></th>
+                <th><?= __('Dr') ?></th>
+                <th><?= __('Cr') ?></th>
             </tr>
-            <?php foreach ($creditNote->credit_note_rows as $creditNoteRows): ?>
+            <?php foreach($creditNotes->credit_note_rows as $credit_note_row)
+                { 
+                    @$total_debit+=$credit_note_row->debit;
+                    @$total_credit+=$credit_note_row->credit; ?>
+                    <tr>
+                    <td colspan="3" style="text-align:left"><b><?=$credit_note_row->ledger->name?></b>
+                        <div class="window" style="margin:auto;"><table width="50%">
+                            <?php foreach($credit_note_row->reference_details as $refdata)
+                            {?><tr>
+                            <td style="text-align:left"><?=$refdata->type?></td>
+                            <td style="text-align:left"><?=$refdata->ref_name?></td>
+                            <?php if($refdata->debit){ ?>
+                            <td class="rightAligntextClass"><?=$refdata->debit?> Dr</td><?php } else {?>
+                            <td class="rightAligntextClass"><?=$refdata->credit?> Cr</td><?php } ?></tr>
+                            <?php } ?></table>
+                        </div>
+                    </td>
+                    <td ><?=$credit_note_row->debit?></td>
+                    <td><?=$credit_note_row->credit?></td>
+                    </tr>
+            <?php } ?>
             <tr>
-                <td><?= h($creditNoteRows->id) ?></td>
-                <td><?= h($creditNoteRows->credit_note_id) ?></td>
-                <td><?= h($creditNoteRows->cr_dr) ?></td>
-                <td><?= h($creditNoteRows->ledger_id) ?></td>
-                <td><?= h($creditNoteRows->debit) ?></td>
-                <td><?= h($creditNoteRows->credit) ?></td>
-                <td><?= h($creditNoteRows->mode_of_payment) ?></td>
-                <td><?= h($creditNoteRows->cheque_no) ?></td>
-                <td><?= h($creditNoteRows->cheque_date) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'CreditNoteRows', 'action' => 'view', $creditNoteRows->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'CreditNoteRows', 'action' => 'edit', $creditNoteRows->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'CreditNoteRows', 'action' => 'delete', $creditNoteRows->id], ['confirm' => __('Are you sure you want to delete # {0}?', $creditNoteRows->id)]) ?>
-                </td>
+            
+            <td colspan="3" align="right"></td>
+            
+            <td> <?php echo $total_debit;?></td>
+            <td> <?php echo $total_credit;?></td>
             </tr>
-            <?php endforeach; ?>
         </table>
-        <?php endif; ?>
     </div>
-</div>
