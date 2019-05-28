@@ -5,7 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-
+use ArrayObject;
 /**
  * CreditNoteRows Model
  *
@@ -45,6 +45,11 @@ class CreditNoteRowsTable extends Table
             'foreignKey' => 'ledger_id',
             'joinType' => 'INNER'
         ]);
+		
+		$this->hasMany('ReferenceDetails', [
+            'foreignKey' => 'credit_note_row_id',
+			'saveStrategy'=>'replace'
+        ]);
     }
 
     /**
@@ -58,36 +63,6 @@ class CreditNoteRowsTable extends Table
         $validator
             ->integer('id')
             ->allowEmptyString('id', 'create');
-
-        $validator
-            ->scalar('cr_dr')
-            ->maxLength('cr_dr', 10)
-            ->requirePresence('cr_dr', 'create')
-            ->allowEmptyString('cr_dr', false);
-
-        $validator
-            ->decimal('debit')
-            ->allowEmptyString('debit');
-
-        $validator
-            ->decimal('credit')
-            ->allowEmptyString('credit');
-
-        $validator
-            ->scalar('mode_of_payment')
-            ->maxLength('mode_of_payment', 30)
-            ->requirePresence('mode_of_payment', 'create')
-            ->allowEmptyString('mode_of_payment', false);
-
-        $validator
-            ->scalar('cheque_no')
-            ->maxLength('cheque_no', 30)
-            ->requirePresence('cheque_no', 'create')
-            ->allowEmptyString('cheque_no', false);
-
-        $validator
-            ->date('cheque_date')
-            ->allowEmptyDate('cheque_date');
 
         return $validator;
     }

@@ -32,6 +32,8 @@ class ReferenceDetailsFixture extends TestFixture
         'invoice_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'opening_balance' => ['type' => 'string', 'length' => 10, 'null' => true, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'due_days' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'credit_note_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'credit_note_row_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
         ],
@@ -53,7 +55,7 @@ class ReferenceDetailsFixture extends TestFixture
                 'id' => 1,
                 'customer_id' => 1,
                 'supplier_id' => 1,
-                'transaction_date' => '2019-05-17',
+                'transaction_date' => '2019-05-28',
                 'company_id' => 1,
                 'ledger_id' => 1,
                 'type' => 'Lorem ipsum dolor sit amet',
@@ -66,7 +68,9 @@ class ReferenceDetailsFixture extends TestFixture
                 'journal_voucher_row_id' => 1,
                 'invoice_id' => 1,
                 'opening_balance' => 'Lorem ip',
-                'due_days' => 1
+                'due_days' => 1,
+                'credit_note_id' => 1,
+                'credit_note_row_id' => 1
             ],
         ];
         parent::init();

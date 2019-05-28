@@ -31,17 +31,9 @@ class ReferenceDetailsTableTest extends TestCase
         'app.Receipts',
         'app.ReceiptRows',
         'app.PaymentRows',
-        'app.CreditNotes',
-        'app.CreditNoteRows',
-        'app.DebitNotes',
-        'app.DebitNoteRows',
-        'app.SalesVoucherRows',
-        'app.PurchaseVoucherRows',
         'app.JournalVoucherRows',
-        'app.SaleReturns',
-        'app.PurchaseInvoices',
-        'app.PurchaseReturns',
-        'app.SalesInvoices'
+        'app.Invoices',
+        'app.CreditNoteRows'
     ];
 
     /**

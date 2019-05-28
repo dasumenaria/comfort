@@ -31,15 +31,7 @@ class CreditNoteRow extends Entity
      * @var array
      */
     protected $_accessible = [
-        'credit_note_id' => true,
-        'cr_dr' => true,
-        'ledger_id' => true,
-        'debit' => true,
-        'credit' => true,
-        'mode_of_payment' => true,
-        'cheque_no' => true,
-        'cheque_date' => true,
-        'credit_note' => true,
-        'ledger' => true
+        '*' => true,
+        'id' => false
     ];
 }
