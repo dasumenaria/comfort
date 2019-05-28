@@ -1,59 +1,100 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\DebitNote[]|\Cake\Collection\CollectionInterface $debitNotes
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Debit Note'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Financial Years'), ['controller' => 'FinancialYears', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Financial Year'), ['controller' => 'FinancialYears', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Debit Note Rows'), ['controller' => 'DebitNoteRows', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Debit Note Row'), ['controller' => 'DebitNoteRows', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="debitNotes index large-9 medium-8 columns content">
-    <h3><?= __('Debit Notes') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('financial_year_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('voucher_no') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('company_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('transaction_date') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('status') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($debitNotes as $debitNote): ?>
-            <tr>
-                <td><?= $this->Number->format($debitNote->id) ?></td>
-                <td><?= $debitNote->has('financial_year') ? $this->Html->link($debitNote->financial_year->id, ['controller' => 'FinancialYears', 'action' => 'view', $debitNote->financial_year->id]) : '' ?></td>
-                <td><?= $this->Number->format($debitNote->voucher_no) ?></td>
-                <td><?= $this->Number->format($debitNote->company_id) ?></td>
-                <td><?= h($debitNote->transaction_date) ?></td>
-                <td><?= h($debitNote->status) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $debitNote->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $debitNote->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $debitNote->id], ['confirm' => __('Are you sure you want to delete # {0}?', $debitNote->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+ 
+<style>
+.noBorder{
+    border:none;
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+     vertical-align: top !important; 
+}
+</style>
+<section class="content">
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary"> 
+            <div class="box-header with-border">
+                <i class="fa fa-plus"></i>Debit Note Voucher
+            </div>
+            <div class="box-body">
+				<form method="GET" id="">
+					<div class="row">
+						<!--<div class="col-md-2">
+							<?php echo $this->Form->input('search',['class'=>'form-control input-sm pull-right','label'=>false, 'placeholder'=>'Search','autofocus'=>'autofocus','value'=> @$search]);
+							?>
+						</div>
+						-->
+						<div class='col-md-2'>
+						    	<?php echo $this->Form->input('voucher_no',['class'=>'form-control','label'=>false, 'placeholder'=>'Voucher.No','value'=> @$voucher_no]);
+								?>
+						</div>
+							<div class="col-md-2">
+								<div class="form-group">
+									<?= $this->Form->control('From',['class'=>'form-control date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','placeholder'=>'From']);?>
+									<span class="help-block"></span>
+								</div>
+							</div>
+						<div class="col-md-2">
+							<div class="form-group">
+								 <?= $this->Form->control('To',['class'=>'form-control date-picker','data-date-format'=>'dd-mm-yyyy','label'=>false,'type'=>'text','placeholder'=>'To']); ?>
+								<span class="help-block"></span>
+							</div>
+						</div>
+
+				
+						<div class="col-md-1">
+							<button type="submit" class="go btn blue-madison input-sm">Go</button>
+						</div> 
+					</div>
+				</form>
+				<div class="table-responsive">
+					<?php $page_no=$this->Paginator->current('DebitNotes');
+					 $page_no=($page_no-1)*100; ?>
+					<table class="table table-bordered table-hover table-condensed">
+						<thead>
+							<tr>
+								<th scope="col"><?= __('Sr') ?></th>
+								<th scope="col"><?= $this->Paginator->sort('voucher_no') ?></th>
+								<th scope="col"><?= $this->Paginator->sort('party') ?></th>
+								<th scope="col"><?= $this->Paginator->sort('transaction_date') ?></th>
+								<th scope="col"><?= $this->Paginator->sort('amount') ?></th>
+								<th scope="col" class="actions"><?= __('Actions') ?></th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($debitNotes as $debit_note): 
+							if($debit_note->status == 'cancel') { ?>
+							 <tr style="background-color:#FE5E5E ;">
+							<?php } else { ?>
+							<tr> <?php } ?>
+								
+									<td><?= h(++$page_no) ?></td>
+									<td><?= h(str_pad($debit_note->voucher_no, 4, '0', STR_PAD_LEFT)) ?></td>
+									<td><?= h($debit_note->debit_note_rows[0]->ledger->name) ?></td>
+									<td><?= h(date("d-m-Y",strtotime($debit_note->transaction_date))) ?></td>
+									<td><?= h($debit_note->debit_note_rows[0]->debit) ?></td>
+									<td class="actions">
+										<?= $this->Html->link(__('View'), ['action' => 'view', $debit_note->id]) ?>
+									
+										<!--<?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $debit_note->id], ['confirm' => __('Are you sure you want to delete # {0}?', $debit_note->id)]) ?>-->
+									</td>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				</div>
+				<div class="paginator">
+					<ul class="pagination">
+						<?= $this->Paginator->first('<< ' . __('first')) ?>
+						<?= $this->Paginator->prev('< ' . __('previous')) ?>
+						<?= $this->Paginator->numbers() ?>
+						<?= $this->Paginator->next(__('next') . ' >') ?>
+						<?= $this->Paginator->last(__('last') . ' >>') ?>
+					</ul>
+					<p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+				</div>
+            </div>
+        </div>
     </div>
-</div>
+</div> 
+</section>
+
+

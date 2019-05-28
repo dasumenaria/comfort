@@ -49,6 +49,11 @@ class DebitNotesTable extends Table
         $this->hasMany('DebitNoteRows', [
             'foreignKey' => 'debit_note_id'
         ]);
+		
+		$this->hasMany('AccountingEntries', [
+            'foreignKey' => 'debit_note_id',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**
@@ -63,7 +68,7 @@ class DebitNotesTable extends Table
             ->integer('id')
             ->allowEmptyString('id', 'create');
 
-        $validator
+        /* $validator
             ->integer('voucher_no')
             ->requirePresence('voucher_no', 'create')
             ->allowEmptyString('voucher_no', false);
@@ -82,7 +87,7 @@ class DebitNotesTable extends Table
             ->scalar('status')
             ->maxLength('status', 10)
             ->requirePresence('status', 'create')
-            ->allowEmptyString('status', false);
+            ->allowEmptyString('status', false); */
 
         return $validator;
     }
@@ -97,7 +102,7 @@ class DebitNotesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['financial_year_id'], 'FinancialYears'));
-        $rules->add($rules->existsIn(['company_id'], 'Companies'));
+        //$rules->add($rules->existsIn(['company_id'], 'Companies'));
 
         return $rules;
     }

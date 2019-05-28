@@ -45,6 +45,11 @@ class DebitNoteRowsTable extends Table
             'foreignKey' => 'ledger_id',
             'joinType' => 'INNER'
         ]);
+		
+		$this->hasMany('ReferenceDetails', [
+            'foreignKey' => 'debit_note_row_id',
+			'saveStrategy'=>'replace'
+        ]);
     }
 
     /**
@@ -59,7 +64,7 @@ class DebitNoteRowsTable extends Table
             ->integer('id')
             ->allowEmptyString('id', 'create');
 
-        $validator
+     /*    $validator
             ->scalar('cr_dr')
             ->maxLength('cr_dr', 10)
             ->requirePresence('cr_dr', 'create')
@@ -87,7 +92,7 @@ class DebitNoteRowsTable extends Table
 
         $validator
             ->date('cheque_date')
-            ->allowEmptyDate('cheque_date');
+            ->allowEmptyDate('cheque_date'); */
 
         return $validator;
     }
