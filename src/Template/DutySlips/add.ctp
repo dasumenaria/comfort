@@ -57,7 +57,7 @@ label{
                         <label class="control-label">Guest Name</label>
                     </div>
                     <div class="col-md-4">
-                        <?php echo $this->Form->control('guest_name',['label' => false,'type'=>'text','class' => 'form-control','placeholder'=>'Guest Name','autocomplete'=>'off']); ?> 
+                        <?php echo $this->Form->control('guest_name',['label' => false,'type'=>'text','class' => 'form-control','placeholder'=>'Guest Name','autocomplete'=>'off','required']); ?> 
                     </div>
                 </div>
                 <span class="help-block"></span> 
@@ -155,7 +155,7 @@ label{
                             <label class="control-label">Date </label>
                         </div>
                         <div class="col-md-4">
-                            <?php echo $this->Form->control('service_date',['label' => false,'class' => 'form-control date-picker','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','type'=>'text']); ?> 
+                            <?php echo $this->Form->control('service_date',['label' => false,'class' => 'form-control datepickers','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','type'=>'text']); ?> 
                         </div>
                     </div>
                 </div>
@@ -178,7 +178,7 @@ label{
                             <label class="control-label">Driver Name </label>
                         </div>
                         <div class="col-md-4">
-                            <?php echo $this->Form->control('employee_id',['label' => false,'class' => 'form-control select2 driver','empty'=>'Select...','options'=>$employees,'autocomplete'=>'off']); ?> 
+                            <?php echo $this->Form->control('employee_id',['label' => false,'class' => 'form-control select2 driver','empty'=>'Select...','options'=>$employees,'autocomplete'=>'off','required']); ?> 
                         </div>
                         <div class="col-md-4 driverSHow" style ="display:none">
                             <?php echo $this->Form->control('temp_driver_name',['label' => false,'class' => 'form-control','type'=>'text','placeholder'=>'Enter driver name','autocomplete'=>'off']); ?>
@@ -254,7 +254,7 @@ label{
                         </div>
                         <div class="col-md-4"> 
                             <?php
-                            for ($i=1; $i <= 23; $i++) { 
+                            for ($i=0; $i <= 23; $i++) { 
                                 if($i<10){
                                     $optionTimes['0'.$i]='0'.$i;  
                                 }
@@ -263,7 +263,7 @@ label{
                                 }
      
                             }
-                            for ($ix=1; $ix <= 60; $ix++) {   
+                            for ($ix=0; $ix <= 60; $ix++) {   
                                 if($ix<10)
                                     $optionTimeSeconds['0'.$ix]='0'.$ix; 
                                 else 
@@ -272,10 +272,10 @@ label{
                             <table width="100%">
                                 <tr>
                                     <td>
-                                      <?php echo $this->Form->control('opening_time_hh',['label' => false,'class' => 'form-control input-small','autocomplete'=>'off','options'=>$optionTimes,'empty'=>'Select...']); ?>  
+                                      <?php echo $this->Form->control('opening_time_hh',['label' => false,'class' => 'form-control input-small','autocomplete'=>'off','options'=>$optionTimes]); ?>  
                                     </td>
                                     <td>
-                                      <?php echo $this->Form->control('opening_time_mm',['label' => false,'class' => 'form-control input-small','autocomplete'=>'off','options'=>$optionTimeSeconds,'empty'=>'Select...']); ?>  
+                                      <?php echo $this->Form->control('opening_time_mm',['label' => false,'class' => 'form-control input-small','autocomplete'=>'off','options'=>$optionTimeSeconds]); ?>  
                                     </td>
                                 </tr>
                             </table>
@@ -289,7 +289,7 @@ label{
                         </div>
                         <div class="col-md-4"> 
                             <?php
-                            for ($i=1; $i <= 23; $i++) { 
+                            for ($i=0; $i <= 23; $i++) { 
                                 if($i<10){
                                     $optionTimes['0'.$i]='0'.$i;  
                                 }
@@ -298,19 +298,19 @@ label{
                                 }
      
                             }
-                            for ($ix=1; $ix <= 60; $ix++) {   
+                            for ($ix=0; $ix <= 60; $ix++) {   
                                 if($ix<10)
                                     $optionTimeSeconds['0'.$ix]='0'.$ix; 
                                 else 
                                     $optionTimeSeconds[$ix]=$ix; 
-                            }                        ?>
+                            }                     ?>
                             <table width="100%">
                                 <tr>
                                     <td>
-                                      <?php echo $this->Form->control('closing_time_hh',['label' => false,'class' => 'form-control input-small','placeholder'=>'GST Number','autocomplete'=>'off','options'=>$optionTimes,'empty'=>'Select...']); ?>  
+                                      <?php echo $this->Form->control('closing_time_hh',['label' => false,'class' => 'form-control input-small','placeholder'=>'GST Number','autocomplete'=>'off','options'=>$optionTimes]); ?>  
                                     </td>
                                     <td>
-                                      <?php echo $this->Form->control('closing_time_mm',['label' => false,'class' => 'form-control input-small','placeholder'=>'GST Number','autocomplete'=>'off','options'=>$optionTimeSeconds,'empty'=>'Select...']); ?>  
+                                      <?php echo $this->Form->control('closing_time_mm',['label' => false,'class' => 'form-control input-small','placeholder'=>'GST Number','autocomplete'=>'off','options'=>$optionTimeSeconds]); ?>  
                                     </td>
                                 </tr>
                             </table>
@@ -493,7 +493,7 @@ $(document).ready(function() {
         var selected = $('option:selected', this).val();
         var res = selected.split(" ");
         var other = res[0];
-        if(other == 'Other'){
+        if(other == 'Others'){
             $('.driverSHow').show();
         }
         else{

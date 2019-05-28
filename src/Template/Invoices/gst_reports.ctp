@@ -52,7 +52,7 @@ table td {
 							</div>
 							<div class="col-md-3">
 								<span class="input-group-btn">
-								<button class="btn blue" type="submit">Go</button>
+								<button class="btn btn-sm btn-info" type="submit">Go</button>
 								</span>
 							</div>	
 						</div>

@@ -44,6 +44,7 @@ class Menu extends Entity
         'query_string' => true,
         'target' => true,
         'parent_menu' => true,
-        'child_menus' => true
+        'child_menus' => true,
+        'is_order' => true
     ];
 }

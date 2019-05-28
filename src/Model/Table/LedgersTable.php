@@ -79,57 +79,7 @@ class LedgersTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmptyString('id', 'create');
-
-        $validator
-            ->scalar('name')
-            ->maxLength('name', 255)
-            ->requirePresence('name', 'create')
-            ->allowEmptyString('name', false);
-
-        $validator
-            ->boolean('freeze')
-            ->requirePresence('freeze', 'create')
-            ->allowEmptyString('freeze', false);
-
-        $validator
-            ->decimal('tax_percentage')
-            ->requirePresence('tax_percentage', 'create')
-            ->allowEmptyString('tax_percentage', false);
-
-        $validator
-            ->scalar('gst_type')
-            ->maxLength('gst_type', 10)
-            ->allowEmptyString('gst_type');
-
-        $validator
-            ->scalar('input_output')
-            ->maxLength('input_output', 10)
-            ->allowEmptyString('input_output');
-
-        $validator
-            ->scalar('bill_to_bill_accounting')
-            ->maxLength('bill_to_bill_accounting', 10)
-            ->allowEmptyString('bill_to_bill_accounting', false);
-
-        $validator
-            ->integer('round_off')
-            ->requirePresence('round_off', 'create')
-            ->allowEmptyString('round_off', false);
-
-        $validator
-            ->integer('cash')
-            ->requirePresence('cash', 'create')
-            ->allowEmptyString('cash', false);
-
-        $validator
-            ->integer('flag')
-            ->requirePresence('flag', 'create')
-            ->allowEmptyString('flag', false);
-
-        $validator
-            ->integer('default_credit_days')
-            ->allowEmptyString('default_credit_days', false);
+            ->allowEmptyString('id', 'create'); 
 
         return $validator;
     }
@@ -144,11 +94,6 @@ class LedgersTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['accounting_group_id'], 'AccountingGroups'));
-        $rules->add($rules->existsIn(['company_id'], 'Companies'));
-        $rules->add($rules->existsIn(['supplier_id'], 'Suppliers'));
-        $rules->add($rules->existsIn(['customer_id'], 'Customers'));
-        $rules->add($rules->existsIn(['gst_figure_id'], 'GstFigures'));
-
-        return $rules;
+         return $rules;
     }
 }

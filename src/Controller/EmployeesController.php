@@ -126,6 +126,14 @@ class EmployeesController extends AppController
             if ($this->Employees->save($employee)) {
                 $this->Flash->success(__('The employee has been saved.'));
 
+                $company_id=1;
+                $ledgers = $this->Employees->Ledgers->newEntity();
+                $this->request->data['accounting_group_id'] = 31; // Staff Ac
+                $this->request->data['company_id'] = $company_id; 
+                $this->request->data['employee_id'] = $employee->id; 
+                $ledgers = $this->Employees->Ledgers->patchEntity($ledgers, $this->request->getData());
+                $this->Employees->Ledgers->save($ledgers); 
+
                 return $this->redirect(['action' => 'add']);
             }
             $this->Flash->error(__('The employee could not be saved. Please, try again.'));
@@ -197,6 +205,11 @@ class EmployeesController extends AppController
             }
             
             if ($this->Employees->save($employee)) {
+                $query = $this->Employees->Ledgers->query(); 
+                $query->update()->set(['name'=>$this->request->getData('name')])
+                    ->where(['employee_id' => $id])
+                    ->execute();
+
                 $this->Flash->success(__('The employee has been saved.'));
 
                 return $this->redirect(['action' => 'index','edt']);

@@ -107,7 +107,7 @@ class AppController extends Controller
 
         if(!empty($userRightsIds))
         {
-            $menus =  $this->Menus->find('threaded')->where(['id IN'=>$userRightsIds,'is_hidden'=>'N']);
+            $menus =  $this->Menus->find('threaded')->where(['id IN'=>$userRightsIds,'is_hidden'=>'N'])->order(['is_order'=>'ASC']);
         }
         
         $this->set(compact('menus','menuFind'));

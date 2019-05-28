@@ -58,9 +58,9 @@
             <span class="sr-only">Toggle navigation</span>
         </a>
         <a style="line-height: 60px;" href="<?php echo $this->Url->build(["controller" => "AdminUsers",'action'=>'index']); ?>" class="logo innav" >
-          <span class="logo-mini" style="font-size:0px !important;"><?php echo $this->Html->image('/img/logowhite.png', ['style'=>'width:80%;']) ?></span>
+          <span class="logo-mini" style="font-size:0px !important;"><?php echo $this->Html->image('/img/logo.jpg', ['style'=>'width:80%;']) ?></span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg" style="font-size:0px !important;"><?php echo $this->Html->image('/img/logowhite.png', ['style'=>'width:23%;','class'=>'image-responsive']) ?></span>
+          <span class="logo-lg" style="font-size:0px !important;"><?php echo $this->Html->image('/img/logo.jpg', ['style'=>'width:23%;','class'=>'image-responsive']) ?></span>
         </a>
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav" style="padding-top: 2px !important;">

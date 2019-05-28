@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+//use App\Controller\DateTime;
 
 /**
  * DutySlips Controller
@@ -139,6 +140,73 @@ class DutySlipsController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
+    function timeDifference($time_1, $time_2, $limit = null)
+    {
+        $val_1 = new \DateTime($time_1);
+        $val_2 = new \DateTime($time_2);
+
+        $interval = $val_1->diff($val_2);
+
+        $output = array(
+            "year" => $interval->y,
+            "month" => $interval->m,
+            "day" => $interval->d,
+            "hour" => $interval->h,
+            "minute" => $interval->i,
+            "second" => $interval->s
+        );
+        $totalHH ="00";
+        $totalMM ="00";
+        $totalSS ="00";
+        if($output['day']>0){
+           $dayintohours = $interval->d*24;
+           $totalHH+=$dayintohours;
+        }
+        if($output['hour']>0){
+           $hours = $interval->h;
+           $totalHH+=$hours;
+        }
+        
+        if($output['minute']>0){
+            $minit = $interval->i;
+
+            if($minit<10){
+                $minit ="0".$minit;
+            }
+            $totalMM=$minit;
+        }
+        if($output['second']>0){
+            $sec = $interval->s;
+            if($sec<10){
+                $sec ="0".$sec;
+            } 
+            $totalSS=$sec;
+        }  
+        return $totalHH.':'.$totalMM.':'.$totalSS; 
+    }
+    
+    function timetosec($datetime)
+    {
+       $timeArray = explode(':',$datetime);
+       $hours = $timeArray[0]; 
+       $minit = $timeArray[1];
+       $sec = $timeArray[2];
+
+        $totalTIme =0;
+        if($hours>0){
+           $dayintohours = $hours*(60*60);
+           $totalTIme+=$dayintohours;
+        }
+        if($minit>0){
+           $hours = $minit*60;
+           $totalTIme+=$hours;
+        }
+        if($sec>0){
+           $secs = $sec;
+           $totalTIme+=$secs;
+        }
+        return $totalTIme;
+    }
     public function add()
     {
             
@@ -245,11 +313,13 @@ class DutySlipsController extends AppController
                         
                         $var_first_stamp=$dutySlip->date_to." ".$closing_time;
                         $var_second_stamp=$dutySlip->date_from." ".$opening_time;
-
-                        $row_time_diff=timediff($var_first_stamp,$var_second_stamp);
-                        $row_min_diff=time_to_sec($row_time_diff)/(60*60);
-                        $total_time_of_car= round($row_min_diff);
+    
+    
+                        $row_time_diff=$this->timeDifference($var_first_stamp,$var_second_stamp); 
                         
+                        $row_min_diff=$this->timetosec($row_time_diff)/(60*60);
+                        $total_time_of_car=round($row_time_diff);
+                          
                         $extra_hours=$total_time_of_car-(($minimum_chg_hourly)*$days);
                         $extra_hours_charges=$extra_hours*$extra_hour_rate;
                         $extra_per_hour=$extra_hour_rate;
@@ -284,6 +354,7 @@ class DutySlipsController extends AppController
             }
             $dutySlip->tot_amnt= $tot_amnt;
             $dutySlip->extra_amnt= $extra_amnt;
+            //pr($dutySlip);exit;
             if ($this->DutySlips->save($dutySlip)) {
                 $employee_id = $dutySlip->employee_id;
                 $car_id = $dutySlip->car_id;
@@ -350,13 +421,6 @@ class DutySlipsController extends AppController
         $this->set(compact('dutySlip', 'services', 'carTypes', 'cars', 'customers', 'counters','employees','serviceCity'));
     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Duty Slip id.
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
     public function edit($id = null)
     {
         $dutySlip = $this->DutySlips->get($id, [
@@ -459,9 +523,10 @@ class DutySlipsController extends AppController
                         $var_first_stamp=$dutySlip->date_to." ".$closing_time;
                         $var_second_stamp=$dutySlip->date_from." ".$opening_time;
 
-                        $row_time_diff=timediff($var_first_stamp,$var_second_stamp);
-                        $row_min_diff=time_to_sec($row_time_diff)/(60*60);
-                        $total_time_of_car= round($row_min_diff);
+                        $row_time_diff=$this->timeDifference($var_first_stamp,$var_second_stamp); 
+                        
+                        $row_min_diff=$this->timetosec($row_time_diff)/(60*60);
+                        $total_time_of_car=round($row_time_diff);
                         
                         $extra_hours=$total_time_of_car-(($minimum_chg_hourly)*$days);
                         $extra_hours_charges=$extra_hours*$extra_hour_rate;
