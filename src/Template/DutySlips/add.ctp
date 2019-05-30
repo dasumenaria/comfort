@@ -502,15 +502,15 @@ $(document).ready(function() {
     }); 
     $(document).on('keyup','.calculateamount',function(){
         var rate = $('#rate').val();
-        var no_of_days = $('#no_of_days').val();
+        var no_of_days = $('#no-of-days').val();
          
         if(rate.length > 0 && no_of_days.length > 0)  
         {
             var total_amount = parseInt(no_of_days) * parseInt(rate);
-            $('#cop_amounts').val(total_amount);
+            $('#cop-amounts').val(total_amount);
         }
         else
-        {$('#cop_amounts').val('');}
+        {$('#cop-amounts').val('');}
             
     });
     $.validator.addMethod("specialChars", function( value, element ) {

@@ -410,7 +410,7 @@ function cal_amount()
     var total_other=0;
     var total_amtt=0;
     var count=eval($("#count").val());
-    var discount_rate=eval($('#discount').val());
+    var discount_rate=parseFloat($('#discount').val());
     for(var i=1; i<=count; i++)
     {
         if($('#check'+i).prop("checked")==true)
@@ -440,7 +440,7 @@ function cal_amount()
             }
             else
             {
-                var discount_amnt=discount_rate;
+                var discount_amnt=parseFloat(discount_rate);
             } 
 
             if(total_other!=0)

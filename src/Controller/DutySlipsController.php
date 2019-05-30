@@ -345,7 +345,6 @@ class DutySlipsController extends AppController
             $cop_amounts = $this->request->getData('cop_amounts');
             $billing_type = $this->request->getData('billing_type');
             if($billing_type=='Normal Billing'){
-
                 $tot_amnt=($rate*$days)+$extra_chg+$permit_chg+$parking_chg+$otherstate_chg+$guide_chg+$misc_chg+$fuel_hike_chg;
             }
             else
@@ -560,7 +559,8 @@ class DutySlipsController extends AppController
             {
                 $tot_amnt=$cop_amounts;
             } 
-
+            $dutySlip->tot_amnt= $tot_amnt;
+            $dutySlip->extra_amnt= $extra_amnt;
             if ($this->DutySlips->save($dutySlip)) { 
 
                 $this->Flash->success(__('The duty slip has been saved.'));
