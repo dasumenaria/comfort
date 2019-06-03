@@ -92,100 +92,100 @@ class InvoicesController extends AppController
         $customers = $this->Invoices->Customers->find('list', ['limit' => 200]);
         $this->set(compact('customerList','displayName','type','RecordShow','customers'));  
     }
-	
-	
-	public function gstReports(){
-		$status=$this->request->query('status'); 
-		
-		  $RecordShow = 0;
-		$company_id=1;
-		$url=$this->request->here();
-		$url=parse_url($url,PHP_URL_QUERY);
-	    $from=$this->request->getQuery('from_date');
-		$to=$this->request->getQuery('to_date');
-		
-		$where=[];
-		
-		if(!empty($from)){ 
-			$from=date('Y-m-d', strtotime($from));
-			$where['Invoices.date >=']= $from;
-		}else{
-			$from=date('Y-m-d');
-			$where['Invoices.date >=']= $from;
-		}
-		if(!empty($to)){
-			$to=date('Y-m-d', strtotime($to));
-			$where['Invoices.date <='] = $to;
-		}else{
-			$to=date('Y-m-d');
-			$where['Invoices.date <='] = $to;
-		}
-		
-		//$where['SalesInvoices.location_id'] = $location_id;
-		
-		if(!empty($where)){
-		$salesInvoicesDatas = $this->Invoices->find()
-			->contain(['Customers','GstFigures'])
-			->where(['Invoices.waveoff_status'=>'0'])
-			//->where($where)
-			->order(['invoice_no' => 'ASC']);
-		}
-	
-		//pr($salesInvoicesDatas->toArray()); exit;
-		
-		$i=0; 
-		$StateWiseTaxableAmt=[];
-		$StateWiseGst=[];
-		$TotalTaxable=0;
-		$TotalCGst=0;
-		$TotalSGst=0;
-		$TotalIGst=0;
-		$StateName=[];
-		foreach($salesInvoicesDatas as $salesInvoice){
-		
-			/* $TotalTaxable+=$salesInvoice->amount_before_tax;
-			$TotalCGst+=$salesInvoice->total_cgst;
-			$TotalSGst+=$salesInvoice->total_sgst;
-			$TotalIGst+=$salesInvoice->total_igst; */
-			@$StateWiseTaxableAmt[$salesInvoice->customer->state][$salesInvoice->gst_figure_id]+=@$salesInvoice->grand_total;
-			@$StateWiseGst[$salesInvoice->customer->state][$salesInvoice->gst_figure_id]+=@$salesInvoice->tax;
-			@$StateName[$salesInvoice->customer->state]=@$salesInvoice->customer->state;
-		
-			$RecordShow=1;
-		}
-		//pr($StateWiseTaxableAmt); exit; 
-		//ksort($SalesInvoices);
-		//pr($SalesInvoices);exit;
-		
-		//start state wise gst
-		/* $SalesInvoices=$this->AccountingEntries->SalesInvoices->find()->where(['SalesInvoices.company_id'=>$company_id,'SalesInvoices.transaction_date >='=>$from_date, 'SalesInvoices.transaction_date <='=>$to_date])->contain(['Customers'=>function($q){
-					return $q->select(['Customers.state_id'])->contain(['States']);
-				}]);
-		$StateWiseTaxableAmt=[];
-		$StateWiseGst=[];
-		$TotalTaxable=0;
-		$TotalCGst=0;
-		$TotalSGst=0;
-		$TotalIGst=0;
-		$StateName=[];
-		foreach($SalesInvoices as $data){ 
-			
-		}
-		
-		
-		//$States=$this->AccountingEntries->SalesInvoices->Customers->States->find();
-		$GstFigures=$this->AccountingEntries->Ledgers->GstFigures->find()->where(['company_id'=>$company_id]); */
-		//end state wise gst
-		$GstFigures=$this->Invoices->GstFigures->find()->where(['company_id'=>$company_id]);
-		$GstFiguresDatas=[];
-		foreach($GstFigures as $data1){
-			$GstFiguresDatas[$data1->id]=$data1->name;
-		}
-		//pr($GstFiguresDatas); exit;
-		//$companies=$this->Invoices->Companies->find()->contain(['States'])->where(['Companies.id'=>$company_id])->first();
-		$this->set(compact('companies','SalesInvoices', 'from', 'to','party_ids','invoice_no','url','status','salesInvoicesDatas','TotalTaxable','TotalCGst','TotalSGst','TotalIGst','StateWiseTaxableAmt','StateWiseGst','States','StateName','GstFiguresDatas','RecordShow'));
+    
+    
+    public function gstReports(){
+        $status=$this->request->query('status'); 
+        
+          $RecordShow = 0;
+        $company_id=1;
+        $url=$this->request->here();
+        $url=parse_url($url,PHP_URL_QUERY);
+        $from=$this->request->getQuery('from_date');
+        $to=$this->request->getQuery('to_date');
+        
+        $where=[];
+        
+        if(!empty($from)){ 
+            $from=date('Y-m-d', strtotime($from));
+            $where['Invoices.date >=']= $from;
+        }else{
+            $from=date('Y-m-d');
+            $where['Invoices.date >=']= $from;
+        }
+        if(!empty($to)){
+            $to=date('Y-m-d', strtotime($to));
+            $where['Invoices.date <='] = $to;
+        }else{
+            $to=date('Y-m-d');
+            $where['Invoices.date <='] = $to;
+        }
+        
+        //$where['SalesInvoices.location_id'] = $location_id;
+        
+        if(!empty($where)){
+        $salesInvoicesDatas = $this->Invoices->find()
+            ->contain(['Customers','GstFigures'])
+            ->where(['Invoices.waveoff_status'=>'0'])
+            //->where($where)
+            ->order(['invoice_no' => 'ASC']);
+        }
+    
+        //pr($salesInvoicesDatas->toArray()); exit;
+        
+        $i=0; 
+        $StateWiseTaxableAmt=[];
+        $StateWiseGst=[];
+        $TotalTaxable=0;
+        $TotalCGst=0;
+        $TotalSGst=0;
+        $TotalIGst=0;
+        $StateName=[];
+        foreach($salesInvoicesDatas as $salesInvoice){
+        
+            /* $TotalTaxable+=$salesInvoice->amount_before_tax;
+            $TotalCGst+=$salesInvoice->total_cgst;
+            $TotalSGst+=$salesInvoice->total_sgst;
+            $TotalIGst+=$salesInvoice->total_igst; */
+            @$StateWiseTaxableAmt[$salesInvoice->customer->state][$salesInvoice->gst_figure_id]+=@$salesInvoice->grand_total;
+            @$StateWiseGst[$salesInvoice->customer->state][$salesInvoice->gst_figure_id]+=@$salesInvoice->tax;
+            @$StateName[$salesInvoice->customer->state]=@$salesInvoice->customer->state;
+        
+            $RecordShow=1;
+        }
+        //pr($StateWiseTaxableAmt); exit; 
+        //ksort($SalesInvoices);
+        //pr($SalesInvoices);exit;
+        
+        //start state wise gst
+        /* $SalesInvoices=$this->AccountingEntries->SalesInvoices->find()->where(['SalesInvoices.company_id'=>$company_id,'SalesInvoices.transaction_date >='=>$from_date, 'SalesInvoices.transaction_date <='=>$to_date])->contain(['Customers'=>function($q){
+                    return $q->select(['Customers.state_id'])->contain(['States']);
+                }]);
+        $StateWiseTaxableAmt=[];
+        $StateWiseGst=[];
+        $TotalTaxable=0;
+        $TotalCGst=0;
+        $TotalSGst=0;
+        $TotalIGst=0;
+        $StateName=[];
+        foreach($SalesInvoices as $data){ 
+            
+        }
+        
+        
+        //$States=$this->AccountingEntries->SalesInvoices->Customers->States->find();
+        $GstFigures=$this->AccountingEntries->Ledgers->GstFigures->find()->where(['company_id'=>$company_id]); */
+        //end state wise gst
+        $GstFigures=$this->Invoices->GstFigures->find()->where(['company_id'=>$company_id]);
+        $GstFiguresDatas=[];
+        foreach($GstFigures as $data1){
+            $GstFiguresDatas[$data1->id]=$data1->name;
+        }
+        //pr($GstFiguresDatas); exit;
+        //$companies=$this->Invoices->Companies->find()->contain(['States'])->where(['Companies.id'=>$company_id])->first();
+        $this->set(compact('companies','SalesInvoices', 'from', 'to','party_ids','invoice_no','url','status','salesInvoicesDatas','TotalTaxable','TotalCGst','TotalSGst','TotalIGst','StateWiseTaxableAmt','StateWiseGst','States','StateName','GstFiguresDatas','RecordShow'));
         $this->set('_serialize', ['salesInvoices']);
-	}
+    }
     
     public function add()
     {
@@ -245,7 +245,10 @@ class InvoicesController extends AppController
                 }
                 else{
                     $tax+=$this->request->getData('taxation1');
-                } 
+                }
+
+
+
 
                 $grand_total=$this->request->getData('grand_total');
                 $complimenatry_status=$this->request->getData('complimenatry_status');
@@ -373,11 +376,12 @@ class InvoicesController extends AppController
                                             }
                                             else{
                                                 if($days==0)
-                                                $days++;
-                                                $var_first_stamp=($date_to)." ".$closing_time;
-                                                $var_second_stamp=($date_from)." ".$opening_time; 
-     
-                                                $row_time_diff=$this->timeDifference($var_first_stamp,$var_second_stamp); 
+                                                $days++; 
+                                                $var_first_stamp=date('Y-m-d',strtotime($date_to))." ".date('h:i:s',strtotime($closing_time));
+                                                $var_second_stamp=date('Y-m-d',strtotime($date_from))." ".date('h:i:s',strtotime($opening_time)); 
+            
+                                                $row_time_diff=$this->timeDifference($var_first_stamp,$var_second_stamp);
+                                                
                                                 $row_min_diff=$this->timetosec($row_time_diff)/(60*60);
                                                 $total_time_of_car=round($row_time_diff);
 
@@ -768,8 +772,8 @@ class InvoicesController extends AppController
                                     else{
                                         if($days==0)
                                         $days++;
-                                        $var_first_stamp=($date_to)." ".$closing_time;
-                                        $var_second_stamp=($date_from)." ".$opening_time; 
+                                        $var_first_stamp=date('Y-m-d',strtotime($date_to))." ".date('h:i:s',strtotime($closing_time));
+                                        $var_second_stamp=date('Y-m-d',strtotime($date_from))." ".date('h:i:s',strtotime($opening_time)); 
      
                                         $row_time_diff=$this->timeDifference($var_first_stamp,$var_second_stamp); 
                                         $row_min_diff=$this->timetosec($row_time_diff)/(60*60);
@@ -792,7 +796,7 @@ class InvoicesController extends AppController
                                     
                                     $this->request->data['credit'] = $amount_supplier;
                                     $this->request->data['debit'] = 0;
-                                    $this->request->data['transaction_date'] = date("Y-m-d");
+                                    $this->request->data['transaction_date'] = $date;
                                     $this->request->data['company_id'] = $company_id; 
                                     $this->request->data['invoice_id'] = $invoice->id; 
                                     $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
@@ -839,7 +843,7 @@ class InvoicesController extends AppController
                 
                 $this->request->data['credit'] = $car_higher_service_amnt;
                 $this->request->data['debit'] = 0;
-                $this->request->data['transaction_date'] = date("Y-m-d");
+                $this->request->data['transaction_date'] = $date;
                 $this->request->data['company_id'] = $company_id; 
                 $this->request->data['invoice_id'] = $invoice->id; 
                 $accountingEntries = $this->Invoices->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
@@ -1016,7 +1020,7 @@ class InvoicesController extends AppController
 
     function timeDifference($time_1, $time_2, $limit = null)
     {
-        $val_1 = new \DateTime($time_1);
+        $val_1 = new \DateTime($time_1); 
         $val_2 = new \DateTime($time_2);
 
         $interval = $val_1->diff($val_2);
@@ -1080,5 +1084,44 @@ class InvoicesController extends AppController
            $totalTIme+=$secs;
         }
         return $totalTIme;
+    }
+
+    public function monthlyReport()
+    {
+        $RecordShow = 0;
+        $where=array();
+        $date_from='';
+        $date_to='';
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $waveoffds = $this->Invoices->Customers->find()->order(['Customers.id'=>'ASC']);
+            $where['Invoices.waveoff_status']=0;
+            $where['Invoices.complimenatry_status']=0;
+            $where['Invoices.waveoff_status']=0;
+            if(!empty($this->request->getData('customer_id')))
+               $where['Invoices.customer_id']=$this->request->getData('customer_id');
+                
+            $date_from = $this->request->getData('date_from');
+            $date_to = $this->request->getData('date_to');
+            if(!empty($date_from)){
+                $date_from=date('Y-m-d',strtotime($date_from)); 
+                $date_to=date('Y-m-d',strtotime($date_to));   
+            }
+            else{
+                $date_from='1990-01-01';
+                $date_to=date('Y-m-d');
+            } 
+
+            $waveoffds->contain(['Invoices'=>function($q)use($where,$date_to,$date_from){
+                return $q->where($where)->contain(['Customers','InvoiceDetails'=>['DutySlips'=>['Services']]])
+                    ->where(function($exp) use($date_from,$date_to) {
+                        return $exp->between('Invoices.date', $date_from, $date_to, 'date');
+                    });
+            }]);
+            
+            //pr($waveoffds->toArray());exit;
+            $RecordShow=1;
+        }
+        $customerlist = $this->Invoices->Customers->find('list');
+        $this->set(compact('RecordShow','waveoffds','date_from','date_to','customerlist'));
     }
 }

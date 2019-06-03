@@ -154,7 +154,8 @@ if($RecordShow == 1)
                     </thead>
                     <tbody>
                         <?php $page_no=0; foreach ($recordList as $city):
-                        $refDetails = $DateConvert->refDetails($city->id);     
+                        $refDetailDue = $DateConvert->refDetailDue($city->id);     
+                        $refDetailReceive = $DateConvert->refDetailReceive($city->id);     
                         ?>  
                         <tr>
                             <td><?= h(++$page_no) ?></td> 
@@ -162,8 +163,8 @@ if($RecordShow == 1)
                             <td><?= $city->customer->name?></td> 
                             <td><?= date('d-M-Y',strtotime($city->date));?></td>
                             <td><?= $city->grand_total;?></td>
-                            <td></td>
-                            <td></td> 
+                            <td><?= $refDetailReceive;?></td>
+                            <td><?= $refDetailDue - $refDetailReceive;?></td> 
                         </tr>
                         <?php endforeach; ?>
                     </tbody>    

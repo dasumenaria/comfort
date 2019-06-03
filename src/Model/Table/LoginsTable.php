@@ -40,6 +40,8 @@ class LoginsTable extends Table
             'foreignKey' => 'counter_id',
             'joinType' => 'INNER'
         ]);
+
+        $this->belongsTo('DutySlips');
     }
 
     /**

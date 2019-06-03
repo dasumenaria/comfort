@@ -159,6 +159,7 @@ class CarsController extends AppController
                 $this->request->data['accounting_group_id'] = 14; // Staff Ac
                 $this->request->data['company_id'] = $company_id; 
                 $this->request->data['car_id'] = $car->id; 
+                $this->request->data['supplier_id'] = ''; 
                 $ledgers = $this->Cars->Ledgers->patchEntity($ledgers, $this->request->getData());
                 $this->Cars->Ledgers->save($ledgers);
 
@@ -262,6 +263,15 @@ class CarsController extends AppController
                 $query->update()->set(['name'=>$this->request->getData('name')])
                     ->where(['car_id' => $id])
                     ->execute(); 
+
+               /* $company_id=1;
+                $ledgers = $this->Cars->Ledgers->newEntity();
+                $this->request->data['accounting_group_id'] = 14; // Staff Ac
+                $this->request->data['company_id'] = $company_id; 
+                $this->request->data['car_id'] = $car->id;
+                $this->request->data['supplier_id'] = ''; 
+                $ledgers = $this->Cars->Ledgers->patchEntity($ledgers, $this->request->getData());
+                $this->Cars->Ledgers->save($ledgers);*/
                     
                 $this->Flash->success(__('The car has been saved.'));
 

@@ -101,8 +101,8 @@ th {
 
                             if(!empty($invoiceData->city)){$ctyName=$invoiceData->city;}
                             $tariffData = $DateConvert->tariffData($invoiceData->duty_slip->service_id,$invoiceData->duty_slip->customer_id,$invoiceData->duty_slip->car_type_id);
-                            $minimum_chg_hourly = $tariffData->minimum_chg_hourly;
-                            $minimum_chg_km = $tariffData->minimum_chg_km;
+                            $minimum_chg_hourly = @$tariffData->minimum_chg_hourly;
+                            $minimum_chg_km = @$tariffData->minimum_chg_km;
                             ?>
                             <tr class="ad">
                                 <td colspan="2" style="text-align:left"><?php echo "Duty Slip No. ".$invoiceData->id." dated on ".date('d-M-Y', strtotime($invoiceData->duty_slip->date))." "."towards the cost of transport used in ".$ctyName." for the Service ".$invoiceData->duty_slip->service->name." (".$minimum_chg_hourly." hrs / ".$minimum_chg_km." kms) by ".$invoiceData->duty_slip->car_type->name." ".$car_no ?></td>
@@ -269,7 +269,7 @@ th {
                     <th colspan="<?php echo $colspan; ?>"><?php echo $invoice->grand_total; ?></th>
                 </tr>
                 <tr class="ad">
-                    <td colspan="5"><b><?php echo $invoice->grand_total; ?> Only</b></td>
+                    <td colspan="5"><b><?= $NumbersComponent->convertNumberToWord($invoice->grand_total); ?>  Only</b></td>
                 </tr>
                 <tr class="ad">
                     <td colspan="3"><b>SIGNATURE IN CONFIRMATION</b><br/><span style="font-size: 11px; font-style:italic;">of terms & condition overleaf</span></td>

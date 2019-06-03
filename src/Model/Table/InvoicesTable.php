@@ -112,11 +112,7 @@ class InvoicesTable extends Table
             ->requirePresence('payment_type', 'create')
             ->allowEmptyString('payment_type', false);
 
-        $validator
-            ->scalar('remarks')
-            ->maxLength('remarks', 40)
-            ->requirePresence('remarks', 'create')
-            ->allowEmptyString('remarks', false);
+         
 
         $validator
             ->scalar('total')
@@ -130,12 +126,7 @@ class InvoicesTable extends Table
             ->requirePresence('discount', 'create')
             ->allowEmptyString('discount', false);
 
-        $validator
-            ->scalar('tax')
-            ->maxLength('tax', 20)
-            ->requirePresence('tax', 'create')
-            ->allowEmptyString('tax', false);
-
+       
         $validator
             ->scalar('grand_total')
             ->maxLength('grand_total', 20)

@@ -19,7 +19,7 @@ th {
     <div class="col-md-12">
         <div class="box box-primary">   
 
-    <?php  
+    <?php  //pr($row_invoice);exit;
         $tax_type=1;  
         $gst_number=$row_invoice->customer->gst_number;
         $state=$row_invoice->customer->state;
@@ -94,7 +94,7 @@ th {
                 <tr>
                     <td>Remarks.</td>
                     <td colspan="3">
-                        <?php echo $this->Form->control('remarks',['label' => false,'class' => 'form-control ','autocomplete'=>'off','type'=>'text','value'=>$row_invoice->remarks]); ?>  
+                        <?php echo $this->Form->control('remarks',['label' => false,'class' => 'form-control ','autocomplete'=>'off','type'=>'text','value'=>$row_invoice->remarks,'required'=>false]); ?>  
                     </td>
                 </tr>
                 <tr>
@@ -413,13 +413,12 @@ jQuery(".loadingshow").submit(function(){
 </script> 
 <script>
 <?php
-if($row_invoice->billing_type == 'Normal Billing')
-{
-?>
-$(document).ready(function() {
-    cal_amount();
-});
-<?php } ?>
+//if($row_invoice->billing_type == 'Normal Billing')
+//{ ?>
+    $(document).ready(function() {
+        cal_amount(); //alert();  
+    });
+<?php //} ?>
 function round(value, exp) {
     if (typeof exp === 'undefined' || +exp === 0)
     return Math.round(value);

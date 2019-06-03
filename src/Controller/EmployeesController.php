@@ -210,6 +210,14 @@ class EmployeesController extends AppController
                     ->where(['employee_id' => $id])
                     ->execute();
 
+                /*$company_id=1;
+                $ledgers = $this->Employees->Ledgers->newEntity();
+                $this->request->data['accounting_group_id'] = 31; // Staff Ac
+                $this->request->data['company_id'] = $company_id; 
+                $this->request->data['employee_id'] = $employee->id; 
+                $ledgers = $this->Employees->Ledgers->patchEntity($ledgers, $this->request->getData());
+                $this->Employees->Ledgers->save($ledgers); */
+
                 $this->Flash->success(__('The employee has been saved.'));
 
                 return $this->redirect(['action' => 'index','edt']);

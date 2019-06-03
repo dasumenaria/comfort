@@ -48,12 +48,18 @@ class LoginsController extends AppController
     }
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Counters']
-        ];
-        $logins = $this->paginate($this->Logins);
-
-        $this->set(compact('logins'));
+        $where =array();
+        $where['DutySlips.waveoff_status']=0;
+        $where['DutySlips.billing_type']='Normal Billing';
+        $where['DutySlips.closing_km']=0; 
+        $opendsCount = $this->Logins->DutySlips->find()->where($where)->count(); 
+ 
+        $where =array();
+        $where['DutySlips.waveoff_status']=0;
+        $where['DutySlips.billing_status']='no';
+        $unBilledds = $this->Logins->DutySlips->find()->where($where)->count();
+        
+        $this->set(compact('opendsCount', 'unBilledds'));
     }
 
     /**

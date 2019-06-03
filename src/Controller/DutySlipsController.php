@@ -353,6 +353,7 @@ class DutySlipsController extends AppController
             }
             $dutySlip->tot_amnt= $tot_amnt;
             $dutySlip->extra_amnt= $extra_amnt;
+            $dutySlip->amount= $tot_amnt;
             //pr($dutySlip);exit;
             if ($this->DutySlips->save($dutySlip)) {
                 $employee_id = $dutySlip->employee_id;
@@ -560,6 +561,7 @@ class DutySlipsController extends AppController
                 $tot_amnt=$cop_amounts;
             } 
             $dutySlip->tot_amnt= $tot_amnt;
+            $dutySlip->amount= $tot_amnt;
             $dutySlip->extra_amnt= $extra_amnt;
             if ($this->DutySlips->save($dutySlip)) { 
 
@@ -679,7 +681,6 @@ class DutySlipsController extends AppController
         $opends = $this->DutySlips->Customers->find('list');
         
         $this->set(compact('RecordShow','opends','opendsList','customer_id'));
-         
     }
 
     public function openDs()
@@ -704,7 +705,6 @@ class DutySlipsController extends AppController
         $opends = $this->DutySlips->Customers->find('list'); 
         $this->set(compact('RecordShow','opends','opendsList','customer_id'));
     }
-
 
     public function records()
     {

@@ -94,7 +94,7 @@
                                     <?php 
                                     $option['yes']='Yes';
                                     $option['no']='No';
-                                    echo $this->Form->control('servicetax_status',['label' => false,'type'=>'select','class' => 'form-control  firstupercase','empty'=>'select...','options'=>$option]); ?> 
+                                    echo $this->Form->control('servicetax_status',['label' => false,'type'=>'select','class' => 'form-control  firstupercase','options'=>$option]); ?> 
                                 </div>
                             </div>
                         </div> 

@@ -113,9 +113,11 @@
                         //pr($city);
                         $dutySlipArray=array();
                         $guestName=array(); 
+                        $guestNames=''; 
                         foreach ($city->invoice_details as $value) {
                             $dutySlipArray[]=$value->duty_slip_id;
                             $guestName[]=$value->duty_slip->guest_name;
+                            $guestNames=$value->duty_slip->guest_name;
                         }
                         $dsIds = implode(',',$dutySlipArray);
                         $showName = implode(',',$guestName);
@@ -129,9 +131,9 @@
                                 <span class="tooltiptexts" data-placement="right" data-title="<?php if($city->waveoff_status=='1'){ ?> Waveoff invoice <?php } else if($city->payment_status=='yes'){ ?> Payment have been Done <?php } ?>"  data-trigger="hover"  data-content="<?php echo $dsIds; ?>"><?php echo $dsIds; ?></span>
                                 </div>
                             </td>
-                            <td><?= $showName ;?></td>
+                            <td><?= $guestNames ;?></td>
                             <td><?= h(@$city->customer->name) ?></td> 
-                            <td><?= h(date('d-M-Y',strtotime($city->current_date))) ?></td>
+                            <td><?= h(date('d-M-Y',strtotime($city->date))) ?></td>
                             <td><?= h(@$city->grand_total) ?></td> 
 
                             <td  class="actions text-center hide_print">

@@ -192,6 +192,57 @@ class SuppliersController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $supplier = $this->Suppliers->patchEntity($supplier, $this->request->getData());
             if ($this->Suppliers->save($supplier)) {
+
+                //-- Entry In ledgers
+                /*$accountGroup = $this->Suppliers->AccountingGroups->find()->select(['id'])->where(['supplier'=>'1'])->first();
+                $accounting_group_id = $accountGroup->id;
+
+                $company_id=1;
+                $ledgers = $this->Suppliers->Ledgers->newEntity();
+                $this->request->data['accounting_group_id'] = $accounting_group_id;
+                $this->request->data['company_id'] = $company_id;
+                $this->request->data['supplier_id'] = $supplier->id;
+                $ledgers = $this->Suppliers->Ledgers->patchEntity($ledgers, $this->request->getData());
+                $this->Suppliers->Ledgers->save($ledgers);
+
+                $opening_bal=$supplier->opening_bal;
+                if($opening_bal > 0)
+                {
+                    $credit_debit='debit';
+                    if(!empty($credit_debit)){
+                        $accountingEntries = $this->Suppliers->AccountingEntries->newEntity();
+                        $this->request->data['ledger_id'] = $ledgers->id;
+                        if($credit_debit == 'credit'){
+                            $this->request->data['credit'] = $opening_bal;
+                        }
+                        if($credit_debit == 'debit'){
+                            $this->request->data['debit'] = $opening_bal;
+                        }
+                        $this->request->data['transaction_date'] = date('Y').'-04-01';
+                        $this->request->data['company_id'] = $company_id;
+                        $this->request->data['is_opening_balance'] = 'yes'; 
+                        $accountingEntries = $this->Suppliers->AccountingEntries->patchEntity($accountingEntries, $this->request->getData());
+                        $this->Suppliers->AccountingEntries->save($accountingEntries);
+                    }
+                    $bill_to_bill=$supplier->bill_to_bill;
+                    if($bill_to_bill == 'yes'){
+                        $referenceDetails = $this->Suppliers->ReferenceDetails->newEntity();
+                        $this->request->data['ledger_id'] = $ledgers->id;
+                        if($credit_debit == 'credit'){
+                            $this->request->data['credit'] = $opening_bal;
+                        }
+                        if($credit_debit == 'debit'){
+                            $this->request->data['debit'] = $opening_bal;
+                        }
+                        $this->request->data['transaction_date'] = date('Y').'-04-01';
+                        $this->request->data['company_id'] = $company_id;
+                        $this->request->data['opening_balance'] = 'yes'; 
+                        $this->request->data['ledger_id'] =$ledgers->id; 
+                        $referenceDetails = $this->Suppliers->ReferenceDetails->patchEntity($referenceDetails, $this->request->getData());
+                        $this->Suppliers->ReferenceDetails->save($referenceDetails);
+                    }                    
+                }*/
+
                 $query = $this->Suppliers->Ledgers->query(); 
                 $query->update()->set(['name'=>$this->request->getData('name')])
                     ->where(['supplier_id' => $id])

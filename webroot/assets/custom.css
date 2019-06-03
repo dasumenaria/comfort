@@ -12,7 +12,9 @@ div.radio div.radio-div:not(:first-child) {
 margin-bottom: 5px !important;
 margin-top: 5px !important;
 }
-
+ul {
+  list-style-type: none
+}
 @media print {
     .hide_print{
        display:none;

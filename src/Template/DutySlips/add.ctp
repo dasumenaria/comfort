@@ -60,6 +60,15 @@ label{
                         <?php echo $this->Form->control('guest_name',['label' => false,'type'=>'text','class' => 'form-control','placeholder'=>'Guest Name','autocomplete'=>'off','required']); ?> 
                     </div>
                 </div>
+                <span class="help-block"></span>  
+                <div class="row container" style="margin: auto;">
+                    <div class="col-md-2">
+                        <label class="control-label">Reporting Address</label>
+                    </div>
+                    <div class="col-md-4">
+                        <?php echo $this->Form->control('reporting_address',['label' => false,'type'=>'text','class' => 'form-control','placeholder'=>'Reporting Address','autocomplete'=>'off']); ?> 
+                    </div>
+                </div>
                 <span class="help-block"></span> 
                 <div class="row container" style="margin: auto;">
                     <div class="col-md-2">
@@ -610,7 +619,7 @@ function dutyslip_openclose()
     if($('#opening-km').val()==0)
     {   
         alert("Close previous DS.");
-        //location.reload();
+        location.reload();
     }
 }
 </script>

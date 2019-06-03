@@ -59,9 +59,22 @@ class UserRightsController extends AppController
     {
         
         $employee_id=$this->request->getData('login_id');
-        $menus =  $this->UserRights->Menus->find('threaded');
+        $menus =  $this->UserRights->Menus->find('threaded')->order(['is_order'=>'ASC']);
         $employee =  $this->UserRights->Logins->get($employee_id); 
-        $this->set(compact('menus'));
+
+        $userRights = $this->UserRights->find()->where(['login_id'=>$employee_id]); 
+        $userRightsIds=[];
+        $menu_ids=[];
+        foreach ($userRights as $userRight) {
+            $menu_ids[]=explode(',',$userRight->menu_ids);
+        }
+        foreach ($menu_ids as $key => $value) {
+
+            foreach ($value as $key1 => $value1) {
+                $userRightsIds[]=$value1;
+            }
+        } 
+        $this->set(compact('menus','userRightsIds'));
     }
 
     /**

@@ -45,9 +45,33 @@ class DateComponent extends Component
         $this->AccountingEntries = TableRegistry::get('AccountingEntries'); 
         return $this->AccountingEntries->find()->contain(['Ledgers'])->where(['AccountingEntries.invoice_id'=>$invoice_id,'AccountingEntries.ledger_id IN '=>array('16','17','18')]);
     }
-    function refDetails($invoice_id){
+    function refDetailDue($invoice_id){
         $this->ReferenceDetails = TableRegistry::get('ReferenceDetails'); 
-        return $this->ReferenceDetails->find()->contain(['Ledgers'])->where(['AccountingEntries.invoice_id'=>$invoice_id,'AccountingEntries.ledger_id IN '=>array('16','17','18')]);
+        $refDetail = $this->ReferenceDetails->find()->where(['ReferenceDetails.invoice_id'=>$invoice_id])->first();
+        $total_amount=0;
+        if(!empty($refDetail)){
+            $ref_name = $refDetail->ref_name; 
+            $allData = $this->ReferenceDetails->find()->where(['ref_name'=>$ref_name,'debit !='=>0]);
+            $total_amount=0;
+            foreach ($allData as $onebyone) {
+                $total_amount+=$onebyone->debit;
+            }
+        }
+        return $total_amount;
+    }
+    function refDetailReceive($invoice_id){
+        $this->ReferenceDetails = TableRegistry::get('ReferenceDetails'); 
+        $refDetail = $this->ReferenceDetails->find()->where(['invoice_id'=>$invoice_id])->first();
+        $total_amount=0;
+        if(!empty($refDetail)){
+            $ref_name = $refDetail->ref_name; 
+            $allData = $this->ReferenceDetails->find()->where(['ref_name'=>$ref_name,'credit !='=>0]);
+            $total_amount=0;
+            foreach ($allData as $onebyone) {
+                $total_amount+=$onebyone->credit;
+            }
+        }
+        return $total_amount;
     }
     function dsDetails($id){
         $this->DutySlips = TableRegistry::get('DutySlips'); 

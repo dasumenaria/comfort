@@ -59,6 +59,15 @@ label{
                         <?php echo $this->Form->control('guest_name',['label' => false,'type'=>'text','class' => 'form-control','placeholder'=>'Guest Name','autocomplete'=>'off']); ?> 
                     </div>
                 </div>
+                <span class="help-block"></span>  
+                <div class="row container" style="margin: auto;">
+                    <div class="col-md-2">
+                        <label class="control-label">Reporting Address</label>
+                    </div>
+                    <div class="col-md-4">
+                        <?php echo $this->Form->control('reporting_address',['label' => false,'type'=>'text','class' => 'form-control','placeholder'=>'Reporting Address','autocomplete'=>'off']); ?> 
+                    </div>
+                </div>
                 <span class="help-block"></span> 
                 <div class="row container" style="margin: auto;">
                     <div class="col-md-2">
@@ -232,7 +241,7 @@ label{
                             <label class="control-label">Opening KM </label>
                         </div>
                         <div class="col-md-4">
-                            <?php echo $this->Form->control('opening_km',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Opening KM','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')",'onMouseDown'=>"fetch_rate('get_km');",'onClick'=>"dutyslip_openclose();"]); ?> 
+                            <?php echo $this->Form->control('opening_km',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Opening KM','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')"]); ?> 
                         </div>
                     </div>
 
