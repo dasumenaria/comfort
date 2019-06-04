@@ -73,10 +73,25 @@ td{
                            <td colspan="5"><?php echo $dutySlip->service->name;?></td>
                         </tr>
                         <tr>
+                          <?php
+                          if(!empty($dutySlip->temp_car_no)){
+                            $taxi = $dutySlip->temp_car_no;
+                          }
+                          else{
+                            $taxi = $dutySlip->car->name;
+                          }
+
+                          if(!empty($dutySlip->temp_driver_name)){
+                            $taxiDirver = $dutySlip->temp_driver_name;
+                          }
+                          else{
+                            $taxiDirver = $dutySlip->employee->name;
+                          }
+                          ?>
                            <td><strong>Taxi Number</strong></td>
-                           <td><?php echo $dutySlip->car->name; ?></td>
+                           <td><?php echo $taxi; ?></td>
                            <td><strong>Driver</strong></td>
-                           <td colspan="3"><?php echo $dutySlip->employee->name;; ?></td>
+                           <td colspan="3"><?php echo $taxiDirver; ?></td>
                         </tr>
                         <tr>
                            <td><strong>Opening Date</strong></td>

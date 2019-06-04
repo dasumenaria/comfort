@@ -374,10 +374,10 @@ label{
                     <span class="help-block"></span>    
                     <div class="row container" style="margin: auto;">
                         <div class="col-md-2">
-                            <label class="control-label">Permit Charges </label>
+                            <label class="control-label">Overtime </label>
                         </div>
                         <div class="col-md-4">
-                            <?php echo $this->Form->control('permit_chg',['label' => false,'class' => 'form-control','type'=>'text', 'placeholder'=>'Permit Charges','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')"]); ?> 
+                            <?php echo $this->Form->control('permit_chg',['label' => false,'class' => 'form-control','type'=>'text', 'placeholder'=>'Overtime','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')"]); ?> 
                         </div>
                     </div>
 
@@ -501,8 +501,8 @@ $(document).ready(function() {
     $(document).on('change','.driver',function(){
         var selected = $('option:selected', this).val();
         var res = selected.split(" ");
-        var other = res[0];
-        if(other == 'Others'){
+        var other = res[0]; 
+        if(other == 25){
             $('.driverSHow').show();
         }
         else{

@@ -127,7 +127,7 @@ class InvoicesController extends AppController
         $salesInvoicesDatas = $this->Invoices->find()
             ->contain(['Customers','GstFigures'])
             ->where(['Invoices.waveoff_status'=>'0'])
-            //->where($where)
+            ->where($where)
             ->order(['invoice_no' => 'ASC']);
         }
     
@@ -670,7 +670,7 @@ class InvoicesController extends AppController
             $customer_ledger_id = $LedgerData->id;
             $invoice->ledger_id = $customer_ledger_id;
 
-            //pr($invoice);exit;
+            pr($invoice);exit;
             if ($this->Invoices->save($invoice)) {
 
                  

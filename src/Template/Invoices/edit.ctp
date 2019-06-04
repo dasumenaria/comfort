@@ -103,6 +103,7 @@ th {
                 </tr>
                 <?php
                     $x=0; 
+                    //pr($row_invoice);exit;
                     foreach ($row_invoice->invoice_details as $invoiceData) 
                     { 
                         $x++;
@@ -131,7 +132,7 @@ th {
                             $minimum_chg_km = @$tariffData->minimum_chg_km;
                             ?>
                             <tr class="ad">
-                                <td colspan="2" style="text-align:left"><?php echo "Duty Slip No. ".$invoiceData->id." dated on ".date('d-M-Y', strtotime($invoiceData->duty_slip->date))." "."towards the cost of transport used in ".$ctyName." for the Service ". @$invoiceData->duty_slip->service->name." (".$minimum_chg_hourly." hrs / ".$minimum_chg_km." kms) by ".@$invoiceData->duty_slip->car_type->name." ".$car_no ?></td>
+                                <td colspan="2" style="text-align:left"><?php echo "Duty Slip No. ".$invoiceData->duty_slip->id." dated on ".date('d-M-Y', strtotime($invoiceData->duty_slip->date))." "."towards the cost of transport used in ".$ctyName." for the Service ". @$invoiceData->duty_slip->service->name." (".$minimum_chg_hourly." hrs / ".$minimum_chg_km." kms) by ".@$invoiceData->duty_slip->car_type->name." ".$car_no ?></td>
                                 <td width="15%" align="center"> </td>
                                 <th colspan="2">
                                     <?php echo $this->Form->control('main_amnt'.$x,['label' => false,'class' => 'form-control ','autocomplete'=>'off','type'=>'text','value'=>$main_amnt,'id'=>'main_amnt'.$x,'onKeyUp'=>'cal_amount()']); ?>  

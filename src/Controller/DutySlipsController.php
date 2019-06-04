@@ -375,18 +375,27 @@ class DutySlipsController extends AppController
                 // SMS
                 $mobile_no=$this->request->getData('mobile_no');
                 if(!empty($mobile_no)){
+                    
                     $car_name='';
-                    if(!empty($car_type_id)){
+                    if(!empty($dutySlip->temp_car_no)){
+                        $car_name = $dutySlip->temp_car_no;
+                    }
+                    else{
                         $carTypes = $this->DutySlips->CarTypes->get($car_type_id);
                         $car_name=$carTypes->name;
                     }
+
                     $employee_name='';
                     $employee_mobile_no='';
-                    if(!empty($employee_id)){
+                    if(!empty($dutySlip->temp_driver_name)){
+                        $employee_name = $dutySlip->temp_driver_name;
+                    }
+                    else{
                         $employees = $this->DutySlips->Employees->get($employee_id);
                         $employee_name=$employees->name;
                         $employee_mobile_no=$employees->mobile_no; 
-                    }
+                    }  
+
                     $sms_sender='COMFRT'; 
                     $guest_name=$this->request->getData('guest_name');
                                         
@@ -432,6 +441,14 @@ class DutySlipsController extends AppController
             $dutySlip = $this->DutySlips->patchEntity($dutySlip, $this->request->getData());
             $dutySlip->counter_id = $counter_id;
             $dutySlip->login_id = $login_id; 
+            if(!empty($this->request->getData('date')))
+            {
+                $dutySlip->date = date('Y-m-d',strtotime($this->request->getData('date')));
+            }
+            else
+            {
+                $dutySlip->date_from='0000-00-00';
+            } 
             if(!empty($this->request->getData('date_from')))
             {
                 $dutySlip->date_from = date('Y-m-d',strtotime($this->request->getData('date_from')));
