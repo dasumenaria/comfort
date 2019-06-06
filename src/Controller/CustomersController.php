@@ -83,6 +83,7 @@ class CustomersController extends AppController
                 $this->request->data['accounting_group_id'] = $accounting_group_id;
                 $this->request->data['company_id'] = $company_id;
                 $this->request->data['customer_id'] = $customer->id;
+                $this->request->data['bill_to_bill_accounting'] = $this->request->getData('bill_to_bill');
                 $ledgers = $this->Customers->Ledgers->patchEntity($ledgers, $this->request->getData());
                 $this->Customers->Ledgers->save($ledgers);
 
