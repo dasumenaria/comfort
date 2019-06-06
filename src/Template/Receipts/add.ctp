@@ -353,13 +353,13 @@ function round(value, exp) {
 			$(document).on('change','.ledger',function(){
 		  
 				var openWindow=$(this).find('option:selected').attr('open_window');
-				
+				//alert(openWindow);
 				
 				if(openWindow=='party'){
 					var SelectedTr=$(this).closest('tr.MainTr');
 					var windowContainer=$(this).closest('td').find('div.window');
 					windowContainer.html('');
-					windowContainer.html('<table width=90% class=refTbl><tbody></tbody><tfoot><tr style=border-top:double#a5a1a1><td colspan=2><a role=button class=addRefRow>Add Row</a></td><td><input type=text class=form-control input-sm rightAligntextClass total calculation noBorder readonly ></td><td valign=top><input type=text class=form-control input-sm total_type calculation noBorder readonly ></td></tr></tfoot></table>');
+					windowContainer.html('<table width=90% class=refTbl><tbody></tbody><tfoot><tr style=border-top:double#a5a1a1><td colspan=2><a role=button class=addRefRow>Add Row</a></td><td><input type="text" class="form-control input-sm rightAligntextClass total calculation noBorder" readonly ></td><td valign=top><input type="text" class="form-control input-sm total_type calculation noBorder" readonly ></td></tr></tfoot></table>');
 					AddRefRow(SelectedTr);
 				}
 				else if(openWindow=='bank'){
