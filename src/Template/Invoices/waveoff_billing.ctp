@@ -1,4 +1,4 @@
-
+ 
 <section class="content">
 <?php
     if($RecordShow == 1)
@@ -80,8 +80,8 @@
         <?php 
             }
             else{ ?>
-            <div id='main_data'>
-                <table class="table table-bordered table-striped" border="1">
+            <div class="box-body" id='main_data'>  
+                <table class="table table-bordered table-striped" id ="example" border="1">
                     <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sl.') ?></th> 

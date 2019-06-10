@@ -3,14 +3,11 @@
     <div class="col-md-12">
         <div class="box box-primary">
             <div class="box-header with-border">
-                View Rights 
-                <!-- <div class="box-tools pull-right">
-                    <input type="text" class="form-control pull-right" placeholder="Search..." id="search3"  style="width: 200px;">
-                </div> --> 
+                View Rights  
             </div> 
              
             <div class="box-body">
-                 <table class="table table-bordered table-condensed" id="main_tble">
+                 <table class="table table-bordered table-condensed" id="example2">
                     <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sr.no') ?></th> 
@@ -73,22 +70,22 @@
 </section>
 <?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?> 
 <script>
-$(document).ready(function() {
+    $(document).ready(function() {
         var $rows = $('#main_tble tbody tr');
-    $('#search3').on('keyup',function() {
-        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-        var v = $(this).val();
-        if(v){ 
-            $rows.show().filter(function() {
-                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-    
-                return !~text.indexOf(val);
-            }).hide();
-        }else{
-            $rows.show();
-        }
+        $('#search3').on('keyup',function() {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            var v = $(this).val();
+            if(v){ 
+                $rows.show().filter(function() {
+                    var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+        
+                    return !~text.indexOf(val);
+                }).hide();
+            }else{
+                $rows.show();
+            }
+        });
     });
-});
 </script>
 <script>
 jQuery(".loadingshow").submit(function(){

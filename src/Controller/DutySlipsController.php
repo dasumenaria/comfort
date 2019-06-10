@@ -376,13 +376,22 @@ class DutySlipsController extends AppController
                 $mobile_no=$this->request->getData('mobile_no');
                 if(!empty($mobile_no)){
                     
-                    $car_name='';
-                    if(!empty($dutySlip->temp_car_no)){
-                        $car_name = $dutySlip->temp_car_no;
+                     $car_name='';
+                    if(empty($car_type_id)){
+                        $car_name = '';
                     }
                     else{
                         $carTypes = $this->DutySlips->CarTypes->get($car_type_id);
                         $car_name=$carTypes->name;
+                    }
+                    
+                    $car_number='';
+                    if(!empty($dutySlip->temp_car_no)){
+                        $car_number = $dutySlip->temp_car_no;
+                    }
+                    else{
+                        $car_Data = $this->DutySlips->Cars->get($car_id);
+                        $car_number=$car_Data->name;
                     }
 
                     $employee_name='';

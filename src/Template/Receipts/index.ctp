@@ -43,7 +43,7 @@
                 <div class="table-responsive">
                     <?php $page_no=$this->Paginator->current('Receipts');
                      $page_no=($page_no-1)*20; ?>
-                    <table class="table table-bordered table-hover table-condensed">
+                    <table class="table table-bordered table-condensed" id="example">
                         <thead>
                             <tr>
                                 <th scope="col"><?= __('Sr') ?></th>

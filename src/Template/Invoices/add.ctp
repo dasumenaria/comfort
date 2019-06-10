@@ -146,7 +146,9 @@ label{
                                 <th style="text-align:center;">Process ?</th>
                             </tr>
                             <tr id="fillme<?php echo $k; ?>">
-                                <td><a class="tooltips" data-placement="bottom" title="Edit Duty Slip From Here" target="_blank"><?php echo $dutySlip->id; ?></a></td>
+                                <td>
+                                    <?php echo $this->Html->link('&nbsp;'.$dutySlip->id.'&nbsp;',['controller'=>'DutySlips','action' => 'edit', $dutySlip->id],array('escape'=>false,'target'=>'_blank','title'=>'Edit Duty Slip From Here')); ?>
+                                     </td>
                                 <td><?php echo $dutySlip->guest_name; ?></td>
                                 <td><?php echo @$dutySlip->car_type->name; ?></td>
                                 <td><?php echo @$dutySlip->service->name; ?></td> 

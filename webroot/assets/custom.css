@@ -22,7 +22,9 @@ ul {
 }
 .nav navbar-nav li {color:#848688 !important;}
  
- 
+.error{
+    color: #ea3733;
+}
 .notify {
   white-space: unset !important;
 }

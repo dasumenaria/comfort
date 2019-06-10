@@ -91,8 +91,8 @@ if($RecordShow == 1)
             }
             else{ ?>
                 
-                <div id='main_data'>
-                   <table class="table table-bordered table-striped" border="1">
+                <div class="box-body" id='main_data'>
+                   <table class="table table-bordered table-condensed" id=" " border="1">
                     <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sl.') ?></th> 

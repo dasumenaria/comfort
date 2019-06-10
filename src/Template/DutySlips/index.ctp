@@ -91,15 +91,15 @@
             }
             else{ ?>
             <div class="box-body" >
-                <table id="example1" class="table table-bordered table-striped dataTable">
+                <table id="example" class="table table-bordered table-striped dataTable">
                     <thead>
                         <tr style="table-layout: fixed;">
                             <th><?= ('Sl.') ?></th> 
                             <th><?= ('DS ID') ?></th>
+                            <th><?= ('Customer') ?></th>
                             <th><?= ('Guest') ?></th>
                             <th><?= ('Service') ?></th>
-                            <th><?= ('Driver') ?></th>
-                            <th><?= ('Car') ?></th>
+                            <th><?= ('Driver') ?></th> 
                             <th><?= ('Car No.') ?></th>
                             <th><?= ('Date') ?></th>
                             <th><?= ('Open KM') ?></th>
@@ -114,10 +114,10 @@
                             else if($city->waveoff_status==1) {?> title="This is waveoff ds" style="background-color:#F2DEDE;" <?php } ?>>
                             <td><?= h(++$page_no) ?></td> 
                             <td><?= h(@$city->id) ?></td>
+                            <td><?= h(@$city->customer->name) ?></td>
                             <td><?= h(@$city->guest_name) ?></td>
                             <td><?= h(@$city->service->name) ?></td>
-                            <td><?= h(@$city->employee->name) ?></td>
-                            <td><?= h(@$city->car_type->name) ?></td>
+                            <td><?= h(@$city->employee->name) ?></td> 
                             <td><?= h(@$city->car->name) ?></td>
                             <td><?= h(date('d-M-Y',strtotime($city->date))) ?></td>
                             <td><?= h(@$city->opening_km) ?></td>

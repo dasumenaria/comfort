@@ -96,7 +96,8 @@ if($RecordShow == 1)
             else{ 
                 
                 if ($type == 1) {?>
-                   <table class="table table-bordered table-striped">
+                <div class="box-body" >
+                   <table class="table table-bordered table-condensed" id="example">
                     <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sl.') ?></th> 
@@ -152,15 +153,14 @@ if($RecordShow == 1)
                             
                         </tr>
                         <?php endforeach; ?>
-                    </tbody>
-                            
-                    
-            </table>
+                    </tbody>     
+                </table>
+            </div>
             <?php
                 }
                 else{?>
-
-                    <table class="table table-bordered table-striped">
+                <div class="box-body" >
+                    <table class="table table-bordered table-condensed" id="example">
                         <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sl.') ?></th> 
@@ -207,10 +207,9 @@ if($RecordShow == 1)
                             
                         </tr>
                         <?php endforeach; ?>
-                    </tbody>
-                            
-                    
-            </table>
+                    </tbody>     
+                </table>
+            </div>
         <?php
                 }
             

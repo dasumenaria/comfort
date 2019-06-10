@@ -67,7 +67,7 @@
 
                 $page_no = $page_no*10;
                 ?>
-                <table class="table table-bordered table-condensed" id="main_tble">
+                <table class="table table-bordered table-condensed" id="example">
                     <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sr.no') ?></th> 

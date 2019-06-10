@@ -69,13 +69,14 @@ if($RecordShow == 1)
         <?php 
             }
             else{ ?>
-            
-        <table class="table table-bordered table-striped">
+         <div class="box-body">  
+        <table class="table table-bordered table-condensed" id="example">
             <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sl.') ?></th> 
                             <th><?=  ('DS No .') ?></th> 
                             <th><?=  ('Car No.') ?></th>
+                            <th><?=  ('Guest') ?></th>
                             <th><?=  ('Service Name') ?></th>
                             <th><?=  ('Customer Name') ?></th>
                             <th><?=  ('Date') ?></th>
@@ -91,6 +92,7 @@ if($RecordShow == 1)
                             <td><?= h(++$page_no) ?></td> 
                             <td><?php echo $this->Html->link('&nbsp;'.$city->id.'&nbsp;',['action' => 'edit', $city->id],array('escape'=>false,'class'=>'btn btn-xs btn-success','target'=>'_blank','title'=>'Edit Duty Slip')); ?></td> 
                             <td><?= h($city->car->name) ?></td>
+                            <td><?= h($city->guest_name) ?></td>
                             <td><?= h($city->service->name) ?></td>
                             <td><?= h($city->customer->name) ?></td> 
                             <td><?php
@@ -111,6 +113,7 @@ if($RecordShow == 1)
                         <?php endforeach; ?>
                     </tbody>
             </table>
+            </div>  
         <?php
             }
             ?>

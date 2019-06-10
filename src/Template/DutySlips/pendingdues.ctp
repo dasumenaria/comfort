@@ -111,9 +111,9 @@ if($RecordShow == 1)
         <?php 
             }
             else{ 
-            echo"<div id='main_data'>";   
+            echo"<div class='box-body' id='main_data'>";   
             if ($billing_type == 'DutySlips') {?>
-               <table class="table table-bordered table-striped" border="1">
+               <table class="table table-bordered table-condensed" id="example" border="1">
                     <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sl.') ?></th> 
@@ -135,12 +135,11 @@ if($RecordShow == 1)
                         </tr>
                         <?php endforeach; ?>
                     </tbody>  
-                </table>
+                </table> 
                 <?php
             }
-            else{?>
-
-                <table class="table table-bordered table-striped"  border="1">
+            else{?> 
+                <table class="table table-bordered table-striped" id="example"  border="1">
                     <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sl.') ?></th> 
@@ -168,7 +167,8 @@ if($RecordShow == 1)
                         </tr>
                         <?php endforeach; ?>
                     </tbody>    
-            </table>
+                </table>
+             
         <?php
                 }
             

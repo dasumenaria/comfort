@@ -82,7 +82,8 @@
         <?php 
             }
             else{ ?>
-                <table class="table table-bordered table-striped">
+            <div class="box-body" >
+                <table class="table table-bordered table-condensed" id="example">
                     <thead>
                         <tr style="table-layout: fixed;">
                             <th><?=  ('Sl.') ?></th> 
@@ -116,6 +117,7 @@
                         <?php endforeach; ?>
                     </tbody>                                  
                 </table>
+            </div>
             <?php
             }
             ?>

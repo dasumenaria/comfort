@@ -39,7 +39,7 @@
     // The start view date
 	//var datess = new Date();
 	//datess.setDate(datess.getDate());
-    startDate:  new Date(),
+    //startDate:  new Date(),
 
     // The end view date
     endDate: null,

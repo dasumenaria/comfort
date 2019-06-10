@@ -43,6 +43,7 @@
             <?php 
             }
             else{ ?>
+            <div class="box-body" >
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr style="table-layout: fixed;">
@@ -115,9 +116,16 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+            </div> 
             <?php
             }
             ?>
         </div> 
     </div>   
 </section>
+<?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?> 
+<script>
+jQuery(".loadingshow").submit(function(){
+    jQuery("#loader-1").show();
+}); 
+</script>

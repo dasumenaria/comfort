@@ -332,7 +332,7 @@ label{
                             <label class="control-label">Travel Date From </label>
                         </div>
                         <div class="col-md-4">
-                            <?php echo $this->Form->control('date_from',['label' => false,'class' => 'form-control datepickers','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','type'=>'text']); ?> 
+                            <?php echo $this->Form->control('date_from',['label' => false,'class' => 'form-control datepickers','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','type'=>'text',"value"=>date("d-m-Y")]); ?> 
                         </div>
                     </div>
 
@@ -342,7 +342,7 @@ label{
                             <label class="control-label">Travel Date To</label>
                         </div>
                         <div class="col-md-4">
-                            <?php echo $this->Form->control('date_to',['label' => false,'class' => 'form-control datepickers','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','type'=>'text']); ?> 
+                            <?php echo $this->Form->control('date_to',['label' => false,'class' => 'form-control datepickers','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','type'=>'text',"value"=>date("d-m-Y")]); ?> 
                         </div>
                     </div>
                     <div class="NormalBilling">
