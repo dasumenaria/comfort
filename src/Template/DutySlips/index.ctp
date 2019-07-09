@@ -109,6 +109,19 @@
                     </thead>
                     <tbody>
                         <?php $page_no=0;$i=0; foreach ($customerList as $city): 
+                        if(!empty($city->temp_car_no)){
+                            $taxi = $city->temp_car_no;
+                        }
+                        else{
+                            $taxi = $city->car->name;
+                        }
+
+                        if(!empty($city->temp_driver_name)){
+                            $taxiDirver = $city->temp_driver_name;
+                         }
+                        else{
+                            $taxiDirver = $city->employee->name;
+                        }
                         ?>
                         <tr id="<?php echo ++$i; ?>" <?php if($city->billing_status=='yes'){ ?>  title="Billing have been Done" style="background-color:#DFF0D8;" <?php }
                             else if($city->waveoff_status==1) {?> title="This is waveoff ds" style="background-color:#F2DEDE;" <?php } ?>>
@@ -117,8 +130,8 @@
                             <td><?= h(@$city->customer->name) ?></td>
                             <td><?= h(@$city->guest_name) ?></td>
                             <td><?= h(@$city->service->name) ?></td>
-                            <td><?= h(@$city->employee->name) ?></td> 
-                            <td><?= h(@$city->car->name) ?></td>
+                            <td><?= h(@$taxiDirver) ?></td> 
+                            <td><?= h(@$taxi) ?></td>
                             <td><?= h(date('d-M-Y',strtotime($city->date))) ?></td>
                             <td><?= h(@$city->opening_km) ?></td>
                             <td><?= h(@$city->closing_km) ?></td>

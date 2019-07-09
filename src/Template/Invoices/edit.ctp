@@ -91,6 +91,13 @@ th {
                     <?php 
                 } 
                 ?> 
+                
+                <tr>
+                    <td>Billing GST</td>
+                    <td colspan="3">
+                        <?php echo $this->Form->control('invoice_gst',['label' => false,'class' => 'form-control ','autocomplete'=>'off','type'=>'text','value'=>$row_invoice->invoice_gst,'required'=>false]); ?>  
+                    </td>
+                </tr>
                 <tr>
                     <td>Remarks.</td>
                     <td colspan="3">

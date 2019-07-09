@@ -348,7 +348,7 @@ label{
                             <label class="control-label">Travel Date From </label>
                         </div>
                         <div class="col-md-4">
-                            <?php echo $this->Form->control('date_from',['label' => false,'class' => 'form-control date-picker','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','type'=>'text','value'=>date('d-m-Y',strtotime($dutySlip->date_from))]); ?> 
+                            <?php echo $this->Form->control('date_from',['label' => false,'class' => 'form-control datepickers','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','type'=>'text','value'=>date('d-m-Y',strtotime($dutySlip->date_from))]); ?> 
                         </div>
                     </div>
 
@@ -358,7 +358,7 @@ label{
                             <label class="control-label">Travel Date To</label>
                         </div>
                         <div class="col-md-4">
-                            <?php echo $this->Form->control('date_to',['label' => false,'class' => 'form-control date-picker','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','type'=>'text','value'=>date('d-m-Y',strtotime($dutySlip->date_to))]); ?> 
+                            <?php echo $this->Form->control('date_to',['label' => false,'class' => 'form-control datepickers','placeholder'=>'DD-MM-YYYY','autocomplete'=>'off','data-date-format'=>'dd-mm-yyyy','type'=>'text','value'=>date('d-m-Y',strtotime($dutySlip->date_to))]); ?> 
                         </div>
                     </div>
                     <div class="NormalBilling">
@@ -496,10 +496,31 @@ label{
 </section>  
 <?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?> 
 <script>
+
 jQuery(".loadingshow").submit(function(){
     jQuery("#loader-1").show();
 }); 
 $(document).ready(function() { 
+    var selected = $('option:selected', '.check').html();
+    var res = selected.split(" ");
+    var other = res[0];
+    if(other == 'Other'){
+        $('.checkSHow').show();
+    }
+    else{
+        $('.checkSHow').hide();
+    }
+
+    var selected = $('option:selected', '.driver').val();
+    var res = selected.split(" ");
+    var other = res[0];
+    if(other == 25){
+        $('.driverSHow').show();
+    }
+    else{
+        $('.driverSHow').hide();
+    }
+
     HideShowSection('<?php echo $dutySlip->billing_type; ?>'); 
     $(document).on('change','.getGST',function(){
         var option = $('option:selected', this).attr('gst_number');

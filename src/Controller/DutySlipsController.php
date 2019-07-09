@@ -511,11 +511,13 @@ class DutySlipsController extends AppController
             $extra_per_km=0;
             $extra_amnt=0;
             $extra_details='';
+
             if(!empty($service_id)) {
                 $serviceCheck = $this->DutySlips->Services->get($service_id);
+
                 if($serviceCheck->type == 'intercity'){
                     $days+=1;
-                    $tariffrate = $this->DutySlips->CustomerTariffs->find()->select('minimum_chg_km','extra_km_rate')->where(['CustomerTariffs.customer_id'=>$customer_id,'CustomerTariffs.service_id'=>$service_id,'CustomerTariffs.car_type_id'=>$car_type_id])->first();
+                    $tariffrate = $this->DutySlips->CustomerTariffs->find()->select(['minimum_chg_km','extra_km_rate'])->where(['CustomerTariffs.customer_id'=>$customer_id,'CustomerTariffs.service_id'=>$service_id,'CustomerTariffs.car_type_id'=>$car_type_id])->first();
                     $extra_km_charge=0;
                     $extra_km=0;
                     $extra_per_km=0;
@@ -524,14 +526,14 @@ class DutySlipsController extends AppController
                         $extra_km_rate = $tariffrate->extra_km_rate; 
                         $total_freerun = $minimum_chg_km*$days;
                         $extra_km=$total_km-($total_freerun);
-
+                        //pr($tariffrate);exit;
                         $extra_km_charge=$extra_km*$extra_km_rate; 
                         $extra_per_km=$extra_km_rate;
                         if($extra_km>0)
                         {
                             $extra='Km';
                             $extra_details=$extra_km;
-                            $extra_amnt=$extra_km_charge;
+                             $extra_amnt=$extra_km_charge; exit;
                         }
                     }
                 }
@@ -589,6 +591,8 @@ class DutySlipsController extends AppController
             $dutySlip->tot_amnt= $tot_amnt;
             $dutySlip->amount= $tot_amnt;
             $dutySlip->extra_amnt= $extra_amnt;
+            $dutySlip->extra_details= $extra_details;
+            pr($dutySlip);exit;
             if ($this->DutySlips->save($dutySlip)) { 
 
                 $this->Flash->success(__('The duty slip has been saved.'));

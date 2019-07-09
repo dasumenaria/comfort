@@ -6,6 +6,7 @@ th {
     text-align: center;
 }
 </style>
+ 
 <section class="content">
     <table class="hide_print">
         <tr>
@@ -17,14 +18,7 @@ th {
                 <?php echo $this->Html->link('<i class="fa fa-pencil"></i> Edit',['action' => 'edit', $invoice->id],array('escape'=>false,'class'=>'btn btn-info','target'=>'_blank'));?>
             </td>
             <td> 
-            <?= $this->Form->create(null, ['url' => [
-                    'controller' => 'Invoices',
-                    'action' => 'pdf'
-                ]]); ?>  
-            <?php echo $this->Form->control('pdfData' , ['label' => false,'value' => '','type'=>'textarea','id'=>'pdfData','style'=>'display:none']); ?> 
-            <?php echo $this->Form->button('<i class="fa fa-download"></i> PDF',['class'=>'btn btn-danger','title'=>'Click here to download PDF']); ?> 
-            <?= $this->Form->end() ?>
-           
+             <?php echo $this->Html->link('<i class="fa fa-pencil"></i> PDF',['action' => 'pdf', $invoice->id],array('escape'=>false,'class'=>'btn btn-danger','title'=>'Click here to download PDF','target'=>'_blank'));?>
             </td>
         </tr>
     </table> 
@@ -44,8 +38,10 @@ th {
                     </td>
                 </tr>
             </table>
-            <div  id="main_data">
-            <table width="100%"  border="1" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin-top:1%;margin-bottom: 20px;" bordercolor="#0872BA">
+            <div  >
+            <table width="100%" class="maintb" border="1" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin-top:1%;margin-bottom: 20px;" bordercolor="#0872BA" id="main_data">
+                
+                <tbody>
                 <tr class="ad"> 
                     <td width="15%">Bill To M/s.</td>
                     <td colspan="2" width="55%"><strong><?php echo $invoice->customer->name; ?></strong></td>
@@ -75,6 +71,7 @@ th {
                 <tr class="ad">
                     <?php
                     $x=0; 
+                    $othercharges=0;
                     foreach ($invoice->invoice_details as $invoiceData) 
                     {
                         $x++;
@@ -105,7 +102,7 @@ th {
                             $minimum_chg_km = @$tariffData->minimum_chg_km;
                             ?>
                             <tr class="ad">
-                                <td colspan="2" style="text-align:left"><?php echo "Duty Slip No. ".$invoiceData->id." dated on ".date('d-M-Y', strtotime($invoiceData->duty_slip->date))." "."towards the cost of transport used in ".$ctyName." for the Service ".$invoiceData->duty_slip->service->name." (".$minimum_chg_hourly." hrs / ".$minimum_chg_km." kms) by ".$invoiceData->duty_slip->car_type->name." ".$car_no ?></td>
+                                <td colspan="2" style="text-align:left"><?php echo "Duty Slip No. ".$invoiceData->duty_slip->id." dated on ".date('d-M-Y', strtotime($invoiceData->duty_slip->date))." "."towards the cost of transport used in ".$ctyName." for the Service ".$invoiceData->duty_slip->service->name." (".$minimum_chg_hourly." hrs / ".$minimum_chg_km." kms) by ".$invoiceData->duty_slip->car_type->name." ".$car_no ?></td>
                                 <td width="15%" align="center"><?php echo $invoiceData->duty_slip->service->sac_code;?></td>
                                 <th colspan="2"><?php echo $main_amnt; ?></th>
                             </tr>
@@ -120,7 +117,7 @@ th {
                                     </tr>
                                 <?php
                             }
-                            $othercharges=0;
+                            
                             if(!empty($invoiceData->duty_slip->extra_chg))
                             {
                             ?>
@@ -275,13 +272,19 @@ th {
                     <td colspan="3"><b>SIGNATURE IN CONFIRMATION</b><br/><span style="font-size: 11px; font-style:italic;">of terms & condition overleaf</span></td>
                     <?php if($colspan==0){echo"<th></th>";}?>
                     <td colspan="<?php echo $colspan; ?>">For: Comfort Travels & Tours</td>
-                </tr>
-                <tr class="ad"><td colspan="5" style="border-bottom:none;">&nbsp;</td></tr>
-                <tr class="ad"><td colspan="5" style="border-top:none;">&nbsp;</td></tr>
-                <tr class="ad">
+                </tr> 
+                
+                <?php
+                $imgUrl = $this->Html->image('sign.png',['style'=>'margin-bottom:20px;width:70%','fullBase' => true]);
+                ?>
+                <tr class="auth">
                     <td colspan="3">(Name............................................)</td>
                     <?php if($colspan==0){echo"<th></th>";}?>
-                    <td colspan="<?php echo $colspan; ?>"> Authorised Signatory</td>
+                    <td colspan="<?php echo $colspan; ?>"> 
+                        <div class="imagereplace"> 
+                            <?php echo $imgUrl; ?> <br>
+                        </div> 
+                     Authorised Signatory</td>
                 </tr>
                 <tr class="ad">
                     <td colspan="5" style="color:#0872BA;"><b>Other Info.</b> <span>PAN No. AAWPC1369E, GST No. : 08AAWPC1369E1ZL<br /><b>Email:-</b> operations@comforttours.com ,  siddhant.chatur@comforttours.com</span></td>
@@ -289,18 +292,21 @@ th {
                 <tr class="ad">
                     <td colspan="5" style="color:#0872BA;"><strong>For Bookings Contact:</strong> +91-9829794669 , +91-9602131131</td>
                 </tr>
+                </tbody>
             </table>
             </div>
         </div>
     </div>
 </section>
-<?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?> 
+<?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?>  
 <script>
 jQuery(".loadingshow").submit(function(){
     jQuery("#loader-1").show();
 }); 
 $(document).ready(function() { 
-    $('#pdfData').html($('#main_data').html());
-        
-});
+    $('#pdfData').html('<table width="100%" class="maintb" border="1" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin-top:1%;margin-bottom: 20px;" bordercolor="#0872BA"> '+$('#main_data > tbody').html());
+    $('#colspan').val('<?php echo $colspan;?>');
+
+ }); 
 </script>
+ 

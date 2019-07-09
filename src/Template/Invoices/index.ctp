@@ -38,15 +38,15 @@
                         <div class="form-group col-md-12">
                             <label class="control-label col-md-2">Invoice No. </label>
                             <div class="col-md-6">
-                                <?php echo $this->Form->control('id' , ['label' => false,'class' => 'form-control','placeholder'=>'Search by Invoice No.','autocomplete'=>'off']); ?>
+                                <?php echo $this->Form->control('invoice_no' , ['label' => false,'class' => 'form-control','placeholder'=>'Search by Invoice No.','autocomplete'=>'off']); ?>
                             </div>
                         </div> 
                         <div class="form-group col-md-12">
                             <label class="control-label col-md-2"> DutySlip No.</label>
                             <div class="col-md-6"> 
-                                 <?php echo $this->Form->control('dutyslip_id' , ['label' => false,'class' => 'form-control','placeholder'=>'Search by DutySlip No.','autocomplete'=>'off','type'=>'text']); ?>
+                                 <?php echo $this->Form->control('duty_slip_id' , ['label' => false,'class' => 'form-control','placeholder'=>'Search by DutySlip No.','autocomplete'=>'off','type'=>'text']); ?>
                             </div>
-                        </div>  
+                        </div>
                         <div class="form-group col-md-12">
                             <label class="control-label col-md-2">Customer Name </label>
                             <div class="col-md-6">

@@ -345,25 +345,25 @@ function amount_validation(check_id)
     var total=0;
     var j=0;
     var total_other=0;
-    var discount_rate=eval($('#discount').val());
-    var _total=eval($('#total').val());
+    var discount_rate=parseInt($('#discount').val());
+    var _total=parseInt($('#total').val());
     
     var i = check_id.substr(5);  // returns "cde"
 
     if($('#'+check_id).prop("checked")==true)
     {    
-        var extra_amnt=eval($('#extra_amnt'+i).val());
-        var main_amnt=eval($('#main_amnt'+i).val());
+        var extra_amnt=parseInt($('#extra_amnt'+i).val());
+        var main_amnt=parseInt($('#main_amnt'+i).val());
          
         total+=extra_amnt+main_amnt; 
         
-        var extra_chg=eval($('#extra_chg'+i).val());
-        var permit_chg=eval($('#permit_chg'+i).val());
-        var parking_chg=eval($('#parking_chg'+i).val());
-        var otherstate_chg=eval($('#otherstate_chg'+i).val());
-        var guide_chg=eval($('#guide_chg'+i).val());
-        var misc_chg=eval($('#misc_chg'+i).val());
-        var fuel_hike_chg=eval($('#fuel_hike_chg'+i).val());
+        var extra_chg=parseInt($('#extra_chg'+i).val());
+        var permit_chg=parseInt($('#permit_chg'+i).val());
+        var parking_chg=parseInt($('#parking_chg'+i).val());
+        var otherstate_chg=parseInt($('#otherstate_chg'+i).val());
+        var guide_chg=parseInt($('#guide_chg'+i).val());
+        var misc_chg=parseInt($('#misc_chg'+i).val());
+        var fuel_hike_chg=parseInt($('#fuel_hike_chg'+i).val());
         
         total_other+=extra_chg+permit_chg+parking_chg+otherstate_chg+guide_chg+misc_chg+fuel_hike_chg;  
         if($('#per').prop("checked")==true)
@@ -383,10 +383,10 @@ function amount_validation(check_id)
              
             var tax=0;
             var tax_amnt=0;
-            var total_tax_count = eval($('#total_tax_count').val());
+            var total_tax_count = parseInt($('#total_tax_count').val());
             for(var t=1; t<=total_tax_count; t++)
             {
-                tax=eval($('#tax_rate'+ t).val());
+                tax=parseInt($('#tax_rate'+ t).val());
                 tax_amnt= val*tax/100;
                 total_tax_amnt+=tax_amnt; 
             }
@@ -407,11 +407,11 @@ function amount_validation(check_id)
 
 function cal_amount()
 {
-    var total=0;
+    var totals=0;
     var j=0;
     var total_other=0;
     var total_amtt=0;
-    var count=eval($("#count").val());
+    var count=parseInt($("#count").val());
     var discount_rate=parseFloat($('#discount').val());
     for(var i=1; i<=count; i++)
     {
@@ -421,20 +421,23 @@ function cal_amount()
             $("#fillme_sub"+i).css('background-color','rgb(255, 255, 204)');
             $('#extra'+i).removeAttr('readonly');  
             $('#extra_amnt'+i).removeAttr('readonly'); 
-                   
-            var extra_amnt=eval($('#extra_amnt'+i).val());
-            var main_amnt=eval($('#main_amnt'+i).val());
-            total+=extra_amnt+main_amnt;
-         
-            var extra_chg=eval($('#extra_chg'+i).val());
-            var permit_chg=eval($('#permit_chg'+i).val());
-            var parking_chg=eval($('#parking_chg'+i).val());
-            var otherstate_chg=eval($('#otherstate_chg'+i).val());
-            var guide_chg=eval($('#guide_chg'+i).val());
-            var misc_chg=eval($('#misc_chg'+i).val());
-            var fuel_hike_chg=eval($('#fuel_hike_chg'+i).val());
-            total_other+=extra_chg+permit_chg+parking_chg+otherstate_chg+guide_chg+misc_chg+fuel_hike_chg; 
-            var total_amtt = total-total_other;
+                  
+            var extra_amnt=($('#extra_amnt'+i).val());
+            var main_amnt=($('#main_amnt'+i).val());
+
+            var totalthis = parseInt(extra_amnt)+parseInt(main_amnt);
+            
+            totals+=totalthis; 
+
+            var extra_chg=parseInt($('#extra_chg'+i).val());
+            var permit_chg=parseInt($('#permit_chg'+i).val());
+            var parking_chg=parseInt($('#parking_chg'+i).val());
+            var otherstate_chg=parseInt($('#otherstate_chg'+i).val());
+            var guide_chg=parseInt($('#guide_chg'+i).val());
+            var misc_chg=parseInt($('#misc_chg'+i).val());
+            var fuel_hike_chg=parseInt($('#fuel_hike_chg'+i).val());
+            total_other+=extra_chg+permit_chg+parking_chg+otherstate_chg+guide_chg+misc_chg+fuel_hike_chg;  
+            total_amtt = parseFloat(totals)-parseFloat(total_other); 
              
             if($('#per').prop("checked")==true)
             {
@@ -460,15 +463,13 @@ function cal_amount()
              
             if(($('#servicetax_status').val()=='yes')&&($('#comple').val()!='1'))
             {
-                 
-                 valu=(total_amtt-(discount_amnt))+total_other;
-                    
+                valu=(total_amtt-(discount_amnt))+total_other;
                 var tax=0;
                 var tax_amnt=0;
-                var total_tax_count = eval($('#total_tax_count').val());
+                var total_tax_count = parseInt($('#total_tax_count').val());
                 for(var t=1; t<=total_tax_count; t++)
                 { 
-                    tax=eval($('#tax_rate'+ t).val());
+                    tax=parseInt($('#tax_rate'+ t).val());
                     tax_amnt= valu*tax/100 ;
                     total_tax_amnt+=tax_amnt;
                     var taxx = tax_amnt.toFixed(2);
@@ -476,11 +477,11 @@ function cal_amount()
                 }
             }
             if(discount_amnt>0){
-             var after_dis=(total_amtt-(discount_amnt));    
+                var after_dis=(total_amtt-(discount_amnt));    
               
             }else
             {
-            var after_dis=total_amtt;
+                var after_dis=total_amtt;
             }
 
             var total = parseFloat(after_dis+total_other+total_tax_amnt);
@@ -500,14 +501,13 @@ function cal_amount()
             {
                 round_of=parseFloat(total)-parseFloat(roundOff1);
                 isRoundofType='0';
-            }
-            
-             
+            } 
             $('#round_off').val(round_of.toFixed(2));
             $('#isRoundofType').val(isRoundofType);
             $("#grand_total").val(round(total));
+             
             j=1;
-        }
+        } 
         else if(j==0)
         {
             $('#extra'+i).removeAttr('readonly');  
@@ -519,14 +519,14 @@ function cal_amount()
     }
     if(total==0)
     {
-            var total_tax_count = eval($('#total_tax_count').val());
-            for(var t=1; t<=total_tax_count; t++)
-            {
-                $('#taxation'+ t).val(0);
-            }  
-            
-            $("#grand_total").val(0);
-            $("#discount").val(0);
+        var total_tax_count = parseInt($('#total_tax_count').val());
+        for(var t=1; t<=total_tax_count; t++)
+        {
+            $('#taxation'+ t).val(0);
+        }  
+        
+        $("#grand_total").val(0);
+        $("#discount").val(0);
     }
     
     $("#total").val(total_amtt);
