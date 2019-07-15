@@ -26,6 +26,7 @@ class InvoiceDetail extends Entity
      * @var array
      */
     protected $_accessible = [
+        '*' => true,
         'invoice_id' => true,
         'duty_slip_id' => true,
         'amount' => true,

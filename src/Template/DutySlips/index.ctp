@@ -108,20 +108,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $page_no=0;$i=0; foreach ($customerList as $city): 
-                        if(!empty($city->temp_car_no)){
+                        <?php $page_no=0;$i=0; foreach ($customerList as $city):
+                            if(!empty($city->temp_car_no)){
                             $taxi = $city->temp_car_no;
-                        }
-                        else{
-                            $taxi = $city->car->name;
-                        }
-
-                        if(!empty($city->temp_driver_name)){
-                            $taxiDirver = $city->temp_driver_name;
-                         }
-                        else{
-                            $taxiDirver = $city->employee->name;
-                        }
+                            }
+                            else{
+                                $taxi = $city->car->name;
+                            }
+    
+                            if(!empty($city->temp_driver_name)){
+                                $taxiDirver = $city->temp_driver_name;
+                             }
+                            else{
+                                $taxiDirver = $city->employee->name;
+                            }
                         ?>
                         <tr id="<?php echo ++$i; ?>" <?php if($city->billing_status=='yes'){ ?>  title="Billing have been Done" style="background-color:#DFF0D8;" <?php }
                             else if($city->waveoff_status==1) {?> title="This is waveoff ds" style="background-color:#F2DEDE;" <?php } ?>>

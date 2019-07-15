@@ -260,7 +260,7 @@ class DutySlipsController extends AppController
             $total_km = $closing_km-$opening_km;
 
             $main1= strtotime($dutySlip->date_from);
-            $main2 = strtotime($dutySlip->date_from);
+            $main2 = strtotime($dutySlip->date_to);
             $days=(($main2-$main1)/86400);
  
             $customer_id = $this->request->getData('customer_id');
@@ -276,11 +276,12 @@ class DutySlipsController extends AppController
             $extra_per_km=0;
             $extra_amnt=0;
             $extra_details='';
+            $extra='';
             if(!empty($service_id)) {
                 $serviceCheck = $this->DutySlips->Services->get($service_id);
                 if($serviceCheck->type == 'intercity'){
                     $days+=1;
-                    $tariffrate = $this->DutySlips->CustomerTariffs->find()->select('minimum_chg_km','extra_km_rate')->where(['CustomerTariffs.customer_id'=>$customer_id,'CustomerTariffs.service_id'=>$service_id,'CustomerTariffs.car_type_id'=>$car_type_id])->first();
+                    $tariffrate = $this->DutySlips->CustomerTariffs->find()->select(['minimum_chg_km','extra_km_rate'])->where(['CustomerTariffs.customer_id'=>$customer_id,'CustomerTariffs.service_id'=>$service_id,'CustomerTariffs.car_type_id'=>$car_type_id])->first();
                     $extra_km_charge=0;
                     $extra_km=0;
                     $extra_per_km=0;
@@ -303,7 +304,7 @@ class DutySlipsController extends AppController
                 if($serviceCheck->type == 'incity'){
                     if($days==0)
                     $days++;
-                    $tariffrate = $this->DutySlips->CustomerTariffs->find()->select('minimum_chg_hourly','extra_hour_rate')->where(['CustomerTariffs.customer_id'=>$customer_id,'CustomerTariffs.service_id'=>$service_id,'CustomerTariffs.car_type_id'=>$car_type_id])->first();
+                    $tariffrate = $this->DutySlips->CustomerTariffs->find()->select(['minimum_chg_hourly','extra_hour_rate'])->where(['CustomerTariffs.customer_id'=>$customer_id,'CustomerTariffs.service_id'=>$service_id,'CustomerTariffs.car_type_id'=>$car_type_id])->first();
                     $extra_hours=0;
                     $extra_hours_charges=0;
                     $extra_per_hour=0;
@@ -354,6 +355,8 @@ class DutySlipsController extends AppController
             $dutySlip->tot_amnt= $tot_amnt;
             $dutySlip->extra_amnt= $extra_amnt;
             $dutySlip->amount= $tot_amnt;
+            $dutySlip->extra_details= $extra_details;
+             $dutySlip->extra= $extra;
             //pr($dutySlip);exit;
             if ($this->DutySlips->save($dutySlip)) {
                 $employee_id = $dutySlip->employee_id;
@@ -376,7 +379,7 @@ class DutySlipsController extends AppController
                 $mobile_no=$this->request->getData('mobile_no');
                 if(!empty($mobile_no)){
                     
-                     $car_name='';
+                    $car_name='';
                     if(empty($car_type_id)){
                         $car_name = '';
                     }
@@ -416,7 +419,10 @@ class DutySlipsController extends AppController
                     {
                         $sms=str_replace(' ', '+', 'Dear '.$guest_name.',%0AGreeting from Comfort Travels and Tours, Udaipur. Your car is '.$car_name.' '.$car_number.' with chauffeur '.$employee_name.' @ '.$employee_mobile_no.'. Have a pleasant journey.');
                     }
-                    $this->sendSms($mobile_no,$sms,$sms_sender);
+                    $mobile_noArray = explode(',',$mobile_no);
+                    foreach ($mobile_noArray as $singlemmobile) {
+                       $this->sendSms($singlemmobile,$sms,$sms_sender);
+                    }  
                 }
                 $this->Flash->success(__('The duty slip has been saved.'));
 
@@ -495,7 +501,7 @@ class DutySlipsController extends AppController
             $total_km = $closing_km-$opening_km;
 
             $main1= strtotime($dutySlip->date_from);
-            $main2 = strtotime($dutySlip->date_from);
+            $main2 = strtotime($dutySlip->date_to);
             $days=(($main2-$main1)/86400);
  
             $customer_id = $this->request->getData('customer_id');
@@ -511,10 +517,9 @@ class DutySlipsController extends AppController
             $extra_per_km=0;
             $extra_amnt=0;
             $extra_details='';
-
+            $extra='';
             if(!empty($service_id)) {
                 $serviceCheck = $this->DutySlips->Services->get($service_id);
-
                 if($serviceCheck->type == 'intercity'){
                     $days+=1;
                     $tariffrate = $this->DutySlips->CustomerTariffs->find()->select(['minimum_chg_km','extra_km_rate'])->where(['CustomerTariffs.customer_id'=>$customer_id,'CustomerTariffs.service_id'=>$service_id,'CustomerTariffs.car_type_id'=>$car_type_id])->first();
@@ -526,21 +531,21 @@ class DutySlipsController extends AppController
                         $extra_km_rate = $tariffrate->extra_km_rate; 
                         $total_freerun = $minimum_chg_km*$days;
                         $extra_km=$total_km-($total_freerun);
-                        //pr($tariffrate);exit;
+
                         $extra_km_charge=$extra_km*$extra_km_rate; 
                         $extra_per_km=$extra_km_rate;
                         if($extra_km>0)
                         {
                             $extra='Km';
                             $extra_details=$extra_km;
-                             $extra_amnt=$extra_km_charge; exit;
+                            $extra_amnt=$extra_km_charge;
                         }
                     }
                 }
                 if($serviceCheck->type == 'incity'){
                     if($days==0)
                     $days++;
-                    $tariffrate = $this->DutySlips->CustomerTariffs->find()->select('minimum_chg_hourly','extra_hour_rate')->where(['CustomerTariffs.customer_id'=>$customer_id,'CustomerTariffs.service_id'=>$service_id,'CustomerTariffs.car_type_id'=>$car_type_id])->first();
+                    $tariffrate = $this->DutySlips->CustomerTariffs->find()->select(['minimum_chg_hourly','extra_hour_rate'])->where(['CustomerTariffs.customer_id'=>$customer_id,'CustomerTariffs.service_id'=>$service_id,'CustomerTariffs.car_type_id'=>$car_type_id])->first();
                     $extra_hours=0;
                     $extra_hours_charges=0;
                     $extra_per_hour=0;
@@ -588,11 +593,11 @@ class DutySlipsController extends AppController
             {
                 $tot_amnt=$cop_amounts;
             } 
+            $dutySlip->extra= $extra;
             $dutySlip->tot_amnt= $tot_amnt;
             $dutySlip->amount= $tot_amnt;
             $dutySlip->extra_amnt= $extra_amnt;
             $dutySlip->extra_details= $extra_details;
-            pr($dutySlip);exit;
             if ($this->DutySlips->save($dutySlip)) { 
 
                 $this->Flash->success(__('The duty slip has been saved.'));

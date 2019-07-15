@@ -65,7 +65,7 @@ label{
                         <label class="control-label">Guest Name</label>
                     </div>
                     <div class="col-md-4">
-                        <?php echo $this->Form->control('guest_name',['label' => false,'type'=>'text','class' => 'form-control','placeholder'=>'Guest Name','autocomplete'=>'off']); ?> 
+                        <?php echo $this->Form->control('guest_name',['label' => false,'type'=>'texte','class' => 'form-control','placeholder'=>'Guest Name','autocomplete'=>'on']); ?> 
                     </div>
                 </div>
                 <span class="help-block"></span>  
@@ -83,7 +83,7 @@ label{
                         <label class="control-label">Mobile Number </label>
                     </div>
                     <div class="col-md-4">
-                        <?php echo $this->Form->control('mobile_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Mobile Number','autocomplete'=>'off','oninput'=>"this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')"]); ?> 
+                        <?php echo $this->Form->control('mobile_no',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Mobile Number','autocomplete'=>'on','type'=>'texte' ]); ?> 
                     </div>
                 </div>
                 <span class="help-block"></span> 
@@ -101,7 +101,7 @@ label{
                         <label class="control-label">GST Number </label>
                     </div>
                     <div class="col-md-4">
-                        <?php echo $this->Form->control('gst_no',['label' => false,'class' => 'form-control ','placeholder'=>'GST Number','autocomplete'=>'off']); ?> 
+                        <?php echo $this->Form->control('gst_no',['label' => false,'class' => 'form-control ','placeholder'=>'GST Number','autocomplete'=>'on','type'=>'texte']); ?> 
                     </div>
                 </div>
                 <span class="help-block"></span> 
@@ -150,7 +150,7 @@ label{
                             <?php echo $this->Form->control('car_id' , ['label' => false,'class' => 'select2 check','empty'=>'Select...','options'=>$cars,'autocomplete'=>'off']); ?>
                         </div>
                         <div class="col-md-4 checkSHow" style ="display:none">
-                            <?php echo $this->Form->control('temp_car_no' , ['label' => false,'class' => 'form-control','type'=>'text','placeholder'=>'Enter Car Number','autocomplete'=>'off']); ?>
+                            <?php echo $this->Form->control('temp_car_no' , ['label' => false,'class' => 'form-control','type'=>'texte','placeholder'=>'Enter Car Number','autocomplete'=>'on']); ?>
                         </div>
                     </div> 
                 </div>
@@ -198,7 +198,7 @@ label{
                             <?php echo $this->Form->control('employee_id',['label' => false,'class' => 'form-control select2 driver','empty'=>'Select...','options'=>$employees,'autocomplete'=>'off']); ?> 
                         </div>
                         <div class="col-md-4 driverSHow" style ="display:none">
-                            <?php echo $this->Form->control('temp_driver_name',['label' => false,'class' => 'form-control','type'=>'text','placeholder'=>'Enter driver name','autocomplete'=>'off']); ?>
+                            <?php echo $this->Form->control('temp_driver_name',['label' => false,'class' => 'form-control','type'=>'texte','placeholder'=>'Enter driver name','autocomplete'=>'on']); ?>
                             <label id="employee-id-error" class="error" for="employee-id"></label> 
                         </div>
                     </div>
@@ -286,7 +286,7 @@ label{
                                 else 
                                     $optionTimeSeconds[$ix]=$ix; 
                             } 
-                            $hh=date('h',strtotime($dutySlip->opening_time));                
+                            $hh=date('H',strtotime($dutySlip->opening_time));                
                             $ii=date('i',strtotime($dutySlip->opening_time));                
                             ?>
                             <table width="100%">
@@ -324,7 +324,7 @@ label{
                                 else 
                                     $optionTimeSeconds[$ix]=$ix; 
                             } 
-                            $hhs=date('h',strtotime($dutySlip->closing_time));                
+                            $hhs=date('H',strtotime($dutySlip->closing_time));                
                             $iis=date('i',strtotime($dutySlip->closing_time));
 
                             ?>
@@ -454,7 +454,7 @@ label{
                         <label class="control-label">Remarks</label>
                     </div>
                     <div class="col-md-4">
-                        <?php echo $this->Form->control('remarks',['label' => false,'type'=>'text','class' => 'form-control  firstupercase','placeholder'=>'Remarks','autocomplete'=>'off']); ?> 
+                        <?php echo $this->Form->control('remarks',['label' => false,'type'=>'texte','class' => 'form-control  firstupercase','placeholder'=>'Remarks','autocomplete'=>'on']); ?> 
                     </div>
                 </div>
                 <span class="help-block"></span> 
@@ -463,7 +463,7 @@ label{
                         <label class="control-label">Reason</label>
                     </div>
                     <div class="col-md-4">
-                        <?php echo $this->Form->control('reason',['label' => false,'type'=>'text','class' => 'form-control ','placeholder'=>'Reason','autocomplete'=>'off']); ?> 
+                        <?php echo $this->Form->control('reason',['label' => false,'type'=>'texte','class' => 'form-control ','placeholder'=>'Reason','autocomplete'=>'on']); ?> 
                     </div>
                 </div>
                 <span class="help-block"></span> 
@@ -496,7 +496,6 @@ label{
 </section>  
 <?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?> 
 <script>
-
 jQuery(".loadingshow").submit(function(){
     jQuery("#loader-1").show();
 }); 
@@ -520,7 +519,7 @@ $(document).ready(function() {
     else{
         $('.driverSHow').hide();
     }
-
+    
     HideShowSection('<?php echo $dutySlip->billing_type; ?>'); 
     $(document).on('change','.getGST',function(){
         var option = $('option:selected', this).attr('gst_number');

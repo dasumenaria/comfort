@@ -46,7 +46,7 @@
                             <div class="col-md-6"> 
                                  <?php echo $this->Form->control('duty_slip_id' , ['label' => false,'class' => 'form-control','placeholder'=>'Search by DutySlip No.','autocomplete'=>'off','type'=>'text']); ?>
                             </div>
-                        </div>
+                        </div>  
                         <div class="form-group col-md-12">
                             <label class="control-label col-md-2">Customer Name </label>
                             <div class="col-md-6">

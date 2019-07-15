@@ -41,15 +41,14 @@ class InvoicesController extends AppController
                     $where['Invoices.payment_status'] = 'no'; 
                     $where['Invoices.waveoff_status'] = 0; 
                 } 
-                 
+                //pr($where);exit;
                 $dsidd = $this->request->getData('duty_slip_id');
                 $customerList = $this->Invoices->find()->contain(['InvoiceTypes', 'Customers','InvoiceDetails'=>['DutySlips']])->where($where);
                 if(!empty($dsidd)){
                     $customerList->Matching('InvoiceDetails', function($q)use($dsidd) {
                         return $q->where(['InvoiceDetails.duty_slip_id' => $dsidd]);
                     });
-                } 
-
+                }
                 if(!empty($this->request->getData('date_from'))){
                     $date_from=date('Y-m-d',strtotime($this->request->getData('date_from'))); 
                     $date_to=date('Y-m-d',strtotime($this->request->getData('date_to')));  
@@ -228,7 +227,7 @@ class InvoicesController extends AppController
                 $this->set(compact('customer_id', 'invoice_type_id', 'payment_type','complimenatry_status','remarks','invoiceTypeData','customerData','dutySlipData','tax_type','gstData'));      
             }
             if(!empty($this->request->getData('invoiceReg'))){ 
-
+    
                 //pr($this->request->getData());exit;
                 $count=$this->request->getData('count');  
                 $payment_type=$this->request->getData('payment_type');
@@ -260,7 +259,8 @@ class InvoicesController extends AppController
                 $complimenatry_status=$this->request->getData('complimenatry_status');
                 $invoice_date= $this->request->getData('invoice_date');
                 //--
-                $findCount = $this->Invoices->InvoiceDetails->find()->where(['InvoiceDetails.duty_slip_id IN'=>$dutyslip_id])->count();
+                $findCount = 0;//$this->Invoices->InvoiceDetails->find()->where(['InvoiceDetails.duty_slip_id IN'=>$dutyslip_id])->count();
+               
                 if($findCount==0){
                      
                     $CheckInvoiceNo = $this->Invoices->find()->where(['financial_year_id'=>$financial_year_id])->order(['id'=>'DESC'])->first();
@@ -300,8 +300,7 @@ class InvoicesController extends AppController
                     $LedgerData = $this->Invoices->Ledgers->find()->select(['id'])->where(['Ledgers.customer_id'=>$this->request->getData('customer_id')])->first();
                     $customer_ledger_id = $LedgerData->id;
                     $invoice->ledger_id = $customer_ledger_id;
-                    //pr($invoice); exit; 
-                     
+                    //pr($invoice); exit;  
                     if ($this->Invoices->save($invoice)) {
                         $amount_to_cars=0;
                         for($i=1;$i<=$count;$i++)
@@ -596,6 +595,10 @@ class InvoicesController extends AppController
                         
                     } 
                     $this->Flash->error(__('The invoice could not be saved. Please, try again.')); 
+                
+                    
+                
+                    
                 }
             } 
         }
@@ -621,19 +624,11 @@ class InvoicesController extends AppController
 
     public function pdf($id = null)
     {
-        $this->viewBuilder()->setLayout('');   
         $invoice = $this->Invoices->get($id, [
             'contain' => ['InvoiceTypes', 'Customers'=>['CustomerTariffs'],'InvoiceDetails'=>['DutySlips'=>['Cars','Services','CarTypes']]]
         ]); 
         $this->set('invoice', $invoice);
     }
-    public function generatepdf()
-    {
-        $this->viewBuilder()->setLayout('');   
-        $this->set('pdfData', $this->request->getData('pdfData'));
-        $this->set('colspan', $this->request->getData('colspan'));
-    }
-    
     public function excel()
     {  
         $this->viewBuilder()->setLayout(''); 
@@ -1102,42 +1097,6 @@ class InvoicesController extends AppController
         return $totalTIme;
     }
 
-    public function totalReport()
-    {
-        $RecordShow = 0;
-        $where=array();
-        $date_from='';
-        $date_to='';
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $waveoffds = $this->Invoices->Customers->find()->order(['Customers.id'=>'ASC']);
-            $where['Invoices.waveoff_status']=0;
-            $where['Invoices.complimenatry_status']=0;
-            $where['Invoices.waveoff_status']=0;
-            if(!empty($this->request->getData('customer_id')))
-               $where['Invoices.customer_id']=$this->request->getData('customer_id');
-                
-            $date_from = $this->request->getData('date_from');
-            $date_to = $this->request->getData('date_to');
-            if(!empty($date_from)){
-                $date_from=date('Y-m-d',strtotime($date_from)); 
-                $date_to=date('Y-m-d',strtotime($date_to));   
-            }
-            else{
-                $date_from='1990-01-01';
-                $date_to=date('Y-m-d');
-            } 
-
-            $waveoffds->contain(['Invoices'=>function($q)use($where,$date_to,$date_from){
-                return $q->where($where)->contain(['Customers','InvoiceDetails'=>['DutySlips'=>['Cars','CarTypes','Services']]])
-                    ->where(function($exp) use($date_from,$date_to) {
-                        return $exp->between('Invoices.date', $date_from, $date_to, 'date');
-                    });
-            }]);
-            $RecordShow=1;
-        }
-        $customerlist = $this->Invoices->Customers->find('list');
-        $this->set(compact('RecordShow','waveoffds','date_from','date_to','customerlist'));
-    }
     public function monthlyReport()
     {
         $RecordShow = 0;
@@ -1176,5 +1135,40 @@ class InvoicesController extends AppController
         $customerlist = $this->Invoices->Customers->find('list');
         $this->set(compact('RecordShow','waveoffds','date_from','date_to','customerlist'));
     }
+    public function totalReport()
+    {
+        $RecordShow = 0;
+        $where=array();
+        $date_from='';
+        $date_to='';
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $waveoffds = $this->Invoices->Customers->find()->order(['Customers.id'=>'ASC']);
+            $where['Invoices.waveoff_status']=0;
+            $where['Invoices.complimenatry_status']=0;
+            $where['Invoices.waveoff_status']=0;
+            if(!empty($this->request->getData('customer_id')))
+               $where['Invoices.customer_id']=$this->request->getData('customer_id');
+                
+            $date_from = $this->request->getData('date_from');
+            $date_to = $this->request->getData('date_to');
+            if(!empty($date_from)){
+                $date_from=date('Y-m-d',strtotime($date_from)); 
+                $date_to=date('Y-m-d',strtotime($date_to));   
+            }
+            else{
+                $date_from='1990-01-01';
+                $date_to=date('Y-m-d');
+            } 
 
+            $waveoffds->contain(['Invoices'=>function($q)use($where,$date_to,$date_from){
+                return $q->where($where)->contain(['Customers','InvoiceDetails'=>['DutySlips'=>['Cars','CarTypes','Services']]])
+                    ->where(function($exp) use($date_from,$date_to) {
+                        return $exp->between('Invoices.date', $date_from, $date_to, 'date');
+                    });
+            }]);
+            $RecordShow=1;
+        }
+        $customerlist = $this->Invoices->Customers->find('list');
+        $this->set(compact('RecordShow','waveoffds','date_from','date_to','customerlist'));
+    }
 }

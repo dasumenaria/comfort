@@ -184,7 +184,7 @@ th {
                             {
                                 ?>
                                     <tr>
-                                        <th colspan="2">Permit Charges</th>
+                                        <th colspan="2">Overtime</th>
                                         <td></td>
                                         <th colspan=" ">
                                            <?php echo $this->Form->control('permit_chg'.$x,['label' => false,'class' => 'form-control ','autocomplete'=>'off','type'=>'text','value'=>$invoiceData->duty_slip->permit_chg,'id'=>'permit_chg'.$x,'onKeyUp'=>'cal_amount()']); ?>  
