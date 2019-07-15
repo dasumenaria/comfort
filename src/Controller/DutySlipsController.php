@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+
 //use App\Controller\DateTime;
 
 /**
@@ -85,7 +86,7 @@ class DutySlipsController extends AppController
     public function view($id = null)
     {
         $dutySlip = $this->DutySlips->get($id, [
-            'contain' => ['Services', 'CarTypes', 'Cars', 'Customers', 'Employees', 'Logins', 'Counters']
+            'contain' => ['Services', 'CarTypes', 'Cars', 'Customers', 'Employees', 'Counters']
         ]);
 
         $this->set('dutySlip', $dutySlip);
@@ -94,8 +95,8 @@ class DutySlipsController extends AppController
     public function viewDutyslip($id = null)
     {
         $dutySlip = $this->DutySlips->get($id, [
-            'contain' => ['Services', 'CarTypes', 'Cars', 'Customers', 'Employees', 'Logins', 'Counters']
-        ]);
+            'contain' => ['Services', 'CarTypes', 'Cars', 'Customers', 'Employees', 'Counters']
+        ]); 
 
         $this->set('dutySlip', $dutySlip);
     }
@@ -450,6 +451,7 @@ class DutySlipsController extends AppController
         $dutySlip = $this->DutySlips->get($id, [
             'contain' => []
         ]);
+
         $login_id = $this->Auth->User('id'); 
         $counter_id = $this->Auth->User('counter_id');
         if ($this->request->is(['patch', 'post', 'put'])) { 
