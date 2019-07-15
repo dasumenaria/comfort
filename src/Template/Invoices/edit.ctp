@@ -350,6 +350,7 @@ th {
                         }
                     }
                     ?>
+                    <?= $this->Form->hidden('complimenatry_status' , ['label' => false,'id'=>'comple']); ?>
                     <tr>
                         <th colspan="3" class="centerme">Round Off</th>
                         <td>
@@ -500,8 +501,8 @@ function cal_amount()
     else{
         $("#other_charges").val(0); 
     }
-         
-    if($('#tax_status').val()=='yes')
+ 
+    if(($('#tax_status').val()=='yes')&&($('#comple').val()!='1'))
     {
         valu=(total-discount_amnt)+total_other;
         var tax=0;
