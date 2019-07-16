@@ -17,6 +17,9 @@ namespace App\Controller;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Cake\Network\Email\Email;
+use Cake\Routing\Router;
+set_time_limit(0);
+ini_set('memory_limit','2048M');
 /**
  * Application Controller
  *
