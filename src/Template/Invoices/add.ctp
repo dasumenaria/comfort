@@ -249,11 +249,13 @@ label{
                                         echo $this->Form->radio(
                                         'discount',
                                         [
-                                            ['value' => 1, 'text' => ' Per ','onClick'=>'cal_amount()','id'=>'per'],
-                                            ['value' => 0, 'text' => ' Amount ','checked','onClick'=>'cal_amount()','id'=>'amount'],   
+                                            ['value' => 1, 'text' => ' Per ','onClick'=>'cal_amount()','id'=>'per','checked'],
+                                            ['value' => 0, 'text' => ' Amount ','onClick'=>'cal_amount()','id'=>'amount'],   
                                         ],
                                         ['class'=>'']
-                                        ); 
+                                        );
+                                        $cal=0; 
+                                        if($complimenatry_status==1){ $cal=100;}
                                     ?>   
                                 <td>
                                     <?php echo $this->Form->control('discount',['label' => false,'class' => 'form-control','autocomplete'=>'off','type'=>'text','value'=>0,'id'=>'discount','onKeyUp'=>'cal_amount()','required']); ?> 
@@ -412,7 +414,7 @@ function cal_amount()
     var total_other=0;
     var total_amtt=0;
     var count=eval($("#count").val());
-    var discount_rate=parseFloat($('#discount').val());
+    var discount_rate=parseInt($('#discount').val());
     for(var i=1; i<=count; i++)
     {
         if($('#check'+i).prop("checked")==true)
@@ -526,7 +528,7 @@ function cal_amount()
             }  
             
             $("#grand_total").val(0);
-            $("#discount").val(0);
+            //$("#discount").val(100);
     }
     
     $("#total").val(total_amtt);
