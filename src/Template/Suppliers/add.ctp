@@ -177,7 +177,7 @@
                                 $values['no'] = 'No';
                                 $values['yes']= 'Yes';
                                 ?>
-                                <?php echo $this->Form->control('bill_to_bill',['label' => false,'class' => 'form-control   firstupercase','options'=>$values,'autocomplete'=>'off']); ?> 
+                                <?php echo $this->Form->control('bill_to_bill',['label' => false,'required','class' => 'form-control   firstupercase','options'=>$values,'autocomplete'=>'off']); ?> 
                                 </div>
                             </div>
                         </div> 

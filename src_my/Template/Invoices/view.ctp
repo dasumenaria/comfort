@@ -6,7 +6,8 @@ th {
     text-align: center;
 }
 </style>
- 
+<?php 
+?>
 <section class="content">
     <table class="hide_print">
         <tr>
@@ -55,7 +56,7 @@ th {
                 </tr>
                 <tr class="ad"> 
                     <td>Billing GST</td>
-                    <td colspan="2"><?php if(!empty($gst_number)) { echo $gst_number;} else{ echo $invoice->invoice_gst;} ?></td>
+                    <td colspan="2"><?php if(!empty($invoice->customer->gst_number)) { echo $invoice->customer->gst_number;} else{ echo $invoice->invoice_gst;} ?></td>
                     <td>Date</td>
                     <td><?php echo date('d-M-Y', strtotime($invoice->date)); ?></td>
                 </tr>
@@ -133,7 +134,7 @@ th {
                             {
                             ?>
                                     <tr class="ad">
-                                    <td colspan="3">Permit Charges</td>
+                                    <td colspan="3">Overtime</td>
                                     <th colspan="2"><?php echo $invoiceData->duty_slip->permit_chg; ?></th>
                                     </tr>
                             <?php

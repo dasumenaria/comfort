@@ -59,6 +59,15 @@ class AccountingEntriesTable extends Table
         $this->belongsTo('Receipts', [
             'foreignKey' => 'receipt_id'
         ]);
+        $this->belongsTo('ContraVouchers', [
+            'foreignKey' => 'contra_voucher_id'
+        ]);
+        $this->belongsTo('CreditNotes', [
+            'foreignKey' => 'credit_note_id'
+        ]);
+        $this->belongsTo('DebitNotes', [
+            'foreignKey' => 'debit_note_id'
+        ]);
         $this->belongsTo('ReceiptRows', [
             'foreignKey' => 'receipt_row_id'
         ]);

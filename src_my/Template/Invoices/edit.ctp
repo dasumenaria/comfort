@@ -184,7 +184,7 @@ th {
                             {
                                 ?>
                                     <tr>
-                                        <th colspan="2">Permit Charges</th>
+                                        <th colspan="2">Overtime</th>
                                         <td></td>
                                         <th colspan=" ">
                                            <?php echo $this->Form->control('permit_chg'.$x,['label' => false,'class' => 'form-control ','autocomplete'=>'off','type'=>'text','value'=>$invoiceData->duty_slip->permit_chg,'id'=>'permit_chg'.$x,'onKeyUp'=>'cal_amount()']); ?>  
@@ -350,6 +350,7 @@ th {
                         }
                     }
                     ?>
+                    <?= $this->Form->hidden('complimenatry_status' , ['label' => false,'id'=>'comple']); ?>
                     <tr>
                         <th colspan="3" class="centerme">Round Off</th>
                         <td>
@@ -500,8 +501,8 @@ function cal_amount()
     else{
         $("#other_charges").val(0); 
     }
-         
-    if($('#tax_status').val()=='yes')
+ 
+    if(($('#tax_status').val()=='yes')&&($('#comple').val()!='1'))
     {
         valu=(total-discount_amnt)+total_other;
         var tax=0;

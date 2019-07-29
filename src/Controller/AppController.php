@@ -17,9 +17,6 @@ namespace App\Controller;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Cake\Network\Email\Email;
-use Cake\Routing\Router;
-set_time_limit(0);
-ini_set('memory_limit','2048M');
 /**
  * Application Controller
  *
@@ -70,13 +67,9 @@ class AppController extends Controller
             ],
             'unauthorizedRedirect' => $this->referer() // If unauthorized, return them to page they were just on
         ]);
-
+        $email = new Email();    
         // Allow the display action so our pages controller
         // continues to work.
-
-        $email = new Email();    
-
-
         $this->Auth->allow(['display']);
         $this->set(compact('auth','DateConvert','NumbersComponent','email'));
          

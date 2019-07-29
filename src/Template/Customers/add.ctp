@@ -160,7 +160,7 @@
                                 <?php 
                                  $statusArray['no']='No';
                                  $statusArray['yes']='Yes';
-                                echo $this->Form->control('bill_to_bill',['label' => false,'type'=>'select','class' => 'form-control','options'=>$statusArray,'value'=>'no']); ?> 
+                                echo $this->Form->control('bill_to_bill',['label' => false,'type'=>'select','required','class' => 'form-control','options'=>$statusArray,'value'=>'no']); ?> 
                                 </div>                             
                             </div>                             
                         </div>

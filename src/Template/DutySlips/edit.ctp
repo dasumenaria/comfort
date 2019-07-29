@@ -65,7 +65,7 @@ label{
                         <label class="control-label">Guest Name</label>
                     </div>
                     <div class="col-md-4">
-                        <?php echo $this->Form->control('guest_name',['label' => false,'type'=>'texte','class' => 'form-control','placeholder'=>'Guest Name','autocomplete'=>'on']); ?> 
+                        <?php echo $this->Form->control('guest_name',['label' => false,'type'=>'texte','class' => 'form-control','placeholder'=>'Guest Name','autocomplete'=>'on','autofocus']); ?> 
                     </div>
                 </div>
                 <span class="help-block"></span>  
@@ -92,7 +92,7 @@ label{
                         <label class="control-label">Email Address</label>
                     </div>
                     <div class="col-md-4">
-                        <?php echo $this->Form->control('email_id',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Email Address','autocomplete'=>'off','type'=>'email']); ?> 
+                        <?php echo $this->Form->control('email_id',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Email Address','autocomplete'=>'off','type'=>'texte']); ?> 
                     </div>
                 </div>
                 <span class="help-block"></span> 

@@ -1,4 +1,9 @@
-
+<style>
+    body {
+    font-family: 'Raleway', sans-serif !important;
+    font-size: 13px !important;
+    }
+</style>
 <section class="content">
 <?php
     if($RecordShow == 1)
@@ -30,13 +35,14 @@
 
     <div class="col-md-12">
         <div class="box box-primary"> 
-            <div class="box-header with-border hide_print">
-                <i class="fa fa-plus"></i>Total Billing Report
-            </div>
+            
             <?php
             if($RecordShow != 1)
             {
                 ?>
+                <div class="box-header with-border hide_print">
+                <i class="fa fa-plus"></i>Total Billing Report
+            </div>
             <?= $this->Form->create('df',['type'=>'file','id'=>'CityForm']) ?>
             <div class="box-body" > 
                 <div class="row"> 
@@ -93,54 +99,51 @@
         <?php 
             }
             else{ ?>
+             <?php $city_name=''; foreach ($waveoffds as $city){ if(!empty($city->invoices)){ $city_name = $city->name; } } ?>
+            <div class="box-header with-border hide_print">
+                <i class="fa fa-plus"></i>Result for <?= $city_name ?> Total Billing From <?php echo date('d-m-Y',strtotime($date_from)); ?> To <?php echo date('d-m-Y',strtotime($date_to)); ?>
+            </div>
             <div id='main_data' style="overflow:scroll;height:450px;width:1250px">
-                <table class="table table-bordered table-striped" border="1">
+                <table class="table table-bordered table-hover table-condensed flip-content" border="1">
+                   
                     <thead>
                         <tr style="table-layout: fixed;">
-                            <td>SR.NO</td>
-                            <td>INVOICE NO.</td> 
-                            <td style="text-align:center"><?=  ('DutySlip Details') ?></td>
-                            <td>TOTAL INVOICE AMOUNT</td> 
+                            <th>SR.NO</th>
+                            <th>INVOICE NO.</th> 
+                            <th>DUTY SLIP NO.</th>
+                            <th>VECHICLE NO</th>
+                            <th>VECHILE TYPE</th>
+                            <th>FROM DATE</th>
+                            <th>TO DATE</th>
+                            <th>NO OF DAYS</th>
+                            <th>PER DAT RATE</th>
+                            <th>TOTAL AMOUNT</th>
+                            <th>TOLL + PARKING</th>
+                            <th>EXTRA KM</th>
+                            <th>EXTRA KM RATE</th>
+                            <th>EXTRA KM AMOUNT</th>
+                            <th>TOTAL INVOICE AMOUNT</th> 
                         </tr>
                     </thead>
                     <tbody>
                         <?php 
                         $page_no=0; 
-                        $total_amount=0; 
+                        $total_amount=0;
+                        
                         foreach ($waveoffds as $city): 
                         if($city->invoices){
-                            ?> 
-                            <tr style="background-color:#eee;">
-                                <th style="text-align:center" colspan="8">Customer: <?= $city->name?></th>
-                            </tr>
-                            <?php $x=0;
+                             $x=0;
+                             $count=0;
+                            
                             foreach ($city->invoices as $value) { 
+                                $count = sizeof($value->invoice_details);
                                 ?>
-                                <tr>
-                                    <td><?= ++$x?></td>  
-                                    <td><?= $value->invoice_no;?></td>
-                                    <td>
-                                        <table class="table table-bordered table-striped" border="1">
-                                        <thead>
-                                            <tr>
-                                              <td>DS NO.</td>
-                                              <td>VECHICLE NO</td>
-                                              <td>VECHILE TYPE</td>
-                                              <td>FROM DATE</td>
-                                              <td>TO DATE</td>
-                                              <td>NO OF DAYS</td>
-                                              <td>PER DAT RATE</td>
-                                              <td>TOTAL AMOUNT</td>
-                                              <td>TOLL + PARKING</td>
-                                              <td>EXTRA KM</td>
-                                              <td>EXTRA KM RATE</td>
-                                              <td>EXTRA KM AMOUNT</td> 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php $xx=0;
-                                            foreach ($value->invoice_details as $details) {
-                                                $xx++; 
+                                 <?php
+                                  $count_n=0;
+                             $count_b=0;
+                             $count_c=0;
+                                            foreach ($value->invoice_details as $key=> $details) {
+                                             
                                                  $date_from = date('d-M-Y',strtotime($details->duty_slip->date_from));
                                                  $date_to = date('d-M-Y',strtotime($details->duty_slip->date_to));
                                                  $days=((strtotime($date_to)-strtotime($date_from))/86400);
@@ -161,7 +164,31 @@
                                                     $car_no = $details->duty_slip->car->name;  
                                                 }  
                                                 ?>
-                                                <tr> 
+                                <tr>
+                                    <?php if($count_n != $count){ $count_n=$count; ?>
+                                    <td rowspan="<?php echo $count; ?>" style="vertical-align: middle;"><?= ++$x?></td> 
+                                    <?php }
+                                      else
+                                      {
+                                        ?>
+                                        
+                                        <?php
+                                      }
+                                      ?>
+                                      <?php if($count_b != $count){ $count_b=$count; ?>
+                                    <td rowspan="<?php echo $count; ?>" style="vertical-align: middle;"><?= $value->invoice_no;?></td>
+                                    <?php }
+                                      else
+                                      {
+                                        ?>
+                                       
+                                        <?php
+                                      }
+                                      ?>
+                                        
+                                           
+                                               
+                                                    
                                                     <td><?= $details->duty_slip_id?></td>
                                                     <td><?= $car_no?></td>
                                                     <td><?= $details->duty_slip->car_type->name?></td>
@@ -174,27 +201,37 @@
                                                     <td><?= $details->duty_slip->extra_details;?></td>  
                                                     <td><?php if($details->duty_slip->extra_details){ echo $details->duty_slip->extra_amnt/$details->duty_slip->extra_details; };?></td>  
                                                     <td><?php if($details->duty_slip->extra_details){ echo $details->duty_slip->extra_amnt; };?></td>  
-                                                </tr>
-                                                <?php
-                                            }
-                                            $total_amount+=$value->grand_total;
+                                               
+                                             
+                                        
+                                      <?php if($count_c != $count){ $count_c=$count; ?>
+                                    <td rowspan="<?php echo $count; ?>" style="vertical-align: middle;"><?= $value->grand_total;
+                                   
+                                    ?></td> 
+                                      <?php
+                                          }
+                                          else
+                                          {
                                             ?>
-                                        </tbody> 
-                                        </table>
-                                    </td>  
-                                    <td><?= $value->grand_total;?></td>  
-                                </tr>
+                                        
+                                            <?php
+                                          }
+                                          ?>
+                                
                             <?php
-                            }
-                        }
+                            }  $total_amount+=$value->grand_total; ?>
+                           </tr>
+                        <?php }   }
                         ?> 
+                         
                         <?php endforeach; ?> 
+                        </tbody>
                         <tfoot>
-                            <tr><th colspan="7"><?= $NumbersComponent->convertNumberToWord($total_amount);?> Only</th>
+                            <tr><th colspan="14"><?= $NumbersComponent->convertNumberToWord($total_amount);?> Only</th>
                                 <th><?= $total_amount?></th>
                             </tr>
                         </tfoot>
-                    </tbody>                             
+                                                 
                 </table>
             </div> 
             <?php

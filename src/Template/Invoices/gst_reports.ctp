@@ -97,7 +97,7 @@ table td {
 							<td><?= h(str_pad($data->invoice_no, 3, '0', STR_PAD_LEFT))?></td>
 							<td><?=date('d-m-Y',strtotime($data->date)) ?></td>
 							<td><?=$data->gst_figure->name?></td>
-							<td><?=$data->grand_total?></td>
+							<td><?=$data->total ?></td>
 							<?php if($data->customer->state=='Rajasthan'){ ?>
 								<td><?=$data->tax/2?></td>
 								<td><?=$data->tax/2?></td>
@@ -114,10 +114,10 @@ table td {
 									$totalIgstB2C+=$data->tax;
 								?>
 							<?php } ?>
-							<td><?=$data->total?></td>
+							<td><?=$data->grand_total?></td>
 							<?php
-									$totaltaxableB2C+=$data->grand_total;
-									$totalnetamountB2C+=$data->total;
+									$totaltaxableB2C+=$data->total;
+									$totalnetamountB2C+=$data->grand_total;
 							?>
 						</tr>
 					<?php

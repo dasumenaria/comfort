@@ -5,7 +5,17 @@ td{
 }
 </style>
 <section class="content">
-<div class="row">
+  <table class="hide_print">
+      <tr>
+          <td>&nbsp;
+          <button class="btn btn-warning" onclick="window.print();"><i class="fa fa-print" aria-hidden="true"></i> Print </button>
+          </td> 
+          <td>
+              <?php echo $this->Html->link('<i class="fa fa-pencil"></i> Edit',['action' => 'edit', $dutySlip->id],array('escape'=>false,'class'=>'btn btn-info','target'=>'_blank'));?>
+          </td> 
+      </tr>
+  </table> 
+<div class="row" style="margin-top:10px">
     <div class="col-md-12"> 
             <?php
             
@@ -65,13 +75,11 @@ td{
                            <td><?php echo $dutySlip->mobile_no;?></td>
                            <td><strong>Guest Email</strong></td>
                            <td colspan="3"><?php echo $dutySlip->email_id?></td>
-                        </tr>
-
-
+                        </tr> 
                         <tr>
                            <td><strong>Service</strong></td>
                            <td colspan="5"><?php echo $dutySlip->service->name;?></td>
-                        </tr>
+                        </tr>  
                         <tr>
                           <?php
                           if(!empty($dutySlip->temp_car_no)){
@@ -89,7 +97,7 @@ td{
                           }
                           ?>
                            <td><strong>Taxi Number</strong></td>
-                           <td><?php echo $taxi; ?></td>
+                           <td><?php echo @$dutySlip->car_type->name; ?> - <?php echo $taxi; ?></td>
                            <td><strong>Driver</strong></td>
                            <td colspan="3"><?php echo $taxiDirver; ?></td>
                         </tr>
@@ -219,13 +227,12 @@ td{
 
                         <tr>
                            <td><strong>Service</strong></td>
-                           <td colspan="5"><?php echo $dutySlip->service->name;?></td>
-                        </tr>
+                           <td colspan="5"><?php echo @$dutySlip->service->name;?></td>
+                        </tr> 
                         <tr>
                            <td><strong>Taxi Number</strong></td>
-                           <td colspan="5"><?php echo $dutySlip->texi_no; ?></td>
-                        </tr>
-                              
+                           <td colspan="5"><?php echo @$dutySlip->car_type->name; ?> - <?php echo @$dutySlip->texi_no; ?></td>
+                        </tr>    
                         <tr>
                            <td><strong>Rate</strong></td>
                            <td><?php echo $dutySlip->rate; ?></td>
@@ -233,8 +240,7 @@ td{
                            <td><?php echo $dutySlip->no_of_days; ?></td>
                            <td><strong>Amount</strong></td>
                            <td><?php echo $dutySlip->cop_amounts; ?></td>
-                        </tr>
-                            
+                        </tr> 
                         <tr>
                            <td><strong>Guest Comment</strong></td>
                            <td colspan="5"></td>

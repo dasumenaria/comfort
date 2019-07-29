@@ -2,7 +2,6 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-
 //use App\Controller\DateTime;
 
 /**
@@ -96,7 +95,7 @@ class DutySlipsController extends AppController
     {
         $dutySlip = $this->DutySlips->get($id, [
             'contain' => ['Services', 'CarTypes', 'Cars', 'Customers', 'Employees', 'Counters']
-        ]); 
+        ]);
 
         $this->set('dutySlip', $dutySlip);
     }
@@ -105,7 +104,7 @@ class DutySlipsController extends AppController
     {
         $this->viewBuilder()->setLayout(''); 
         $dutySlip = $this->DutySlips->get($id, [
-            'contain' => ['Services', 'CarTypes', 'Cars', 'Customers', 'Employees', 'Logins', 'Counters']
+            'contain' => ['Services', 'CarTypes', 'Cars', 'Customers', 'Employees', 'Counters']
         ]);
         $this->set('dutySlip', $dutySlip);
     }
@@ -423,7 +422,7 @@ class DutySlipsController extends AppController
                     $mobile_noArray = explode(',',$mobile_no);
                     foreach ($mobile_noArray as $singlemmobile) {
                        $this->sendSms($singlemmobile,$sms,$sms_sender);
-                    }  
+                    }
                 }
                 $this->Flash->success(__('The duty slip has been saved.'));
 
@@ -451,7 +450,6 @@ class DutySlipsController extends AppController
         $dutySlip = $this->DutySlips->get($id, [
             'contain' => []
         ]);
-
         $login_id = $this->Auth->User('id'); 
         $counter_id = $this->Auth->User('counter_id');
         if ($this->request->is(['patch', 'post', 'put'])) { 

@@ -1,4 +1,9 @@
-
+<style>
+    body {
+    font-family: 'Raleway', sans-serif !important;
+    font-size: 13px !important;
+    }
+</style>
 <section class="content">
 <?php
     if($RecordShow == 1)
@@ -30,13 +35,14 @@
 
     <div class="col-md-12">
         <div class="box box-primary"> 
-            <div class="box-header with-border hide_print">
-                <i class="fa fa-plus"></i>Total Billing Report
-            </div>
+            
             <?php
             if($RecordShow != 1)
             {
                 ?>
+                <div class="box-header with-border hide_print">
+                <i class="fa fa-plus"></i>Total Billing Report
+            </div>
             <?= $this->Form->create('df',['type'=>'file','id'=>'CityForm']) ?>
             <div class="box-body" > 
                 <div class="row"> 
@@ -93,18 +99,25 @@
         <?php 
             }
             else{ ?>
+            <?php $city_name=''; foreach ($waveoffds as $city){ if(!empty($city->invoices)){ $city_name = $city->name; } } ?>
+            <div class="box-header with-border hide_print">
+                <i class="fa fa-plus"></i>Result for <?= $city_name ?> Total Billing From <?php echo date('d-m-Y',strtotime($date_from)); ?> To <?php echo date('d-m-Y',strtotime($date_to)); ?>
+            </div>
             <div id='main_data'>
                 <table class="table table-bordered table-striped" border="1">
                     <thead>
                         <tr style="table-layout: fixed;">
-                            <th><?=  ('Sl.') ?></th> 
-                            <th><?=  ('Date') ?></th> 
-                            <th><?=  ('Invoice No.') ?></th> 
-                            <th style="text-align:center"><?=  ('DutySlip Details') ?></th>  
-                            <th><?=  ('Gross') ?></th> 
-                            <th><?=  ('TAX') ?></th> 
-                            <th><?=  ('Discount') ?></th> 
-                            <th><?=  ('TotalAmt') ?></th> 
+                            <th>SL.</th>
+                            <th>Date</th>
+                            <th>In.No.</th>
+                            <th>Ds.No.</th>
+                            <th>Guest</th>
+                            <th>Service</th>
+                            <th>Ds.Amt</th>
+                            <th>Gross</th>
+                            <th>TAX</th>
+                            <th>Discount</th>
+                            <th>TotalAmt</th> 
                         </tr>
                     </thead>
                     <tbody>
@@ -114,55 +127,80 @@
                         foreach ($waveoffds as $city): 
                         if($city->invoices){
                             ?> 
-                            <tr style="background-color:#eee;">
-                                <th style="text-align:center" colspan="8">Customer: <?= $city->name?></th>
-                            </tr>
                             <?php $x=0;
+                            $count=0;
                             foreach ($city->invoices as $value) { 
+                                $count = sizeof($value->invoice_details);
+                                $xx=0;
+                                 $count_n=0;
+                             $count_b=0;
+                             $count_c=0;$count_d=0;
+                                            foreach ($value->invoice_details as $details) {  $xx++; 
                                 ?>
                                 <tr>
-                                    <td><?= ++$x?></td> 
-                                    <td><?= date('d-M-Y',strtotime($value->date));?></td>
+                                     <?php if($count_n != $count){ $count_n=$count; ?>
+                                    <td rowspan="<?php echo $count; ?>" style="vertical-align: middle;"><?= ++$x?></td> 
+                                    <?php }
+                                      else
+                                      {
+                                        ?>
+                                        
+                                        <?php
+                                      }
+                                      ?>
+                                      <?php if($count_d != $count){ $count_d=$count; ?>
+                                    <td rowspan="<?php echo $count; ?>" style="vertical-align: middle;"><?= date('d-M-Y',strtotime($value->date));?></td>
+                                    <?php }
+                                      else
+                                      {
+                                        ?>
+                                       
+                                        <?php
+                                      }
+                                      ?>
+                                      <?php if($count_b != $count){ $count_b=$count; ?>
+                                    <td rowspan="<?php echo $count; ?>" style="vertical-align: middle;"><?= $value->invoice_no;?></td>
+                                    <?php }
+                                      else
+                                      {
+                                        ?>
+                                       
+                                        <?php
+                                      }
+                                      ?>
+                                    
+                                    
+                                    
                                     <td><?= $value->invoice_no;?></td>
-                                    <td>
-                                        <table class="table table-bordered table-striped" border="1">
-                                        <thead>
-                                            <tr style="table-layout: fixed;">
-                                                <th><?=  ('Ds.No.') ?></th> 
-                                                <th><?=  ('Guest') ?></th>  
-                                                <th><?=  ('Service') ?></th>
-                                                <th><?=  ('Ds.Amt') ?></th>  
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php $xx=0;
-                                            foreach ($value->invoice_details as $details) {
-                                                $xx++; ?> 
-                                                    <tr> 
-                                                        <td><?= $details->duty_slip_id?></td>
-                                                        <td><?= $details->duty_slip->guest_name?></td>
-                                                        <td><?= $details->duty_slip->service->name?></td>
-                                                        <td><?= $details->duty_slip->tot_amnt?></td>
-                                                    </tr>
-                                                <?php
-                                            }
-                                            $total_amount+=$value->grand_total;
-                                            ?>
-                                        </tbody> 
-                                        </table>
-                                    </td> 
+                                    <td><?= $details->duty_slip_id?></td>
+                                    <td><?= $details->duty_slip->guest_name?></td>
+                                    <td><?= $details->duty_slip->service->name?></td>
+                                    <td><?= $details->duty_slip->tot_amnt?></td>
                                     <td><?= $value->total;?></td>
                                     <td><?= $value->tax;?></td>
                                     <td><?= $value->discount;?></td>
-                                    <td><?= $value->grand_total;?></td>  
+                                     <?php if($count_c != $count){ $count_c=$count; ?>
+                                    <td rowspan="<?php echo $count; ?>" style="vertical-align: middle;"><?= $value->grand_total;
+                                   
+                                    ?></td> 
+                                      <?php
+                                          }
+                                          else
+                                          {
+                                            ?>
+                                        
+                                            <?php
+                                          }
+                                          ?>  
                                 </tr>
                             <?php
-                            }
+                            }  $total_amount+=$value->grand_total;
+                             }
                         }
                         ?> 
                         <?php endforeach; ?> 
                         <tfoot>
-                            <tr><th colspan="7"><?= $NumbersComponent->convertNumberToWord($total_amount);?> Only</th>
+                            <tr><th colspan="11"><?= $NumbersComponent->convertNumberToWord($total_amount);?> Only</th>
                                 <th><?= $total_amount?></th>
                             </tr>
                         </tfoot>

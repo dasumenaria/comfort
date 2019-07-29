@@ -84,7 +84,7 @@ label{
                         <label class="control-label">Email Address</label>
                     </div>
                     <div class="col-md-4">
-                        <?php echo $this->Form->control('email_id',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Email Address','autocomplete'=>'on','type'=>'tests']); ?> 
+                        <?php echo $this->Form->control('email_id',['label' => false,'class' => 'form-control  firstupercase','placeholder'=>'Email Address','autocomplete'=>'on','type'=>'texte']); ?> 
                     </div>
                 </div>
                 <span class="help-block"></span> 
@@ -467,7 +467,7 @@ label{
             </div> 
         </div>  
     </div>  
-</div> 
+</div>   
 </section>  
 <?php echo $this->Html->script('/assets/plugins/jquery/jquery-2.2.3.min.js'); ?> 
 <script>
