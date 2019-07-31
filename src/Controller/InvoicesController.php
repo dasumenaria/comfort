@@ -219,8 +219,11 @@ class InvoicesController extends AppController
                     $tax_type=0;
                 }
                 $invoiceTypeData = $this->Invoices->InvoiceTypes->get($invoice_type_id);
-                $dutySlipData = $this->Invoices->DutySlips->find()->where(['DutySlips.customer_id'=>$customer_id,'DutySlips.waveoff_status'=>0 ,'DutySlips.billing_status'=>'no','closing_km !='=>0,'opening_km !='=>0,'opening_time !='=>'00:00:00','closing_time !='=>'00:00:00'])->contain(['CarTypes','Services','Cars']); 
-
+                //$dutySlipData = $this->Invoices->DutySlips->find()->where(['DutySlips.customer_id'=>$customer_id,'DutySlips.waveoff_status'=>0 ,'DutySlips.billing_status'=>'no','closing_km !='=>0,'opening_km !='=>0,'opening_time !='=>'00:00:00','closing_time !='=>'00:00:00'])->contain(['CarTypes','Services','Cars']); 
+                $dutySlipData1 = $this->Invoices->DutySlips->find()->where(['DutySlips.customer_id'=>$customer_id,'DutySlips.waveoff_status'=>0 ,'DutySlips.billing_status'=>'no','closing_km !='=>0,'opening_km !='=>0,'opening_time !='=>'00:00:00','closing_time !='=>'00:00:00'])->contain(['CarTypes','Services','Cars'])->toArray(); 
+                $dutySlipData2 = $this->Invoices->DutySlips->find()->where(['DutySlips.customer_id'=>$customer_id,'DutySlips.billing_type'=>'Corporate Billing','DutySlips.billing_status'=>'no'])->contain(['CarTypes','Services','Cars'])->toArray(); 
+                 
+                $dutySlipData = array_merge($dutySlipData1,$dutySlipData2);
                 //pr($dutySlipData->toArray());exit; 
                 $gstData = $this->Invoices->GstFigures->get(3);
 
